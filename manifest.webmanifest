@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "PuyuhKu — Keuangan Peternakan Puyuh",
+  "short_name": "PuyuhKu",
+  "description": "Catat panen, penjualan, piutang, pakan, dan populasi puyuh.",
+  "lang": "id",
+  "start_url": "login.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f6f1",
+  "theme_color": "#1d6737",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
