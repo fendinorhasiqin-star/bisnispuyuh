@@ -1,4 +1,4 @@
-const V = "puyuhku-v4";
+const V = "puyuhku-v5";
 const SHELL = ["./", "index.html", "login.html", "aplikasi.html", "firebase.js", "manifest.webmanifest",
   "icon-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png"];
 
