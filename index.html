@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#1d6737"><title>PuyuhKu — Pasang Aplikasi Keuangan Peternakan Puyuh</title><meta name="description" content="Pasang aplikasi PuyuhKu di HP Anda. Catat panen, penjualan, piutang, pakan, dan populasi puyuh.">
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="PuyuhKu"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="PuyuhKu"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script>/* Dibuka dari aplikasi terpasang -> langsung ke login (yang meneruskan ke aplikasi bila sudah masuk) */
 if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)location.replace("login.html")</script>
+<script>window.__dp=null;addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dp=e})</script>
 <style>
 :root{--green:#1d6737;--green2:#e4f4d8;--ink:#1d3024;--muted:#6b7a6f;--bg:#f2f6f1}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
@@ -25,12 +26,11 @@ if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)locati
 .sheet ol{margin:0 0 16px;padding-left:20px;line-height:1.8}.sheet button{width:100%;border:0;background:var(--green);color:#fff;font:inherit;font-weight:800;border-radius:14px;padding:13px;cursor:pointer}
 </style></head><body>
 <header class="hero"><div class="wrap">
-<div class="nav"><span class="brand"><img src="icons/icon-192.png" alt="">PuyuhKu</span><a href="login.html">Buka di browser</a></div>
+<div class="nav"><span class="brand"><img src="icon-192.png" alt="">PuyuhKu</span></div>
 <h1>Pasang aplikasi PuyuhKu di HP Anda</h1>
 <p>Catat panen, penjualan, piutang, pakan, dan populasi puyuh. Gratis, tanpa Play Store, dan tetap bisa dibuka saat sinyal lemah.</p>
 <button class="cta" id="install" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Pasang Aplikasi</button>
 <div class="ok" id="ok">✅ Aplikasi sudah terpasang. Buka <b>PuyuhKu</b> dari layar utama HP Anda, lalu masuk dengan Google.</div>
-<button class="sec" id="web" type="button" onclick="location.href='login.html'">Atau lanjut pakai browser</button>
 </div></header>
 <main class="wrap"><div class="grid">
 <div class="f"><span>🥚</span><b>Panen &amp; stok telur</b><small>Stok otomatis dari panen, penjualan, dan telur pecah.</small></div>
@@ -49,19 +49,21 @@ if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)locati
 </div></div>
 
 <script>
-var dp=null,ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-var ok=document.getElementById("ok"),bg=document.getElementById("sheetBg");
-addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e});
-addEventListener("appinstalled",function(){dp=null;ok.style.display="block";document.getElementById("web").style.display="none";scrollTo({top:0,behavior:"smooth"})});
+var ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+var inapp=/FBAN|FBAV|Instagram|Line\/|MicroMessenger|TikTok|; wv\)/i.test(ua);
+var ok=document.getElementById("ok"),bg=document.getElementById("sheetBg"),btns=[document.getElementById("install"),document.getElementById("install2")];
+addEventListener("appinstalled",function(){window.__dp=null;ok.style.display="block";scrollTo({top:0,behavior:"smooth"})});
 function help(){
  var p=document.getElementById("sheetP"),o=document.getElementById("sheetOl");
- if(ios){p.textContent="Di iPhone/iPad, buka halaman ini lewat Safari.";o.innerHTML="<li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas)</li><li>Pilih <b>Tambah ke Layar Utama</b></li><li>Ketuk <b>Tambah</b>, lalu buka PuyuhKu dari layar utama</li>"}
- else{p.textContent="Browser Anda belum menampilkan jendela pemasangan otomatis. Pasang lewat menu browser:";o.innerHTML="<li>Ketuk menu <b>⋮</b> di pojok kanan atas Chrome</li><li>Pilih <b>Pasang aplikasi</b> atau <b>Tambahkan ke layar utama</b></li><li>Ketuk <b>Pasang</b>, lalu buka PuyuhKu dari layar utama</li>"}
+ if(inapp){p.textContent="Anda membuka lewat aplikasi lain (WhatsApp/Instagram/dll) sehingga tidak bisa memasang.";o.innerHTML="<li>Buka menu <b>⋮</b> lalu pilih <b>Buka di Chrome</b> (atau salin tautan dan tempel di Chrome)</li><li>Tekan lagi tombol <b>Pasang Aplikasi</b></li>"}
+ else if(ios){p.textContent="Di iPhone/iPad, pemasangan hanya bisa lewat Safari.";o.innerHTML="<li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas)</li><li>Pilih <b>Tambah ke Layar Utama</b></li><li>Ketuk <b>Tambah</b>, lalu buka PuyuhKu dari layar utama</li>"}
+ else{p.textContent="Browser belum menyiapkan pemasangan otomatis. Coba muat ulang halaman, atau pasang lewat menu:";o.innerHTML="<li>Ketuk menu <b>⋮</b> di pojok kanan atas Chrome</li><li>Pilih <b>Pasang aplikasi</b> / <b>Tambahkan ke layar utama</b></li><li>Ketuk <b>Pasang</b>, lalu buka PuyuhKu dari layar utama</li>"}
  bg.classList.add("show")}
 function install(){
- if(dp){dp.prompt();dp.userChoice.finally(function(){dp=null});return}
+ var dp=window.__dp;
+ if(dp){window.__dp=null;dp.prompt();dp.userChoice.then(function(c){if(c.outcome!=="accepted")ok.style.display="none"});return}
  help()}
-document.getElementById("install").onclick=install;document.getElementById("install2").onclick=install;
+btns.forEach(function(b){b.onclick=install});
 document.getElementById("sheetClose").onclick=function(){bg.classList.remove("show")};
 bg.onclick=function(e){if(e.target===bg)bg.classList.remove("show")};
 if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
