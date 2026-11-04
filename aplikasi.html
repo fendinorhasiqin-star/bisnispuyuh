@@ -311,8 +311,13 @@ $("sellAllBtn").onclick=()=>{const f=$("salesForm").elements.qty;f.value=String(
 function fillBuyers(){const names=[...new Set(records.sales.map(x=>(x.buyer||"").trim()).filter(Boolean))];$("buyerList").replaceChildren(...names.map(n=>{const o=document.createElement("option");o.value=n;return o}))}
 setDefaultDates();
 const DEFAULTS={...settings};
+// Simpan email & tanggal daftar akun di users/{uid}/meta/settings supaya dashboard admin bisa menampilkannya.
+let authUser=null,stampDone=false;
+function stampOwner(){if(!authUser)return;const email=authUser.email||"",created=authUser.metadata&&authUser.metadata.creationTime?new Date(authUser.metadata.creationTime).toISOString():"";let changed=false;if(email&&settings.ownerEmail!==email){settings.ownerEmail=email;changed=true}if(created&&!settings.ownerCreatedAt){settings.ownerCreatedAt=created;changed=true}
+ // Akun baru (belum ada dokumen settings): cukup isi di memori, ikut tersimpan saat simpan pertama (agar tawaran impor data lama tetap muncul).
+ if(synced.settings===undefined)return;if(changed&&!stampDone){stampDone=true;persist()}}
 function startSync(){const first=new Set(),server=new Set(),total=COLS.length+1;
- const after=(k,snap)=>{first.add(k);if(!snap.metadata.fromCache)server.add(k);if(!ready&&first.size===total){ready=true;$("loading").classList.add("hidden");$("app").classList.remove("hidden")}if(ready)render();if(server.size===total&&!legacyChecked){legacyChecked=true;checkLegacy()}};
+ const after=(k,snap)=>{first.add(k);if(!snap.metadata.fromCache)server.add(k);if(!ready&&first.size===total){ready=true;$("loading").classList.add("hidden");$("app").classList.remove("hidden")}if(ready){stampOwner();render()}if(server.size===total&&!legacyChecked){legacyChecked=true;checkLegacy()}};
  COLS.forEach(c=>onSnapshot(collection(db,"users",uid,c),snap=>{records[c]=snap.docs.map(d=>({...d.data(),id:d.id}));synced[c]=new Map(snap.docs.map(d=>[d.id,stable(d.data())]));after(c,snap)},e=>{console.error(e);$("loading").textContent="Gagal memuat data: "+(e.code||e.message)}));
  onSnapshot(doc(db,"users",uid,"meta","settings"),snap=>{if(snap.exists()){settings={...DEFAULTS,...snap.data()};synced.settings=stable(settings);fillSettings()}after("settings",snap)},e=>{console.error(e);$("loading").textContent="Gagal memuat data: "+(e.code||e.message)})}
 function legacyData(){try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");return v&&v.records?v:null}catch(e){return null}}
@@ -321,7 +326,7 @@ function checkLegacy(){const saved=legacyData();if(!saved||localStorage.getItem(
 $("importBtn").onclick=()=>{if(confirm("Impor data lama dari browser ini ke akun Anda? Catatan yang sudah ada tidak akan ditimpa."))importLegacy()};
 $("logoutBtn").onclick=async()=>{if(!confirm("Keluar dari akun?"))return;await signOut(auth);location.replace("login.html")};
 if(!configured)location.replace("login.html");
-else onAuthStateChanged(auth,user=>{if(!user){location.replace("login.html");return}if(uid)return;uid=user.uid;$("accName").textContent=user.displayName||"Akun Google";$("accEmail").textContent=user.email||"";startSync()});
+else onAuthStateChanged(auth,user=>{if(!user){location.replace("login.html");return}if(uid)return;uid=user.uid;authUser=user;$("accName").textContent=user.displayName||"Akun Google";$("accEmail").textContent=user.email||"";startSync()});
 </script>
 <script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
 </body></html>
