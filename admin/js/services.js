@@ -78,6 +78,18 @@ window.Services = window.Services || {};
       ensure(r.user_id)[r.coll] = Number(r.n) || 0;
     });
 
+    // Cari nilai teks pertama dari beberapa kemungkinan nama field profil.
+    const firstText = (obj, keys) => {
+      for (const k of keys) {
+        const v = obj[k];
+        if (typeof v === "string" && v.trim()) return v.trim();
+        if (typeof v === "number") return String(v);
+      }
+      return "";
+    };
+    const WA_KEYS = ["whatsapp", "waNumber", "wa", "noWa", "noWA", "nomorWa", "nomorWhatsapp", "whatsappNumber", "phone", "phoneNumber", "noHp", "hp", "telepon", "telp"];
+    const NAME_KEYS = ["ownerName", "name", "fullName", "displayName", "ownerDisplayName", "nama", "namaPemilik"];
+
     metaRows.forEach((r) => {
       const u = found[r.user_id];
       if (!u) return; // akun admin atau akun yang sudah dihapus
@@ -85,6 +97,16 @@ window.Services = window.Services || {};
       if (!u.email && st.ownerEmail) u.email = st.ownerEmail;
       if (!u.createdAt && st.ownerCreatedAt) u.createdAt = st.ownerCreatedAt;
       if (st.farmName) u.farmName = st.farmName;
+
+      let wa = firstText(st, WA_KEYS);
+      if (!wa) {
+        // Cadangan: ambil field mana pun yang namanya menyerupai nomor WhatsApp/telepon.
+        const k = Object.keys(st).find((key) => /whats|^wa|phone|^hp|telp|telepon/i.test(key) && String(st[key] || "").trim());
+        if (k) wa = String(st[k]).trim();
+      }
+      if (wa) u.whatsapp = wa;
+      const name = firstText(st, NAME_KEYS);
+      if (name) u.name = name;
     });
 
     return Object.values(found);
