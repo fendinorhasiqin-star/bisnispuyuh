@@ -112,6 +112,40 @@ window.Services = window.Services || {};
     return Object.values(found);
   };
 
+  // Harga terbaru telur puyuh yang dibagikan ke seluruh pengguna aplikasi.
+  service.getMarketPrice = async () => {
+    const { data, error } = await sb
+      .from("market_prices")
+      .select("id,item,price_per_kg,region,note,updated_at")
+      .eq("item", "telur_puyuh")
+      .order("updated_at", { ascending: false })
+      .order("id", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw error;
+    return data;
+  };
+
+  // Perbarui baris harga bersama yang terbaru; buat baris awal bila tabel masih kosong.
+  service.updateMarketPrice = async ({ pricePerKg, region, note }) => {
+    const current = await service.getMarketPrice();
+    const values = {
+      item: "telur_puyuh",
+      price_per_kg: pricePerKg,
+      region: region || "Blitar",
+      note: note || null,
+      updated_at: new Date().toISOString(),
+    };
+    const query = current
+      ? sb.from("market_prices").update(values).eq("id", current.id)
+      : sb.from("market_prices").insert(values);
+    const { data, error } = await query
+      .select("id,item,price_per_kg,region,note,updated_at")
+      .single();
+    if (error) throw error;
+    return data;
+  };
+
   // Isi satu jenis catatan milik satu user, misalnya coll = "expenses" (maksimal 2000)
   service.listSub = async (uid, name, max = 2000) => {
     const rows = await fetchAll(
