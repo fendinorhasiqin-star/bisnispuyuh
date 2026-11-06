@@ -96,7 +96,7 @@ select.select-chip{padding-right:6px}
         <div class="alert-banner" id="load-alert" role="alert" hidden></div>
 
         <section class="page" data-page="dashboard">
-          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> OVERVIEW</div><h1>Selamat datang kembali</h1><p>Pantau perkembangan pengguna dan aktivitas aplikasi Anda.</p></div><div class="heading-actions"><span class="date-chip"><span>◷</span> <span id="today-label"></span></span><button class="button button-primary" id="view-users" type="button">Lihat pengguna <span>→</span></button></div></div>
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> OVERVIEW</div><h1>Selamat datang kembali</h1><p>Pantau perkembangan pengguna dan aktivitas aplikasi Anda.</p></div><div class="heading-actions"><span class="date-chip"><span>◷</span> <span id="today-label"></span></span><button class="button button-secondary" id="open-price-modal" type="button">Update harga telur</button><button class="button button-primary" id="view-users" type="button">Lihat pengguna <span>→</span></button></div></div>
 
           <div class="metric-grid">
             <article class="metric-card"><div class="metric-top"><span>Total pengguna</span><span class="metric-icon mint">♙</span></div><div class="metric-value" id="m-total">–</div><div class="metric-foot" id="m-total-foot">Memuat…</div></article>
@@ -140,6 +140,19 @@ select.select-chip{padding-right:6px}
     </main>
   </div>
 
+  <div class="modal-backdrop" id="price-modal" hidden>
+    <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="price-modal-title">
+      <div class="modal-top"><div><h2 id="price-modal-title" style="font:700 16px Manrope,sans-serif">Update harga telur puyuh</h2><p style="font-size:11px;color:#879184;margin-top:4px">Harga terbaru akan menjadi acuan bersama di aplikasi.</p></div><button class="modal-close" id="price-modal-close" type="button" aria-label="Tutup">×</button></div>
+      <form id="price-form" style="margin-top:18px">
+        <div class="field"><label for="price-per-kg">Harga per kg (Rp)</label><input id="price-per-kg" type="number" min="1" step="1" inputmode="numeric" required /></div>
+        <div class="field"><label for="price-region">Wilayah</label><input id="price-region" type="text" value="Blitar" required /></div>
+        <div class="field"><label for="price-note">Catatan (opsional)</label><input id="price-note" type="text" /></div>
+        <p class="login-error" id="price-error" role="alert" hidden></p>
+        <button class="button button-primary" id="save-price" type="submit">Simpan harga</button>
+      </form>
+    </section>
+  </div>
+
   <div class="modal-backdrop" id="user-modal" hidden>
     <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-top"><div class="modal-mark">🐦</div><button class="modal-close" id="modal-close" aria-label="Tutup">×</button></div>
@@ -157,12 +170,13 @@ select.select-chip{padding-right:6px}
   <script src="js/services.js"></script>
   <script>
 (() => {
+  const PREVIEW_MODE = false;
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const bootEl = $('#boot'), loginView = $('#login-view'), appView = $('#dashboard-view');
 
   // Pustaka Supabase / file js gagal dimuat (mis. tanpa internet)?
-  if (typeof Auth === 'undefined' || typeof Services === 'undefined' || !Services.puyuhku) {
+  if ((!PREVIEW_MODE && typeof Auth === 'undefined') || typeof Services === 'undefined' || !Services.puyuhku) {
     bootEl.innerHTML = '<div style="max-width:340px;text-align:center;line-height:1.6;padding:0 20px">Panel tidak bisa dimulai. Pastikan perangkat terhubung ke internet dan folder <b>js/</b> (config.js, core.js, services.js) ada di samping index.html.</div>';
     return;
   }
@@ -502,6 +516,62 @@ select.select-chip{padding-right:6px}
   }
   window.addEventListener('hashchange', () => route(true));
 
+  // ---------- Update harga telur bersama ----------
+  const priceModal = $('#price-modal');
+  const priceForm = $('#price-form');
+  const priceError = $('#price-error');
+
+  async function openPriceModal() {
+    priceModal.hidden = false;
+    priceError.hidden = true;
+    $('#price-per-kg').focus();
+    try {
+      const current = await Services.puyuhku.getMarketPrice();
+      if (current) {
+        $('#price-per-kg').value = current.price_per_kg;
+        $('#price-region').value = current.region || 'Blitar';
+        $('#price-note').value = current.note || '';
+      }
+    } catch (e) {
+      priceError.hidden = false;
+      priceError.textContent = 'Harga saat ini gagal dimuat. Anda tetap dapat memasukkan harga baru. ' + ((e && e.message) || '');
+    }
+  }
+
+  priceForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = $('#save-price');
+    const pricePerKg = Number($('#price-per-kg').value);
+    const region = $('#price-region').value.trim();
+    if (!Number.isFinite(pricePerKg) || pricePerKg <= 0 || !region) {
+      priceError.hidden = false;
+      priceError.textContent = 'Masukkan harga lebih dari 0 dan wilayah.';
+      return;
+    }
+    priceError.hidden = true;
+    button.disabled = true;
+    button.textContent = 'Menyimpan…';
+    try {
+      await Services.puyuhku.updateMarketPrice({
+        pricePerKg,
+        region,
+        note: $('#price-note').value.trim(),
+      });
+      priceError.hidden = false;
+      priceError.className = 'counts-note';
+      priceError.textContent = 'Harga berhasil diperbarui di Supabase.';
+      priceForm.reset();
+      $('#price-region').value = region;
+    } catch (e) {
+      priceError.hidden = false;
+      priceError.className = 'login-error';
+      priceError.textContent = 'Gagal menyimpan harga. Periksa koneksi dan izin Supabase: ' + ((e && e.message) || 'kesalahan tidak diketahui');
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Simpan harga';
+    }
+  });
+
   // ---------- Detail pengguna (modal) ----------
   const modal = $('#user-modal');
   function showUser(u) {
@@ -524,6 +594,10 @@ select.select-chip{padding-right:6px}
     modal.hidden = false;
     $('#modal-close').focus();
   }
+
+  $('#open-price-modal').addEventListener('click', openPriceModal);
+  $('#price-modal-close').addEventListener('click', () => { priceModal.hidden = true; });
+  priceModal.addEventListener('click', (event) => { if (event.target === priceModal) priceModal.hidden = true; });
 
   document.addEventListener('click', (event) => {
     const btn = event.target.closest('[data-user-id]');
@@ -554,6 +628,7 @@ select.select-chip{padding-right:6px}
     bootEl.hidden = true;
     loginView.hidden = true;
     appView.hidden = false;
+    $('#btn-logout').hidden = PREVIEW_MODE;
     const email = user.email || '';
     $('#admin-email').textContent = email || 'Administrator';
     $('#admin-avatar').textContent = initials(email.split('@')[0] || 'SA').slice(0, 2);
@@ -585,7 +660,11 @@ select.select-chip{padding-right:6px}
   });
 
   // ---------- Mulai ----------
-  Auth.ready().then((user) => (user ? showApp(user) : showLogin()), () => showLogin('Tidak bisa memeriksa sesi login. Periksa koneksi internet.'));
+  if (PREVIEW_MODE) {
+    showApp({ email: 'preview@kandangpuyuh.com' });
+  } else {
+    Auth.ready().then((user) => (user ? showApp(user) : showLogin()), () => showLogin('Tidak bisa memeriksa sesi login. Periksa koneksi internet.'));
+  }
 })();
   </script>
 </body>
