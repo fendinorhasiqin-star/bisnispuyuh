@@ -92,3 +92,14 @@ export function writeBatch() {
   };
   return b;
 }
+
+// Harga pasar telur puyuh: satu harga + nama daerah untuk semua pengguna. Hanya admin yang boleh mengisi (lihat market-price.sql).
+export async function fetchMarketPrice() {
+  if (!sb) return null;
+  const q = cols => sb.from("market_prices").select(cols).eq("item", "telur_puyuh").order("updated_at", { ascending: false }).limit(1);
+  let r = await q("price_per_kg,region,updated_at");
+  if (r.error) r = await q("price_per_kg,updated_at"); // jaga-jaga kalau kolom region belum ditambahkan di database
+  const { data, error } = r;
+  if (error || !data || !data.length) return null;
+  return { price: Number(data[0].price_per_kg), region: String(data[0].region || "").trim(), at: data[0].updated_at };
+}
