@@ -125,7 +125,9 @@ footer a{color:var(--green);font-weight:700}
 .testimonial{max-width:620px;margin:auto;padding:22px;background:#fff;border:1px solid #e4ebe3;border-radius:20px;box-shadow:0 6px 18px #20312610;text-align:left}
 .testimonial blockquote{margin:0 0 18px;font-size:17px;line-height:1.6;font-weight:650}
 .testimonial-person{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px}
-.testimonial-avatar{width:46px;height:46px;display:grid;place-items:center;flex:none;border-radius:50%;background:var(--green2);color:var(--green);font-size:16px;font-weight:800}
+.testimonial-avatar{width:46px;height:46px;display:block;position:relative;overflow:hidden;flex:none;border-radius:50%;background:var(--green2);color:var(--green);font-size:16px;font-weight:800}
+.testimonial-avatar img{position:absolute;top:0;left:0;width:200%;height:200%;max-width:none;object-fit:cover}
+.testimonial-avatar.ahmad img{transform:translateX(-50%)}
 .testimonial-person b{display:block;color:var(--ink);font-size:14px}
 @media(max-width:600px){.testimonial{padding:18px}.testimonial blockquote{font-size:16px}}
 </style></head><body>
@@ -188,11 +190,11 @@ footer a{color:var(--green);font-weight:700}
 <p class="trust-count">Telah dipercaya oleh 1.000+ Peternak Puyuh di Indonesia</p>
 <article class="testimonial">
 <blockquote>“Sejak pakai PuyuhKu, saya jadi tahu pola pakan mana yang paling efisien. Laba naik, catatan rapi!”</blockquote>
-<div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">PB</span><span><b>Pak Saniman</b>Peternak Puyuh di Jawa Barat</span></div>
+<div class="testimonial-person"><span class="testimonial-avatar saniman" aria-hidden="true"><img src="image.png" alt=""></span><span><b>Pak Saniman</b>Peternak Puyuh di Jawa Barat</span></div>
 </article>
 <article class="testimonial">
 <blockquote>“Catatan panen dan pengeluaran jadi lebih rapi. Saya bisa memantau usaha tanpa repot menghitung manual.”</blockquote>
-<div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">AS</span><span><b>Ahmad Syafi</b>Peternak Puyuh</span></div>
+<div class="testimonial-person"><span class="testimonial-avatar ahmad" aria-hidden="true"><img src="image.png" alt=""></span><span><b>Ahmad Syafi</b>Peternak Puyuh</span></div>
 </article>
 </section>
 <section class="faq" aria-labelledby="faq-title">
