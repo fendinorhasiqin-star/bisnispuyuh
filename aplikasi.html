@@ -107,8 +107,8 @@ body{background:#f2f6f1;color:#1d3024}.app{max-width:820px}.top{padding:24px 20p
 @media(max-width:380px){.report-grid{gap:7px}.report-metric{padding:11px 10px} .report-metric strong{font-size:15px}}
 .report-expense-link{width:100%;text-align:left;font:inherit;cursor:pointer}.report-expense-link span{display:block;margin-top:5px;color:#8c641e;font-size:10px;font-weight:700}.report-expense-link:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 /* Notifikasi transaksi berhasil */
-.success-toast{position:fixed;z-index:20;top:calc(18px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-20px);display:flex;align-items:center;gap:11px;width:max-content;max-width:calc(100% - 28px);padding:12px 17px;border:1px solid #d5ebd1;border-radius:16px;background:#fff;color:#203126;box-shadow:0 12px 35px #183b1a24;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
-.success-toast.show{opacity:1;transform:translate(-50%,0)}.success-toast-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:#e5f5e2;color:#21833a;font-size:19px;font-weight:900}.success-toast b{display:block;font-size:14px}.success-toast small{display:block;margin-top:1px;color:var(--muted);font-size:11px}
+.success-toast{position:fixed;z-index:50;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);display:flex;align-items:center;justify-content:center;width:max-content;max-width:calc(100% - 28px);padding:20px 38px;border:1px solid #d5ebd1;border-radius:18px;background:#fff;color:#1f6b3a;box-shadow:0 16px 45px #183b1a33;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+.success-toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}.success-toast b{display:block;font-size:20px;font-weight:800;letter-spacing:1.5px}
 @media(prefers-reduced-motion:reduce){.success-toast{transition:none}}
 .act{display:flex;align-items:center;gap:11px}.act-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:var(--green2);font-size:19px}
 .summary-chart{height:auto;margin-top:4px}.chart-axis{stroke:#dfe7dc;stroke-width:1}.chart-label{fill:#8a978c;font-size:9px}.chart-empty{fill:#8a978c;font-size:11px}.chart-note{font-size:10px;text-align:center;margin-top:2px}
@@ -166,7 +166,7 @@ details.fgroup-more{margin:16px 0 14px}details.fgroup-more summary{list-style:no
 </style>
 </head>
 <body>
-<div id="successToast" class="success-toast" role="status" aria-live="polite"><span class="success-toast-icon" aria-hidden="true">✓</span><span><b>Berhasil!</b><small>Penjualan berhasil disimpan.</small></span></div>
+<div id="successToast" class="success-toast" role="status" aria-live="polite"><b>BERHASIL</b></div>
 <div id="loading" class="loading">🐦 Memuat data…</div>
 <div id="app" class="app hidden">
 <header class="top"><div class="topline"><button class="hero-icon" aria-label="Buka pengaturan" data-go="settings">☰</button><span class="brand">PuyuhKu</span><div class="egg-tick" id="eggTick" aria-live="polite" hidden><span id="eggTickText"></span></div><button class="hero-icon" aria-label="Notifikasi">🔔</button></div><div class="hero-copy"><h1>Laporan Keuangan<br>Peternakan Puyuh</h1><p>Usaha lebih terarah,<br>untung lebih maksimal</p></div><div class="month" id="monthLabel"></div></header>
@@ -221,7 +221,7 @@ function persist(){if(PREVIEW_MODE){if(ready)try{localStorage.setItem(PREVIEW_KE
  const st=JSON.parse(JSON.stringify(settings)),ss=stable(st);if(ss!==synced.settings){ops.push(["set",doc(db,"users",uid,"meta","settings"),st]);synced.settings=ss}
  for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(o=>o[0]==="set"?b.set(o[1],o[2]):b.delete(o[1]));b.commit().catch(e=>{console.error(e);alert("Gagal menyinkronkan ke server: "+(e.code||e.message))})}}
 function msg(el,text,cls="success"){el.innerHTML=`<div class="${cls}">${text}</div>`;setTimeout(()=>el.innerHTML="",4500)}
-function showToast(text){const toast=$("successToast");toast.querySelector("small").textContent=text;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),2600)}
+function showToast(text){const toast=$("successToast");toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),2600)}
 function showSaleSuccess(){showToast("Penjualan berhasil disimpan.")}
 let currentPage="home";
 try{history.replaceState({page:"home"},"")}catch(e){}
