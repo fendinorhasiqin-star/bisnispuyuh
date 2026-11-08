@@ -221,7 +221,11 @@ function persist(){if(PREVIEW_MODE){if(ready)try{localStorage.setItem(PREVIEW_KE
  const st=JSON.parse(JSON.stringify(settings)),ss=stable(st);if(ss!==synced.settings){ops.push(["set",doc(db,"users",uid,"meta","settings"),st]);synced.settings=ss}
  for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(o=>o[0]==="set"?b.set(o[1],o[2]):b.delete(o[1]));b.commit().catch(e=>{console.error(e);alert("Gagal menyinkronkan ke server: "+(e.code||e.message))})}}
 function msg(el,text,cls="success"){el.innerHTML=`<div class="${cls}">${text}</div>`;setTimeout(()=>el.innerHTML="",4500)}
-function showToast(text){const toast=$("successToast");toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),2600)}
+let audioCtx=null;
+function getAudio(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;if(!audioCtx)audioCtx=new C();if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx}catch(e){return null}}
+["touchstart","click"].forEach(ev=>document.addEventListener(ev,()=>{getAudio()},{once:true,passive:true}));
+function playSuccess(){try{const c=getAudio();if(!c)return;const t=c.currentTime;[[988,0],[1319,.09]].forEach(([f,d])=>{const o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,t+d);g.gain.exponentialRampToValueAtTime(.25,t+d+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d+.35);o.connect(g);g.connect(c.destination);o.start(t+d);o.stop(t+d+.4)})}catch(e){}}
+function showToast(text){const toast=$("successToast");toast.classList.add("show");playSuccess();clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),2600)}
 function showSaleSuccess(){showToast("Penjualan berhasil disimpan.")}
 let currentPage="home";
 try{history.replaceState({page:"home"},"")}catch(e){}
