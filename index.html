@@ -21,6 +21,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #f5c95d;outline-offset:3p
 .nav a{color:#fff;text-decoration:none;font-weight:700;font-size:13px;border:1px solid #ffffff88;border-radius:999px;padding:9px 16px;min-height:40px;display:inline-flex;align-items:center}
 .hero h1{font-size:clamp(28px,6vw,42px);line-height:1.15;letter-spacing:-1px;margin:42px 0 12px;max-width:580px;text-wrap:balance}
 .hero p{margin:0 0 24px;max-width:540px;opacity:.94}
+.pain-points{display:grid;gap:8px;list-style:none;margin:-8px 0 22px;padding:0;max-width:590px;font-size:14px;line-height:1.45}
+.pain-points li{display:flex;align-items:flex-start;gap:8px}
+.pain-points li span{flex:none}
 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;background:#fff;color:var(--green);font:inherit;font-weight:800;font-size:16px;text-decoration:none;border:0;cursor:pointer;border-radius:14px;padding:15px 24px;box-shadow:0 8px 20px #153f2422;transition:transform .18s ease,box-shadow .18s ease}
 .cta:active{transform:translateY(1px);box-shadow:0 4px 12px #153f2422}
 .cta svg{width:20px;height:20px}
@@ -36,6 +39,16 @@ button:focus-visible,a:focus-visible{outline:3px solid #f5c95d;outline-offset:3p
 .preview-points{display:grid;gap:10px;font-size:14px;line-height:1.55}.preview-points span{display:flex;align-items:center;gap:9px}.preview-points i{font-style:normal;color:var(--green);font-weight:800}
 .phone{width:100%;max-width:300px;justify-self:center;aspect-ratio:9/13.5;padding:9px;background:#19231c;border-radius:34px;box-shadow:0 22px 48px #183b2450;overflow:hidden}
 .phone-screen{height:100%;border-radius:26px;overflow:hidden;background:#f8f6ed;display:flex;flex-direction:column;color:#24332a;container-type:inline-size}
+.preview-carousel{width:200%;height:100%;display:flex;flex:none;animation:previewSlides 14s infinite}
+.preview-slide{width:50%;height:100%;flex:none;display:flex;flex-direction:column;overflow:hidden;background:#f8f6ed}
+@keyframes previewSlides{0%,42%{transform:translateX(0)}50%,92%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.report-body{flex:1;min-height:0;padding:4%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.35fr 1.25fr .78fr .78fr .78fr .55fr .7fr;gap:2.5%;background:#f8f5ec}
+.report-card{min-width:0;padding:5%;border:1px solid #eee4d3;border-radius:7cqw;background:#fff;display:flex;flex-direction:column;justify-content:center;overflow:hidden;font-size:3.4cqw;line-height:1.35;color:#53645b}
+.report-card small{font-size:.78em;color:#66756d}.report-card strong{display:block;margin-top:2%;font-size:1.45em;line-height:1.15;color:#163b28;white-space:nowrap}
+.report-profit{grid-column:1/3;background:linear-gradient(120deg,#17663b,#31934c);border:0;border-radius:9cqw;padding:5%;color:#fff;justify-content:space-between}
+.report-profit small{font-weight:800;color:#fff;font-size:1.05em}.report-profit strong{font-size:2.45em;color:#fff;margin:1% 0}.report-tag{align-self:flex-start;border-radius:999px;padding:1% 5%;background:#ffffff35;color:#fff;font-size:.78em;font-weight:700;white-space:nowrap}
+.report-income{background:#f1f5e8}.report-expense{background:#fff5e9}.report-expense strong{color:#b86c09}.report-wide{grid-column:1/3}.report-capital{grid-column:1/3;grid-row:6/8;padding:4% 5%;justify-content:flex-start}.report-capital strong{font-size:2em;color:#17663b;margin-top:4%}
+@media(prefers-reduced-motion:reduce){.preview-carousel{animation:none}}
 .phone-status{height:6%;min-height:28px;background:#247b3e;color:#e9f3eb;display:flex;align-items:center;justify-content:space-between;padding:0 8%;font-weight:700;font-size:3.4cqw}
 .dash-hero{height:28%;min-height:110px;position:relative;flex:none;padding:8% 5%;overflow:hidden;background:linear-gradient(166deg,#194a2f 0 58%,#669249 58.5% 70%,#1c5232 70.5%);color:#fff;border-radius:0 0 18px 18px}
 .dash-menu{font-size:22px;line-height:1}.dash-bell{position:absolute;right:8%;top:10%;font-size:22px}
@@ -98,12 +111,33 @@ footer a{color:var(--green);font-weight:700}
 .wa{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));z-index:5;display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:12px 18px 12px 14px;background:#25d366;color:#fff;font-weight:800;font-size:14px;text-decoration:none;border-radius:999px;box-shadow:0 8px 22px #0a3c1e55}
 .wa svg{width:24px;height:24px;flex:none}
 .wa:active{transform:translateY(1px)}
-.help{margin:10px 0 0;font-size:13px;color:var(--muted)}.help a{color:var(--green);font-weight:800;text-decoration:none}
+ .help{margin:10px 0 0;font-size:13px;color:var(--muted)}.help a{color:var(--green);font-weight:800;text-decoration:none}
+.faq{padding:0 0 32px;max-width:720px;margin:auto}
+.faq h2{text-align:center;font-size:clamp(24px,4vw,32px);margin:0 0 16px}
+.faq details{background:#fff;border:1px solid #e4ebe3;border-radius:14px;padding:15px 18px;margin:0 0 10px;box-shadow:0 4px 12px #20312608}
+.faq summary{cursor:pointer;font-weight:750;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--green);font-size:22px;line-height:1;flex:none}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:10px 0 0;color:var(--muted)}
+.social-proof{padding:4px 0 32px;text-align:center}
+.trust-count{display:inline-block;margin:0 0 18px;padding:10px 16px;border:1px solid #d9e8d6;border-radius:999px;background:#eaf4e7;color:var(--green);font-weight:800}
+.testimonial{max-width:620px;margin:auto;padding:22px;background:#fff;border:1px solid #e4ebe3;border-radius:20px;box-shadow:0 6px 18px #20312610;text-align:left}
+.testimonial blockquote{margin:0 0 18px;font-size:17px;line-height:1.6;font-weight:650}
+.testimonial-person{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px}
+.testimonial-avatar{width:46px;height:46px;display:grid;place-items:center;flex:none;border-radius:50%;background:var(--green2);color:var(--green);font-size:16px;font-weight:800}
+.testimonial-person b{display:block;color:var(--ink);font-size:14px}
+@media(max-width:600px){.testimonial{padding:18px}.testimonial blockquote{font-size:16px}}
 </style></head><body>
 <header class="hero"><div class="wrap">
 <div class="nav"><span class="brand"><img src="icon-192.png" alt="">KandangPuyuh.com</span></div>
-<h1>Semua catatan peternakan puyuh, rapi dan mudah dipantau dalam satu aplikasi</h1>
-<p>Catat panen, penjualan, piutang, dan pakan. Laporan keuangan bulanan tersusun otomatis. Gratis, tanpa Play Store, dan tetap bisa dibuka saat sinyal lemah.</p>
+<h1>Kelola Peternakan Puyuh Tanpa Pusing Hitung Manual</h1>
+<p>Tahu untung-rugi, stok telur, dan biaya pakan secara real-time. Gratis, mudah, dan bisa tanpa sinyal!</p>
+<ul class="pain-points" aria-label="Masalah yang sering dialami peternak">
+<li><span aria-hidden="true">❌</span> Sering bingung apakah bulan ini benar-benar untung atau rugi?</li>
+<li><span aria-hidden="true">❌</span> Catatan harian di buku sering hilang, rusak, atau sulit dicari?</li>
+<li><span aria-hidden="true">❌</span> Tidak tahu berapa biaya pakan per kg telur yang sebenarnya?</li>
+</ul>
 <button class="cta" id="install" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Pasang Aplikasi</button>
 <button class="ios-install" id="iosInstall" type="button">Install untuk pengguna iPhone</button>
 <p class="hint">Setelah terpasang, buka aplikasinya dari layar utama lalu masuk dengan akun Google.</p>
@@ -117,8 +151,8 @@ footer a{color:var(--green);font-weight:700}
 </ol>
 <section class="preview" aria-label="Pratinjau tampilan aplikasi PuyuhKu">
 <div class="preview-copy"><h2>Lihat pemasukan, pengeluaran, dan laba dalam satu layar</h2><p>Setiap panen, penjualan, dan biaya pakan yang Anda catat langsung masuk ke laporan keuangan. Tidak perlu buku catatan atau hitung manual.</p><div class="preview-points"><span><i>✓</i> Laba bulan ini langsung terlihat</span><span><i>✓</i> Piutang pelanggan tidak terlewat</span><span><i>✓</i> Biaya pakan per kg telur terhitung otomatis</span></div></div>
-<div class="phone" role="img" aria-label="Contoh dashboard PuyuhKu: laporan bulan ini menampilkan penjualan, pengeluaran, dan laba, dengan menu panen, jual telur, pengeluaran, laporan, aset dan stok">
-<div class="phone-screen" aria-hidden="true">
+<div class="phone" role="img" aria-label="Pratinjau aplikasi PuyuhKu berganti otomatis antara dashboard dan laporan: laba bersih, pendapatan, pengeluaran, produksi telur, dan modal per kilogram">
+<div class="phone-screen" aria-hidden="true"><div class="preview-carousel"><div class="preview-slide">
 <div class="phone-status"><span>8:33</span><span>▣ 4G ▮▮▮ 59</span></div>
 <div class="dash-hero"><span class="dash-menu">☰</span><span class="dash-bell">🔔</span><div class="dash-title">Laporan Keuangan<br>Peternakan Puyuh</div>
 <div class="dash-bird"><svg viewBox="0 0 140 120"><path d="M24 54C6 43 14 33 51 28c11-2 13 18 27 19 14 1 17-17 26-26 16-17 48-10 49 12 1 28-5 48-24 56-17 7-34-1-45-9-12 14-30 17-39 10-9-7-13-8-22-11l12-8-18-8c-9-4-12-7 7-9z" fill="#24acd1" transform="translate(-12 3) scale(.92)"/><circle cx="113" cy="38" r="4" fill="#263b4a"/><path d="M134 41q13-2 17 7-9 5-20 2z" fill="#f58a28"/><path d="M79 91l-2 15m20-14 1 14" stroke="#f58a28" stroke-width="6" stroke-linecap="round"/><path d="M76 106l-7 4m29-3 7 3" stroke="#f58a28" stroke-width="4" stroke-linecap="round"/></svg></div></div>
@@ -128,16 +162,45 @@ footer a{color:var(--green);font-weight:700}
 <div class="dash-row"><span><i></i>Penjualan</span><strong>Rp 4.200.000</strong></div>
 <div class="dash-row red"><span><i></i>Pengeluaran</span><strong>Rp 2.900.000</strong></div>
 <div class="dash-row profit"><span><i></i>Laba</span><strong>Rp 1.300.000</strong></div></div>
-</div></div>
+</div><div class="preview-slide">
+<div class="phone-status"><span>8:33</span><span>▣ 4G ▮▮▮ 59</span></div>
+<div class="report-body">
+<div class="report-card report-profit"><small>LABA BERSIH (SEMENTARA)</small><strong>Rp7.593.000</strong><span class="report-tag">Sementara · pakan dihitung sebesar uang beli</span></div>
+<div class="report-card report-income"><small>Pendapatan</small><strong>Rp11.625.000</strong><small>Lihat rincian ›</small></div>
+<div class="report-card report-expense"><small>Pengeluaran kas</small><strong>Rp12.532.000</strong><small>Operasional Rp4.032.000<br>Investasi Rp8.500.000</small></div>
+<div class="report-card"><small>Produksi bersih</small><strong>1250.00 kg</strong></div>
+<div class="report-card"><small>Telur rusak ⓘ</small><strong>0.00 kg</strong></div>
+<div class="report-card"><small>Telur terjual</small><strong>375.00 kg</strong></div>
+<div class="report-card"><small>Puyuh mati/afkir</small><strong>0 ekor</strong></div>
+<div class="report-card report-wide"><small>Produksi per ekor</small><strong>11250.0% · 1250.0 g/ekor/hari</strong></div>
+<div class="report-card report-capital"><b>Modal per kg telur</b><small>Sementara · data stok pakan belum cukup</small><strong>Rp3.226 /kg</strong></div>
+</div>
+<div class="dash-nav"><span><b>⌂</b>Beranda</span><span><b>▤</b>Pengeluaran</span><span><b>📊</b>Laporan</span><span><b>⬡</b>Stok</span><span><b>⚙</b>Pengaturan</span></div>
+</div></div></div></div>
 </section>
 <div class="grid">
-<div class="f main"><span>📊</span><b>Laporan keuangan</b><small>Ringkasan bulanan dan tahunan: pemasukan, pengeluaran, dan laba, dibanding periode sebelumnya.</small></div>
-<div class="f"><span>💵</span><b>Penjualan &amp; piutang</b><small>Catat lunas, DP, atau belum bayar, plus biaya bensin antar.</small></div>
-<div class="f"><span>🌾</span><b>Biaya &amp; analisis pakan</b><small>Biaya pakan per kg telur dan per ekor per hari.</small></div>
-<div class="f"><span>🥚</span><b>Panen &amp; stok telur</b><small>Stok otomatis dari panen, penjualan, dan telur pecah.</small></div>
-<div class="f"><span>🐦</span><b>Populasi puyuh</b><small>Catat mati/afkir, populasi dan produksi per ekor terhitung otomatis.</small></div>
-<div class="f"><span>☁️</span><b>Tersimpan di akun</b><small>Sinkron di akun Google dan tetap bisa dipakai saat sinyal lemah.</small></div>
+<div class="f main"><span>📊</span><b>Laporan otomatis</b><small>Input harian, laporan laba/rugi bulanan tersusun sendiri.</small></div>
+<div class="f"><span>🥚</span><b>Pantau stok &amp; panen</b><small>Ketahui jumlah telur utuh, pecah, dan sisa stok secara real-time.</small></div>
+<div class="f"><span>🌾</span><b>Analisis biaya pakan</b><small>Hitung efisiensi biaya pakan per ekor dan per kg telur secara otomatis.</small></div>
+<div class="f"><span>☁️</span><b>Tetap bisa offline</b><small>Catat data meski di kandang tidak ada sinyal. Data akan tersinkron saat internet tersedia.</small></div>
 </div>
+<section class="social-proof" aria-label="Testimoni pengguna">
+<p class="trust-count">Telah dipercaya oleh 1.000+ Peternak Puyuh di Indonesia</p>
+<article class="testimonial">
+<blockquote>“Sejak pakai PuyuhKu, saya jadi tahu pola pakan mana yang paling efisien. Laba naik, catatan rapi!”</blockquote>
+<div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">PB</span><span><b>Pak Saniman</b>Peternak Puyuh di Jawa Barat</span></div>
+</article>
+<article class="testimonial">
+<blockquote>“Catatan panen dan pengeluaran jadi lebih rapi. Saya bisa memantau usaha tanpa repot menghitung manual.”</blockquote>
+<div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">AS</span><span><b>Ahmad Syafi</b>Peternak Puyuh</span></div>
+</article>
+</section>
+<section class="faq" aria-labelledby="faq-title">
+<h2 id="faq-title">Pertanyaan yang Sering Ditanyakan</h2>
+<details><summary>Apakah aplikasi ini benar-benar gratis?</summary><p>Ya, 100% gratis untuk fitur dasar.</p></details>
+<details><summary>Apakah data saya aman?</summary><p>Aman, data tersinkronisasi dengan akun Google Anda.</p></details>
+<details><summary>Saya gaptek, apakah sulit digunakan?</summary><p>Aplikasi ini dirancang sesederhana menulis di buku, dengan tampilan besar dan jelas.</p></details>
+</section>
 <div class="end"><button class="cta" id="install2" type="button">Pasang Aplikasi Sekarang</button></div></main>
 <footer><p>Ada kendala atau pertanyaan? <a href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu" target="_blank" rel="noopener" style="color:var(--green);font-weight:800">Hubungi via WhatsApp</a></p><p>© KandangPuyuh.com</p></footer>
 <a class="wa" href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu" target="_blank" rel="noopener" aria-label="Tanya lewat WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Tanya via WhatsApp</a>
