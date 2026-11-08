@@ -190,6 +190,16 @@ body{background:#F6F3E8;font-family:'DM Sans',system-ui,-apple-system,'Segoe UI'
 .home-actions .quick.sale{background:#1B1A14;border-color:#1B1A14;color:#FFD84D}
 .positive,.report-metric.income strong,.delta-tag.up{color:#1f6b3a}
 .report-metric.profit.pos strong{color:#fff}
+/* Penyeragaman lanjutan */
+body,.app,.loading{background:#F6F3E8}
+body,.info-card strong,.home-summary-title,.section,.balance-card strong,.home-actions .quick{color:#1B1A14}
+.card,.home-actions .quick,.info-card,.contact-btn{border-color:#E5E0CC}
+.wallet-icon,.balance-card .wallet-icon,.help-video-icon,.stock-card-icon{background:#FFD84D;color:#1B1A14}
+.help-video-text small,.stock-card-label,.stock-card small,.harvest-stock-info{color:#6B6757}
+.help-video-arrow{color:#1B1A14}
+.trend-selbg{fill:#FFF1B8;background:#FFF1B8}
+.home-actions .quick.asset span,.info-ic.k-laba{background:#FFF1B8}
+.home-actions .quick.sale span{background:#FFD84D}
 </style>
 </head>
 <body>
@@ -383,13 +393,13 @@ $("shareWaBtn").onclick=()=>{const s=reportSnapshot(),text=`*Laporan ${s.farm}*\
 $("shareImgBtn").onclick=async()=>{
  const s=reportSnapshot(),W=1080,P=64,RH=104,HEAD=250,FOOT=120,H=HEAD+s.rows.length*RH+FOOT,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d"),F='system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
  x.fillStyle="#f6f1e6";x.fillRect(0,0,W,H);
- const gr=x.createLinearGradient(0,0,W,HEAD);gr.addColorStop(0,"#1d4f2c");gr.addColorStop(1,"#3d7a43");x.fillStyle=gr;x.fillRect(0,0,W,HEAD);
+ const gr=x.createLinearGradient(0,0,W,HEAD);gr.addColorStop(0,"#FFD84D");gr.addColorStop(1,"#FFC93A");x.fillStyle=gr;x.fillRect(0,0,W,HEAD);
  let fs=60;x.font=`800 ${fs}px ${F}`;while(x.measureText(s.farm).width>W-2*P&&fs>30){fs-=2;x.font=`800 ${fs}px ${F}`}
- x.fillStyle="#fff";x.textBaseline="alphabetic";x.fillText(s.farm,P,112);
- x.font=`600 36px ${F}`;x.fillStyle="#d8ecd0";x.fillText("Laporan Keuangan · "+s.period,P,172);
- x.font=`600 28px ${F}`;x.fillStyle="#b9d9b0";x.fillText("🐦 PuyuhKu",P,220);
+ x.fillStyle="#1B1A14";x.textBaseline="alphabetic";x.fillText(s.farm,P,112);
+ x.font=`600 36px ${F}`;x.fillStyle="#3B3820";x.fillText("Laporan Keuangan · "+s.period,P,172);
+ x.font=`600 28px ${F}`;x.fillStyle="#3B3820";x.fillText("🐦 PuyuhKu",P,220);
  s.rows.forEach(([l,v],i)=>{const y=HEAD+i*RH,isProfit=i===2;
-  if(isProfit){x.fillStyle=s.locked?"#fbece8":s.profitNeg?"#fae9e7":"#e8f4df";x.fillRect(0,y,W,RH)}
+  if(isProfit){x.fillStyle=s.locked?"#fbece8":s.profitNeg?"#fae9e7":"#FFF1B8";x.fillRect(0,y,W,RH)}
   x.strokeStyle="#e4dcc8";x.lineWidth=2;x.beginPath();x.moveTo(P,y+RH);x.lineTo(W-P,y+RH);x.stroke();
   x.fillStyle="#5c6b5f";x.font=`600 34px ${F}`;x.textAlign="left";x.fillText(l,P,y+RH/2+12);
   x.fillStyle=isProfit?(s.locked||s.profitNeg?"#9e332c":"#1f6b3a"):"#1c2b22";let vs=44;x.font=`800 ${vs}px ${F}`;const maxW=W-2*P-x.measureText(l).width-30;while(x.measureText(v).width>maxW&&vs>22){vs-=2;x.font=`800 ${vs}px ${F}`}x.textAlign="right";x.fillText(v,W-P,y+RH/2+14)});
