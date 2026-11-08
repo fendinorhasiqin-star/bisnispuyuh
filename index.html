@@ -20,7 +20,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;min-width:320px;overflow-x:hidden;font:400 16px/1.55 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--shell);color:var(--ink)}
 button,a{-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:3px solid var(--ink);outline-offset:3px}
-.dark :focus-visible{outline-color:var(--yolk)}
+.dark :focus-visible,.screens :focus-visible{outline-color:var(--yolk)}
 h1,h2,h3{font-weight:800;letter-spacing:-.02em;margin:0;text-wrap:balance}
 .wrap{width:min(100%,1040px);margin:auto;padding:0 clamp(20px,5vw,40px)}
 
@@ -63,6 +63,19 @@ h1{font-size:clamp(2.45rem,9.2vw,4.5rem);line-height:1.02;max-width:12ch}
 .caption{margin:20px 0 0;text-align:center;font-size:13px;color:#4a3320}
 @keyframes print{from{transform:translateY(-26px) rotate(-1.6deg);clip-path:inset(0 -12px 100% -12px)}to{transform:translateY(0) rotate(-1.6deg);clip-path:inset(0 -12px -16px -12px)}}
 @keyframes stamp{from{opacity:0;transform:scale(1.8) rotate(-16deg)}60%{opacity:1}to{transform:scale(1) rotate(-8deg)}}
+
+/* Layar aplikasi */
+.screens{background:var(--leaf);color:var(--shell);padding:clamp(52px,9vw,88px) 0 clamp(44px,8vw,76px)}
+.screens h2{font-size:clamp(1.9rem,5.4vw,3rem);line-height:1.08;max-width:15ch}
+.screens .sub{text-wrap:pretty;margin:14px 0 0;max-width:42ch;font-size:clamp(16px,2.2vw,18px);color:#dcebdd}
+.shots{list-style:none;width:min(100%,1040px);margin:36px auto 0;padding:0 clamp(20px,5vw,40px);display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 clamp(20px,5vw,40px);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.shots::-webkit-scrollbar{display:none}
+.shot{flex:0 0 min(72vw,290px);scroll-snap-align:start}
+.phone{padding:7px;border-radius:34px;background:var(--ink);box-shadow:0 22px 34px -16px rgba(0,0,0,.55)}
+.phone img{display:block;width:100%;height:auto;aspect-ratio:390/844;border-radius:27px;background:#faf6ee}
+.shot b{display:block;margin-top:16px;font-size:18px;letter-spacing:-.01em}
+.shot span{display:block;margin-top:4px;max-width:30ch;font-size:14px;line-height:1.45;color:#dcebdd}
+.shots-note{margin:26px 0 0;font-size:13px;color:#bcd5c0}
 
 /* Buku tulis */
 .book{padding:clamp(52px,9vw,88px) 0 clamp(40px,7vw,64px)}
@@ -134,6 +147,9 @@ footer a{color:var(--ink);font-weight:700}
 
 @media(min-width:820px){
   .hero-grid{grid-template-columns:1.1fr .9fr}
+  .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;overflow:visible}
+  .shot{flex:none}
+  .shot:nth-child(2){margin-top:44px}
   .steps{grid-template-columns:repeat(3,1fr);column-gap:36px}
   .steps li{grid-template-columns:1fr;gap:10px;border-bottom:0;padding:22px 0 0}
   .steps li:last-child{border-bottom:0}
@@ -163,16 +179,17 @@ footer a{color:var(--ink);font-weight:700}
 <div class="ok" id="ok">Aplikasi sudah terpasang. Buka <b>PuyuhKu</b> dari layar utama HP Anda, lalu masuk dengan Google.</div>
 </div>
 <div class="nota-wrap">
-<div class="nota" role="img" aria-label="Contoh laporan bulan ini: penjualan telur Rp 4.200.000, pengeluaran Rp 2.900.000, laba Rp 1.300.000, modal per kilogram telur Rp 20.714">
+<div class="nota" role="img" aria-label="Contoh laporan bulan ini: pendapatan Rp 233.892.438, pengeluaran Rp 158.465.625, laba Rp 75.426.813, modal per kilogram telur Rp 24.381">
 <div class="nota-head" aria-hidden="true"><b>Laporan bulan ini</b><span>Contoh data</span></div>
 <dl aria-hidden="true">
-<div class="row"><dt>Penjualan telur (140 kg)</dt><dd>Rp 4.200.000</dd></div>
-<div class="row gap"><dt>Pakan</dt><dd>Rp 1.900.000</dd></div>
-<div class="row"><dt>Obat dan vitamin</dt><dd>Rp 350.000</dd></div>
-<div class="row"><dt>Lain-lain</dt><dd>Rp 650.000</dd></div>
-<div class="row gap total"><dt>Laba</dt><dd>Rp 1.300.000</dd></div>
+<div class="row"><dt>Pendapatan</dt><dd>Rp 233.892.438</dd></div>
+<div class="row gap"><dt>Pakan</dt><dd>Rp 128.215.625</dd></div>
+<div class="row"><dt>Gaji pekerja</dt><dd>Rp 12.500.000</dd></div>
+<div class="row"><dt>Obat dan vitamin</dt><dd>Rp 5.600.000</dd></div>
+<div class="row"><dt>Lain-lain</dt><dd>Rp 12.150.000</dd></div>
+<div class="row gap total"><dt>Laba</dt><dd>Rp 75.426.813</dd></div>
 </dl>
-<div class="nota-foot" aria-hidden="true"><span class="stamp">Untung</span><span class="modal">Modal per kg telur<b>Rp 20.714</b></span></div>
+<div class="nota-foot" aria-hidden="true"><span class="stamp">Untung</span><span class="modal">Modal per kg telur<b>Rp 24.381</b></span></div>
 </div>
 <p class="caption">Seperti ini laporan Anda, tersusun otomatis.</p>
 </div>
@@ -180,6 +197,18 @@ footer a{color:var(--ink);font-weight:700}
 </div></header>
 
 <main>
+<section class="screens" aria-labelledby="screens-title"><div class="wrap">
+<h2 id="screens-title">Begini tampilan aplikasinya</h2>
+<p class="sub">Contoh peternak aktif dengan lebih dari 25.000 puyuh. Laba bersih Oktober: Rp 75,4 juta.</p>
+</div>
+<ul class="shots">
+<li class="shot"><div class="phone"><img src="mockup/beranda.webp" width="780" height="1688" alt="Beranda aplikasi PuyuhKu: populasi 25.684 ekor, panen telur 6.514 kg dan jual telur 6.440 kg bulan ini" decoding="async"></div><b>Beranda</b><span>Populasi, panen, dan penjualan telur bulan ini terlihat sekali pandang.</span></li>
+<li class="shot"><div class="phone"><img src="mockup/biaya-operasional.webp" width="780" height="1688" alt="Halaman Biaya operasional: pilihan listrik dan air, obat dan vitamin, gaji pekerja, perawatan kandang, kemasan, dan riwayat pengeluaran" loading="lazy" decoding="async"></div><b>Biaya operasional</b><span>Pilih jenis biaya, catat nominalnya. Riwayat tersimpan rapi.</span></li>
+<li class="shot"><div class="phone"><img src="mockup/laporan.webp" width="780" height="1688" alt="Laporan keuangan Oktober 2026: laba bersih Rp75.426.813, pendapatan Rp233.892.438, pengeluaran kas Rp177.466.000" loading="lazy" decoding="async"></div><b>Laporan</b><span>Laba bersih, pendapatan, dan modal per kg telur dihitung otomatis.</span></li>
+</ul>
+<div class="wrap"><p class="shots-note">Semua angka pada gambar adalah data contoh.</p></div>
+</section>
+
 <section class="book"><div class="wrap">
 <h2>Masih mencatat di buku?</h2>
 <div class="paper">
