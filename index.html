@@ -1,218 +1,83 @@
 <!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#1d6737"><title>Kandang Puyuh — Laporan Keuangan Peternakan Puyuh</title>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#FFD84D"><title>Kandang Puyuh — Laporan Keuangan Peternakan Puyuh</title>
 <meta name="description" content="Tahu untung-rugi peternakan puyuh Anda langsung dari HP. Catat panen, penjualan, piutang, pakan, dan populasi, lalu lihat laporan keuangannya otomatis.">
 <meta property="og:type" content="website"><meta property="og:title" content="PuyuhKu — Tahu untung-rugi peternakan puyuh dari HP"><meta property="og:description" content="Catat panen, penjualan, piutang, dan pakan. Laporan keuangan tersusun otomatis. Gratis, tanpa Play Store."><meta property="og:image" content="icon-192.png"><meta property="og:locale" content="id_ID">
 <meta name="twitter:card" content="summary">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="PuyuhKu"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=DM+Sans:wght@500;700&display=swap">
 <script>/* Dibuka dari aplikasi terpasang -> langsung ke login (yang meneruskan ke aplikasi bila sudah masuk) */
-if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)location.replace("login.html")</script>
-<script>window.__dp=null;addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dp=e})</script>
+if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)location.replace("login.html")</script><script>window.__dp=null;addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dp=e})</script>
 <style>
-:root{--green:#1d6737;--green2:#e4f4d8;--ink:#1d3024;--muted:#5f6f64;--bg:#f2f6f1}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;min-width:320px;overflow-x:hidden;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
-button,a{-webkit-tap-highlight-color:transparent}
-button:focus-visible,a:focus-visible{outline:3px solid #f5c95d;outline-offset:3px}
-.wrap{width:min(100%,856px);margin:auto;padding:0 clamp(16px,4vw,28px)}
-.hero{background:linear-gradient(145deg,#1d6737,#31934c);color:#fff;padding:calc(30px + env(safe-area-inset-top)) 0 clamp(52px,8vw,72px);border-radius:0 0 32px 32px}
-.nav{display:flex;align-items:center;justify-content:space-between}
-.brand{font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}.brand img{width:30px;height:30px;border-radius:8px}
-.nav a{color:#fff;text-decoration:none;font-weight:700;font-size:13px;border:1px solid #ffffff88;border-radius:999px;padding:9px 16px;min-height:40px;display:inline-flex;align-items:center}
-.hero h1{font-size:clamp(28px,6vw,42px);line-height:1.15;letter-spacing:-1px;margin:42px 0 12px;max-width:580px;text-wrap:balance}
-.hero p{margin:0 0 24px;max-width:540px;opacity:.94}
-.pain-points{display:grid;gap:8px;list-style:none;margin:-8px 0 22px;padding:0;max-width:590px;font-size:14px;line-height:1.45}
-.pain-points li{display:flex;align-items:flex-start;gap:8px}
-.pain-points li span{flex:none}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;background:#fff;color:var(--green);font:inherit;font-weight:800;font-size:16px;text-decoration:none;border:0;cursor:pointer;border-radius:14px;padding:15px 24px;box-shadow:0 8px 20px #153f2422;transition:transform .18s ease,box-shadow .18s ease}
-.cta:active{transform:translateY(1px);box-shadow:0 4px 12px #153f2422}
-.cta svg{width:20px;height:20px}
-.hint{margin:12px 0 0!important;font-size:13px;opacity:.88!important}
-.ios-install{display:block;margin-top:10px;padding:6px 0;border:0;background:none;color:#fff;font:inherit;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.ok{display:none;margin-top:14px;background:#ffffff26;border-radius:12px;padding:10px 14px;font-size:13px;max-width:480px}
-.steps{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:-30px;position:relative}
-.steps li{background:#fff;border:1px solid #e4ebe3;border-radius:16px;padding:12px;box-shadow:0 6px 18px #20312610;font-size:13px;line-height:1.35}
-.steps b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;font-size:13px;margin-bottom:6px}
-.preview{display:grid;grid-template-columns:1fr minmax(240px,300px);align-items:center;gap:clamp(24px,5vw,48px);padding:34px 0 42px}
-.preview-copy h2{font-size:clamp(24px,4vw,34px);line-height:1.2;letter-spacing:-.5px;margin:0 0 12px;text-wrap:pretty}
-.preview-copy p{color:var(--muted);margin:0 0 18px;max-width:420px;text-wrap:pretty}
-.preview-points{display:grid;gap:10px;font-size:14px;line-height:1.55}.preview-points span{display:flex;align-items:center;gap:9px}.preview-points i{font-style:normal;color:var(--green);font-weight:800}
-.phone{width:100%;max-width:300px;justify-self:center;aspect-ratio:9/13.5;padding:9px;background:#19231c;border-radius:34px;box-shadow:0 22px 48px #183b2450;overflow:hidden}
-.phone-screen{height:100%;border-radius:26px;overflow:hidden;background:#f8f6ed;display:flex;flex-direction:column;color:#24332a;container-type:inline-size}
-.preview-carousel{width:200%;height:100%;display:flex;flex:none;animation:previewSlides 14s infinite}
-.preview-slide{width:50%;height:100%;flex:none;display:flex;flex-direction:column;overflow:hidden;background:#f8f6ed}
-@keyframes previewSlides{0%,42%{transform:translateX(0)}50%,92%{transform:translateX(-50%)}100%{transform:translateX(0)}}
-.report-body{flex:1;min-height:0;padding:4%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.35fr 1.25fr .78fr .78fr .78fr .55fr .7fr;gap:2.5%;background:#f8f5ec}
-.report-card{min-width:0;padding:5%;border:1px solid #eee4d3;border-radius:7cqw;background:#fff;display:flex;flex-direction:column;justify-content:center;overflow:hidden;font-size:3.4cqw;line-height:1.35;color:#53645b}
-.report-card small{font-size:.78em;color:#66756d}.report-card strong{display:block;margin-top:2%;font-size:1.45em;line-height:1.15;color:#163b28;white-space:nowrap}
-.report-profit{grid-column:1/3;background:linear-gradient(120deg,#17663b,#31934c);border:0;border-radius:9cqw;padding:5%;color:#fff;justify-content:space-between}
-.report-profit small{font-weight:800;color:#fff;font-size:1.05em}.report-profit strong{font-size:2.45em;color:#fff;margin:1% 0}.report-tag{align-self:flex-start;border-radius:999px;padding:1% 5%;background:#ffffff35;color:#fff;font-size:.78em;font-weight:700;white-space:nowrap}
-.report-income{background:#f1f5e8}.report-expense{background:#fff5e9}.report-expense strong{color:#b86c09}.report-wide{grid-column:1/3}.report-capital{grid-column:1/3;grid-row:6/8;padding:4% 5%;justify-content:flex-start}.report-capital strong{font-size:2em;color:#17663b;margin-top:4%}
-@media(prefers-reduced-motion:reduce){.preview-carousel{animation:none}}
-.phone-status{height:6%;min-height:28px;background:#247b3e;color:#e9f3eb;display:flex;align-items:center;justify-content:space-between;padding:0 8%;font-weight:700;font-size:3.4cqw}
-.dash-hero{height:28%;min-height:110px;position:relative;flex:none;padding:8% 5%;overflow:hidden;background:linear-gradient(166deg,#194a2f 0 58%,#669249 58.5% 70%,#1c5232 70.5%);color:#fff;border-radius:0 0 18px 18px}
-.dash-menu{font-size:22px;line-height:1}.dash-bell{position:absolute;right:8%;top:10%;font-size:22px}
-.dash-title{position:absolute;left:5%;top:39%;font-weight:750;font-size:6.2cqw;line-height:1.15;max-width:65%}
-.dash-title small{display:block;margin-top:9px;font-weight:400;font-size:.7em;opacity:.85}
-.dash-bird{position:absolute;right:5%;top:26%;width:42%;height:39%}.dash-bird svg{width:100%;height:100%;filter:drop-shadow(0 4px 2px #153c2866)}
-.dash-pop{position:relative;z-index:1;margin:-9% 4% 8px;padding:10px 12px;background:#fff;border:1px solid #e9e4d7;border-radius:17px;display:flex;align-items:center;gap:10px;box-shadow:0 5px 15px #29352510;font-size:3.6cqw}
-.dash-avatar{width:38px;height:38px;border-radius:12px;background:#e3f1ee;display:grid;place-items:center;flex:none;font-size:20px}
-.dash-pop small{display:block;color:#6d6d6d;white-space:nowrap}.dash-pop strong{font-size:1.25em;font-weight:600;white-space:nowrap}.dash-link{margin-left:auto;color:var(--green);font-weight:700;white-space:nowrap}
-.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 4%;flex:none}
-.dash-tile{min-height:15cqw;background:#fff;border:1px solid #ebe6da;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:2px;flex-direction:column;text-align:center;font-size:3cqw;font-weight:600;line-height:1.15}
-.dash-tile em{font-style:normal;font-size:16px}.dash-tile.active{background:#1d6737;color:#fff;border-color:#1d6737}
-.dash-summary{padding:10px 5% 4px;flex:1;min-height:70px;font-size:3.7cqw}.dash-summary b{font-size:1.08em}
-.dash-sub{color:#6d6d6d;font-size:.85em}
-.dash-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;color:#3f4e44}
-.dash-row span{display:flex;align-items:center;gap:6px}.dash-row i{width:9px;height:9px;border-radius:50%;background:#46b94f}.dash-row.red i{background:#e0624a}
-.dash-row strong{font-weight:700}
-.dash-row.profit{margin-top:7px;padding-top:7px;border-top:1px dashed #d9d5c6;color:var(--green);font-weight:800}
-.dash-row.profit i{background:#1d6737}
-.dash-nav{height:8%;min-height:40px;background:#fff;border-top:1px solid #e9e5db;display:flex;justify-content:space-around;align-items:center;color:#6f7a73;font-size:clamp(8px,1.8vw,11px);flex:none}.dash-nav span{text-align:center}.dash-nav b{display:block;color:var(--green);font-size:15px}
-.note{font-size:12px;color:var(--muted);text-align:center;margin:-26px 0 30px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0 0 28px}
-.f{background:#fff;border:1px solid #e4ebe3;border-radius:18px;padding:16px;box-shadow:0 6px 18px #20312610}
-.f span{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--green2);font-size:22px;margin-bottom:8px}.f b{display:block}.f small{color:var(--muted)}
-.f.main{background:var(--green);border-color:var(--green);color:#fff}.f.main span{background:#ffffff26}.f.main small{color:#e6f3e8}
-.end{text-align:center;padding:10px 0 40px}.end .cta{background:var(--green);color:#fff;min-width:min(100%,280px)}
-.end p{color:var(--muted);font-size:13px;margin:12px 0 0}
-footer{text-align:center;color:var(--muted);font-size:12px;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
-footer a{color:var(--green);font-weight:700}
-.sheet-bg{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;justify-content:center;z-index:9;padding-top:env(safe-area-inset-top)}
-.sheet-bg.show{display:flex}
-.sheet{background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px - env(safe-area-inset-top));overflow:auto}
-.sheet h3{margin:0 0 4px;font-size:18px}.sheet p{margin:0 0 12px;color:var(--muted);font-size:13px}
-.sheet ol{margin:0 0 16px;padding-left:20px;line-height:1.8}
-.sheet button{width:100%;min-height:48px;border:0;background:var(--green);color:#fff;font:inherit;font-weight:800;border-radius:14px;padding:13px;cursor:pointer}
-@media(max-width:600px){
-  .hero{border-radius:0 0 26px 26px;padding-top:calc(22px + env(safe-area-inset-top))}
-  .hero h1{font-size:clamp(30px,9vw,38px);margin-top:34px;letter-spacing:-.8px}
-  .hero p{font-size:15px;line-height:1.6}
-  .hero .cta{width:100%;max-width:360px}
-  .steps{gap:8px}.steps li{padding:10px;font-size:12px}
-  .preview{grid-template-columns:1fr;gap:24px;padding:28px 0 34px}
-  .preview-copy{text-align:center}.preview-copy h2{font-size:clamp(25px,7vw,32px)}
-  .preview-copy p{margin-left:auto;margin-right:auto}
-  .preview-points{width:max-content;max-width:100%;margin:auto;text-align:left}
-  .phone{width:min(76vw,290px)}
-  .grid{grid-template-columns:1fr 1fr;gap:10px}
-  .f{padding:14px;border-radius:16px}.f span{width:36px;height:36px;font-size:20px}.f small{display:block;line-height:1.45;margin-top:3px}
-  .end{padding-bottom:28px}.end .cta{width:100%}
-}
-@media(max-width:380px){
-  .wrap{padding-left:15px;padding-right:15px}
-  .steps{grid-template-columns:1fr}
-  .grid{grid-template-columns:1fr}
-  .f{display:grid;grid-template-columns:40px 1fr;column-gap:10px;align-items:center}
-  .f span{grid-row:span 2;margin:0}.f b{align-self:end}.f small{align-self:start}
-  .dash-pop{padding:9px;gap:7px}.dash-avatar{width:34px;height:34px}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cta{transition:none}}
-.wa{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));z-index:5;display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:12px 18px 12px 14px;background:#25d366;color:#fff;font-weight:800;font-size:14px;text-decoration:none;border-radius:999px;box-shadow:0 8px 22px #0a3c1e55}
-.wa svg{width:24px;height:24px;flex:none}
-.wa:active{transform:translateY(1px)}
- .help{margin:10px 0 0;font-size:13px;color:var(--muted)}.help a{color:var(--green);font-weight:800;text-decoration:none}
-.faq{padding:0 0 32px;max-width:720px;margin:auto}
-.faq h2{text-align:center;font-size:clamp(24px,4vw,32px);margin:0 0 16px}
-.faq details{background:#fff;border:1px solid #e4ebe3;border-radius:14px;padding:15px 18px;margin:0 0 10px;box-shadow:0 4px 12px #20312608}
-.faq summary{cursor:pointer;font-weight:750;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";color:var(--green);font-size:22px;line-height:1;flex:none}
-.faq details[open] summary::after{content:"−"}
-.faq details p{margin:10px 0 0;color:var(--muted)}
-.social-proof{padding:4px 0 32px;text-align:center}
-.trust-count{display:inline-block;margin:0 0 18px;padding:10px 16px;border:1px solid #d9e8d6;border-radius:999px;background:#eaf4e7;color:var(--green);font-weight:800}
-.testimonial{max-width:620px;margin:auto;padding:22px;background:#fff;border:1px solid #e4ebe3;border-radius:20px;box-shadow:0 6px 18px #20312610;text-align:left}
-.testimonial blockquote{margin:0 0 18px;font-size:17px;line-height:1.6;font-weight:650}
-.testimonial-person{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px}
-.testimonial-avatar{width:46px;height:46px;display:block;position:relative;overflow:hidden;flex:none;border-radius:50%;background:var(--green2);color:var(--green);font-size:16px;font-weight:800}
-.testimonial-avatar img{position:absolute;top:0;left:0;width:200%;height:200%;max-width:none;object-fit:cover}
-.testimonial-avatar.ahmad img{transform:translateX(-50%)}
-.testimonial-person b{display:block;color:var(--ink);font-size:14px}
-@media(max-width:600px){.testimonial{padding:18px}.testimonial blockquote{font-size:16px}}
-</style></head><body>
-<header class="hero"><div class="wrap">
-<div class="nav"><span class="brand"><img src="icon-192.png" alt="">KandangPuyuh.com</span></div>
-<h1>Kelola Peternakan Puyuh Tanpa Pusing Hitung Manual</h1>
+:root{--y:#FFD84D;--ink:#1B1A14;--cream:#F6F3E8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;min-width:320px;overflow-x:hidden;font:16px/1.5 'DM Sans',system-ui,sans-serif;background:var(--y);color:var(--ink)}
+a,button{-webkit-tap-highlight-color:transparent}a:focus-visible,button:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px var(--ink)}
+.w{max-width:960px;margin:0 auto;padding:0 clamp(20px,5vw,32px)}
+h1,h2,.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-1px;margin:0}
+h1{font-size:clamp(40px,9vw,68px);line-height:1.02;letter-spacing:-2px;max-width:700px}
+h2{font-size:clamp(28px,5vw,40px);line-height:1.1;margin-bottom:20px}
+h1 mark{background:var(--ink);color:var(--y);padding:0 8px;border-radius:8px}
+.hero{padding:calc(24px + env(safe-area-inset-top)) 0 56px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.brand{font-size:22px;display:flex;align-items:center;gap:8px}.brand img{width:32px;height:32px;border-radius:8px}.brand i{font-style:normal;color:#fff}
+.nav a.in{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--ink)}
+.hero p{max-width:520px;margin:18px 0 26px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{min-height:52px;padding:0 28px;border-radius:999px;font:700 16px 'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:2px solid var(--ink);cursor:pointer}
+.btn.dk{background:var(--ink);color:var(--y)}.btn.wh{background:#fff;color:var(--ink)}.btn.yl{background:var(--y);color:var(--ink)}.btn.ol{background:transparent;color:#fff;border-color:#fff}
+.hint{font-size:13px;margin:14px 0 0!important}
+.ios-install{display:block;margin-top:6px;min-height:44px;border:0;background:none;color:var(--ink);font:700 14px 'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
+.ok{display:none;margin-top:14px;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 16px;font-size:14px;max-width:480px}
+section{padding:48px 0}.wh{background:#fff}.dk{background:var(--ink);color:var(--cream)}.bt{border-top:3px solid var(--ink)}
+.dk h2{color:var(--y)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:18px;box-shadow:4px 4px 0 var(--ink)}
+.card b{display:block;font:800 17px 'Bricolage Grotesque',sans-serif;margin-bottom:6px}.card span{font-size:14px;line-height:1.5}
+.pain{display:flex;gap:12px;align-items:flex-start;font-weight:700;margin-bottom:14px}.pain svg{flex:none;margin-top:2px}
+.step{display:flex;gap:14px;align-items:center;font-weight:700}.step i{flex:none;width:42px;height:42px;border-radius:50%;background:var(--y);border:2px solid var(--ink);display:grid;place-items:center;font:800 18px 'Bricolage Grotesque',sans-serif;font-style:normal}
+.pv{display:flex;flex-wrap:wrap;gap:36px;align-items:center;justify-content:center}.pv>div:first-child{flex:1 1 320px}
+.phone{width:250px;background:#fff;color:var(--ink);border-radius:34px;border:7px solid #3A3A33;padding:14px;display:grid;gap:10px}
+.lb{background:var(--y);border-radius:20px;padding:14px}.lb small{font-size:11px;font-weight:700}.lb b{display:block;font:800 28px 'Bricolage Grotesque',sans-serif;letter-spacing:-.5px}
+.rows{border:1.5px solid #E5E0CC;border-radius:14px;padding:6px 12px}.rows div{display:flex;justify-content:space-between;font-size:13px;font-weight:600;padding:6px 0}
+.tabs{display:flex;gap:6px;font-size:11px;font-weight:700}.tabs span{flex:1;text-align:center;background:var(--cream);border-radius:10px;padding:8px 0}
+.q{border-bottom:2px solid var(--ink);padding:16px 0}.q b{display:block;font-size:17px}.q span{display:block;margin-top:6px}
+.end{background:var(--ink);padding:56px 0}.end h2{font-size:clamp(32px,6vw,48px)}.end .btns{max-width:520px}
+footer{text-align:center;font-size:12px;color:#CFCBB8;background:var(--ink);padding:0 20px calc(28px + env(safe-area-inset-bottom))}
+@media(max-width:600px){.btns .btn{width:100%}}
+.sheet-bg{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:9}.sheet-bg.show{display:flex}
+.sheet{background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));max-height:90dvh;overflow:auto}
+.sheet h3{margin:0 0 4px;font-size:18px}.sheet p{margin:0 0 12px;color:#555;font-size:14px}.sheet ol{margin:0 0 16px;padding-left:20px;line-height:1.8}
+.sheet button{width:100%;min-height:48px;border:0;background:var(--ink);color:var(--y);font:700 16px 'DM Sans',sans-serif;border-radius:14px;cursor:pointer}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head>
+<body>
+<header class="hero"><div class="w">
+<nav class="nav"><span class="brand"><img src="icon-192.png" alt="">PuyuhKu<i>.</i></span><a class="in" href="login.html">Masuk</a></nav>
+<h1>Untung-rugi kandang, <mark>sekali lihat.</mark></h1>
 <p>Tahu untung-rugi, stok telur, dan biaya pakan secara real-time. Gratis, mudah, dan bisa tanpa sinyal!</p>
-<ul class="pain-points" aria-label="Masalah yang sering dialami peternak">
-<li><span aria-hidden="true">❌</span> Sering bingung apakah bulan ini benar-benar untung atau rugi?</li>
-<li><span aria-hidden="true">❌</span> Catatan harian di buku sering hilang, rusak, atau sulit dicari?</li>
-<li><span aria-hidden="true">❌</span> Tidak tahu berapa biaya pakan per kg telur yang sebenarnya?</li>
-</ul>
-<button class="cta" id="install" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Pasang Aplikasi</button>
+<div class="btns"><button class="btn dk" id="install" type="button">Pasang Aplikasi</button><a class="btn wh" href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu">Tanya via WhatsApp</a></div>
 <button class="ios-install" id="iosInstall" type="button">Install untuk pengguna iPhone</button>
 <p class="hint">Setelah terpasang, buka aplikasinya dari layar utama lalu masuk dengan akun Google.</p>
 <div class="ok" id="ok">✅ Aplikasi sudah terpasang. Buka <b>PuyuhKu</b> dari layar utama HP Anda, lalu masuk dengan Google.</div>
 </div></header>
-<main class="wrap">
-<ol class="steps" aria-label="Tiga langkah memulai">
-<li><b>1</b>Pasang aplikasi di layar utama HP</li>
-<li><b>2</b>Buka aplikasi, masuk dengan akun Google</li>
-<li><b>3</b>Catat harian, laporan jadi sendiri</li>
-</ol>
-<section class="preview" aria-label="Pratinjau tampilan aplikasi PuyuhKu">
-<div class="preview-copy"><h2>Lihat pemasukan, pengeluaran, dan laba dalam satu layar</h2><p>Setiap panen, penjualan, dan biaya pakan yang Anda catat langsung masuk ke laporan keuangan. Tidak perlu buku catatan atau hitung manual.</p><div class="preview-points"><span><i>✓</i> Laba bulan ini langsung terlihat</span><span><i>✓</i> Piutang pelanggan tidak terlewat</span><span><i>✓</i> Biaya pakan per kg telur terhitung otomatis</span></div></div>
-<div class="phone" role="img" aria-label="Pratinjau aplikasi PuyuhKu berganti otomatis antara dashboard dan laporan: laba bersih, pendapatan, pengeluaran, produksi telur, dan modal per kilogram">
-<div class="phone-screen" aria-hidden="true"><div class="preview-carousel"><div class="preview-slide">
-<div class="phone-status"><span>8:33</span><span>▣ 4G ▮▮▮ 59</span></div>
-<div class="dash-hero"><span class="dash-menu">☰</span><span class="dash-bell">🔔</span><div class="dash-title">Laporan Keuangan<br>Peternakan Puyuh</div>
-<div class="dash-bird"><svg viewBox="0 0 140 120"><path d="M24 54C6 43 14 33 51 28c11-2 13 18 27 19 14 1 17-17 26-26 16-17 48-10 49 12 1 28-5 48-24 56-17 7-34-1-45-9-12 14-30 17-39 10-9-7-13-8-22-11l12-8-18-8c-9-4-12-7 7-9z" fill="#24acd1" transform="translate(-12 3) scale(.92)"/><circle cx="113" cy="38" r="4" fill="#263b4a"/><path d="M134 41q13-2 17 7-9 5-20 2z" fill="#f58a28"/><path d="M79 91l-2 15m20-14 1 14" stroke="#f58a28" stroke-width="6" stroke-linecap="round"/><path d="M76 106l-7 4m29-3 7 3" stroke="#f58a28" stroke-width="4" stroke-linecap="round"/></svg></div></div>
-<div class="dash-pop"><span class="dash-avatar">🐦</span><span><small>Populasi puyuh saat ini</small><strong>1.000 ekor</strong></span><span class="dash-link">Usaha berjalan ›</span></div>
-<div class="dash-grid"><div class="dash-tile"><em>🥚</em>Panen Telur</div><div class="dash-tile"><em>💵</em>Jual Telur</div><div class="dash-tile"><em>🧾</em>Pengeluaran</div><div class="dash-tile active"><em>📊</em>Laporan</div><div class="dash-tile"><em>🏗️</em>Aset &amp; Populasi</div><div class="dash-tile"><em>📦</em>Data Stok</div></div>
-<div class="dash-summary"><b>Ringkasan Bulan Ini</b> <span class="dash-sub">(contoh data)</span>
-<div class="dash-row"><span><i></i>Penjualan</span><strong>Rp 4.200.000</strong></div>
-<div class="dash-row red"><span><i></i>Pengeluaran</span><strong>Rp 2.900.000</strong></div>
-<div class="dash-row profit"><span><i></i>Laba</span><strong>Rp 1.300.000</strong></div></div>
-</div><div class="preview-slide">
-<div class="phone-status"><span>8:33</span><span>▣ 4G ▮▮▮ 59</span></div>
-<div class="report-body">
-<div class="report-card report-profit"><small>LABA BERSIH (SEMENTARA)</small><strong>Rp7.593.000</strong><span class="report-tag">Sementara · pakan dihitung sebesar uang beli</span></div>
-<div class="report-card report-income"><small>Pendapatan</small><strong>Rp11.625.000</strong><small>Lihat rincian ›</small></div>
-<div class="report-card report-expense"><small>Pengeluaran kas</small><strong>Rp12.532.000</strong><small>Operasional Rp4.032.000<br>Investasi Rp8.500.000</small></div>
-<div class="report-card"><small>Produksi bersih</small><strong>1250.00 kg</strong></div>
-<div class="report-card"><small>Telur rusak ⓘ</small><strong>0.00 kg</strong></div>
-<div class="report-card"><small>Telur terjual</small><strong>375.00 kg</strong></div>
-<div class="report-card"><small>Puyuh mati/afkir</small><strong>0 ekor</strong></div>
-<div class="report-card report-wide"><small>Produksi per ekor</small><strong>11250.0% · 1250.0 g/ekor/hari</strong></div>
-<div class="report-card report-capital"><b>Modal per kg telur</b><small>Sementara · data stok pakan belum cukup</small><strong>Rp3.226 /kg</strong></div>
-</div>
-<div class="dash-nav"><span><b>⌂</b>Beranda</span><span><b>▤</b>Pengeluaran</span><span><b>📊</b>Laporan</span><span><b>⬡</b>Stok</span><span><b>⚙</b>Pengaturan</span></div>
-</div></div></div></div>
-</section>
-<div class="grid">
-<div class="f main"><span>📊</span><b>Laporan otomatis</b><small>Input harian, laporan laba/rugi bulanan tersusun sendiri.</small></div>
-<div class="f"><span>🥚</span><b>Pantau stok &amp; panen</b><small>Ketahui jumlah telur utuh, pecah, dan sisa stok secara real-time.</small></div>
-<div class="f"><span>🌾</span><b>Analisis biaya pakan</b><small>Hitung efisiensi biaya pakan per ekor dan per kg telur secara otomatis.</small></div>
-<div class="f"><span>☁️</span><b>Tetap bisa offline</b><small>Catat data meski di kandang tidak ada sinyal. Data akan tersinkron saat internet tersedia.</small></div>
-</div>
-<section class="social-proof" aria-label="Testimoni pengguna">
-<p class="trust-count">Telah dipercaya oleh 1.000+ Peternak Puyuh di Indonesia</p>
-<article class="testimonial">
-<blockquote>“Sejak pakai PuyuhKu, saya jadi tahu pola pakan mana yang paling efisien. Laba naik, catatan rapi!”</blockquote>
-<div class="testimonial-person"><span class="testimonial-avatar saniman" aria-hidden="true"><img src="image.png" alt=""></span><span><b>Pak Saniman</b>Peternak Puyuh di Jawa Barat</span></div>
-</article>
-<article class="testimonial">
-<blockquote>“Catatan panen dan pengeluaran jadi lebih rapi. Saya bisa memantau usaha tanpa repot menghitung manual.”</blockquote>
-<div class="testimonial-person"><span class="testimonial-avatar ahmad" aria-hidden="true"><img src="image.png" alt=""></span><span><b>Ahmad Syafi</b>Peternak Puyuh</span></div>
-</article>
-</section>
-<section class="faq" aria-labelledby="faq-title">
-<h2 id="faq-title">Pertanyaan yang Sering Ditanyakan</h2>
-<details><summary>Apakah aplikasi ini benar-benar gratis?</summary><p>Ya, 100% gratis untuk fitur dasar.</p></details>
-<details><summary>Apakah data saya aman?</summary><p>Aman, data tersinkronisasi dengan akun Google Anda.</p></details>
-<details><summary>Saya gaptek, apakah sulit digunakan?</summary><p>Aplikasi ini dirancang sesederhana menulis di buku, dengan tampilan besar dan jelas.</p></details>
-</section>
-<div class="end"><button class="cta" id="install2" type="button">Pasang Aplikasi Sekarang</button></div></main>
-<footer><p>Ada kendala atau pertanyaan? <a href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu" target="_blank" rel="noopener" style="color:var(--green);font-weight:800">Hubungi via WhatsApp</a></p><p>© KandangPuyuh.com</p></footer>
-<a class="wa" href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu" target="_blank" rel="noopener" aria-label="Tanya lewat WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Tanya via WhatsApp</a>
-
-<div class="sheet-bg" id="sheetBg" role="dialog" aria-modal="true" aria-labelledby="sheetT"><div class="sheet">
-<h3 id="sheetT">Cara memasang</h3><p id="sheetP"></p>
-<ol id="sheetOl"></ol>
-<button type="button" id="sheetClose">Mengerti</button>
-</div></div>
-
+<section class="wh bt"><div class="w"><h2>Masih sering begini?</h2>
+<div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#FFD84D"/><path d="M7 7l8 8M15 7l-8 8" stroke="#1B1A14" stroke-width="2.2" stroke-linecap="round"/></svg><span>Sering bingung apakah bulan ini benar-benar untung atau rugi?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#FFD84D"/><path d="M7 7l8 8M15 7l-8 8" stroke="#1B1A14" stroke-width="2.2" stroke-linecap="round"/></svg><span>Catatan harian di buku sering hilang, rusak, atau sulit dicari?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#FFD84D"/><path d="M7 7l8 8M15 7l-8 8" stroke="#1B1A14" stroke-width="2.2" stroke-linecap="round"/></svg><span>Tidak tahu berapa biaya pakan per kg telur yang sebenarnya?</span></div></div></section>
+<section class="bt"><div class="w"><h2>Mulai dalam 3 langkah</h2><div class="g">
+<div class="card step"><i>1</i><span>Pasang aplikasi di layar utama HP</span></div><div class="card step"><i>2</i><span>Buka aplikasi, masuk dengan akun Google</span></div><div class="card step"><i>3</i><span>Catat harian, laporan jadi sendiri</span></div></div></div></section>
+<section class="dk"><div class="w pv"><div><h2>Pemasukan, pengeluaran, dan laba dalam satu layar</h2><p>Setiap panen, penjualan, dan biaya pakan yang dicatat langsung masuk ke laporan keuangan. Tidak perlu buku catatan atau hitung manual.</p></div>
+<div class="phone" role="img" aria-label="Contoh tampilan laporan di aplikasi"><div class="lb"><small>LABA BERSIH (CONTOH DATA)</small><b>Rp1.300.000</b></div>
+<div class="rows"><div><span>Penjualan</span><span>Rp 4.200.000</span></div><div><span>Pengeluaran</span><span>Rp 2.900.000</span></div><div><span>Populasi</span><span>1.000 ekor</span></div></div>
+<div class="tabs"><span>Panen</span><span>Jual</span><span>Laporan</span></div></div></div></section>
+<section><div class="w"><h2>Semua yang kandang butuhkan</h2><div class="g">
+<div class="card"><b>Laporan otomatis</b><span>Input harian, laporan laba/rugi bulanan tersusun sendiri.</span></div><div class="card"><b>Pantau stok &amp; panen</b><span>Ketahui jumlah telur utuh, pecah, dan sisa stok secara real-time.</span></div><div class="card"><b>Analisis biaya pakan</b><span>Hitung efisiensi biaya pakan per ekor dan per kg telur secara otomatis.</span></div><div class="card"><b>Tetap bisa offline</b><span>Catat data meski di kandang tidak ada sinyal. Data tersinkron saat internet tersedia.</span></div></div></div></section>
+<section class="wh bt"><div class="w"><h2>Telah dipercaya oleh 1.000+ peternak puyuh di Indonesia</h2><div class="g">
+<div class="q" style="border:0"><span style="margin:0">“Sejak pakai PuyuhKu, saya jadi tahu pola pakan mana yang paling efisien. Laba naik, catatan rapi!”</span><b style="margin-top:8px;font-size:15px">Pak Saniman, Peternak Puyuh di Jawa Barat</b></div>
+<div class="q" style="border:0"><span style="margin:0">“Catatan panen dan pengeluaran jadi lebih rapi. Saya bisa memantau usaha tanpa repot menghitung manual.”</span><b style="margin-top:8px;font-size:15px">Ahmad Syafi, Peternak Puyuh</b></div></div></div></section>
+<section class="bt"><div class="w"><h2>Pertanyaan yang sering ditanyakan</h2>
+<div class="q"><b>Apakah aplikasi ini benar-benar gratis?</b><span>Ya, 100% gratis untuk fitur dasar.</span></div><div class="q"><b>Apakah data saya aman?</b><span>Aman, data tersinkronisasi dengan akun Google Anda.</span></div><div class="q"><b>Saya gaptek, apakah sulit digunakan?</b><span>Aplikasi ini dirancang sesederhana menulis di buku, dengan tampilan besar dan jelas.</span></div></div></section>
+<section class="end dk"><div class="w"><h2>Mulai catat hari ini.</h2><div class="btns"><button class="btn yl" id="install2" type="button">Pasang Aplikasi Sekarang</button><a class="btn ol" href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu">Hubungi via WhatsApp</a></div></div></section>
+<footer>© KandangPuyuh.com</footer>
+<div class="sheet-bg" id="sheetBg" role="dialog" aria-modal="true" aria-labelledby="sheetT"><div class="sheet"><h3 id="sheetT">Cara memasang</h3><p id="sheetP"></p><ol id="sheetOl"></ol><button type="button" id="sheetClose">Mengerti</button></div></div>
 <script>
 var ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 var inapp=/FBAN|FBAV|Instagram|Line\/|MicroMessenger|TikTok|; wv\)/i.test(ua);
@@ -240,4 +105,5 @@ document.getElementById("sheetClose").onclick=function(){bg.classList.remove("sh
 bg.onclick=function(e){if(e.target===bg)bg.classList.remove("show")};
 addEventListener("keydown",function(e){if(e.key==="Escape")bg.classList.remove("show")});
 if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(e){console.warn("SW gagal:",e)})});
-</script></body></html>
+</script>
+</body></html>
