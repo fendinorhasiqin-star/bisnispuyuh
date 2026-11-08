@@ -347,7 +347,7 @@ const profileDone=()=>/^\+?\d{9,15}$/.test(String(settings.waNumber||"").replace
 const gate=$("profileGate"),closeGate=()=>gate.classList.add("hidden");
 $("profileGateBtn").onclick=()=>{closeGate();showPage("profile");window.scrollTo(0,0)};
 gate.onclick=e=>{if(e.target===gate)closeGate()};
-document.addEventListener("click",e=>{if(!PROFILE_GATE||!ready||profileDone())return;const t=e.target.closest("button,[role=button],a,.btn,[data-go],[data-page]");if(!t||t.closest("#profileGate,#profilePage")||t.matches('[data-go="profile"]'))return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();gate.classList.remove("hidden")},true);
+document.addEventListener("click",e=>{if(!PROFILE_GATE||!ready||profileDone())return;const t=e.target.closest("button,[role=button],a,.btn,[data-go],[data-page]");if(!t||t.closest("#profileGate,#profilePage")||t.matches('[data-go="profile"],#helpVideo'))return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();gate.classList.remove("hidden")},true);
 function syncEggPerKg(){const g=parseFloat($("setEggWeight").value);$("setEggPerKg").value=g>0?+(1000/g).toFixed(1):""}$("setEggPerKg").oninput=()=>{const n=parseFloat($("setEggPerKg").value);if(n>0)$("setEggWeight").value=+(1000/n).toFixed(4)};$("setEggWeight").oninput=syncEggPerKg;
 $("settingsForm").onsubmit=e=>{e.preventDefault();const d=formData(e.target);settings={...settings,eggWeightG:+(d.eggWeightG||1000/90)||1000/90};persist();fillSettings();updateExpensePeriod();render();showToast("Pengaturan berhasil disimpan.")};
 $("reportMonth").onchange=renderReport;$("reportYear").onchange=renderReport;$("reportPeriodType").onchange=()=>{toggleReportFields();renderReport()};toggleReportFields();
