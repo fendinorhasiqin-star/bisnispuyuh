@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#1d6737"><title>PuyuhKu — Laporan Keuangan Peternakan Puyuh</title>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#1d6737"><title>Kandang Puyuh — Laporan Keuangan Peternakan Puyuh</title>
 <meta name="description" content="Tahu untung-rugi peternakan puyuh Anda langsung dari HP. Catat panen, penjualan, piutang, pakan, dan populasi, lalu lihat laporan keuangannya otomatis.">
 <meta property="og:type" content="website"><meta property="og:title" content="PuyuhKu — Tahu untung-rugi peternakan puyuh dari HP"><meta property="og:description" content="Catat panen, penjualan, piutang, dan pakan. Laporan keuangan tersusun otomatis. Gratis, tanpa Play Store."><meta property="og:image" content="icon-192.png"><meta property="og:locale" content="id_ID">
 <meta name="twitter:card" content="summary">
@@ -25,6 +25,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #f5c95d;outline-offset:3p
 .cta:active{transform:translateY(1px);box-shadow:0 4px 12px #153f2422}
 .cta svg{width:20px;height:20px}
 .hint{margin:12px 0 0!important;font-size:13px;opacity:.88!important}
+.ios-install{display:block;margin-top:10px;padding:6px 0;border:0;background:none;color:#fff;font:inherit;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .ok{display:none;margin-top:14px;background:#ffffff26;border-radius:12px;padding:10px 14px;font-size:13px;max-width:480px}
 .steps{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:-30px;position:relative}
 .steps li{background:#fff;border:1px solid #e4ebe3;border-radius:16px;padding:12px;box-shadow:0 6px 18px #20312610;font-size:13px;line-height:1.35}
@@ -100,10 +101,11 @@ footer a{color:var(--green);font-weight:700}
 .help{margin:10px 0 0;font-size:13px;color:var(--muted)}.help a{color:var(--green);font-weight:800;text-decoration:none}
 </style></head><body>
 <header class="hero"><div class="wrap">
-<div class="nav"><span class="brand"><img src="icon-192.png" alt="">PuyuhKu</span></div>
-<h1>Tahu untung-rugi peternakan puyuh Anda, langsung dari HP</h1>
+<div class="nav"><span class="brand"><img src="icon-192.png" alt="">KandangPuyuh.com</span></div>
+<h1>Semua catatan peternakan puyuh, rapi dan mudah dipantau dalam satu aplikasi</h1>
 <p>Catat panen, penjualan, piutang, dan pakan. Laporan keuangan bulanan tersusun otomatis. Gratis, tanpa Play Store, dan tetap bisa dibuka saat sinyal lemah.</p>
 <button class="cta" id="install" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Pasang Aplikasi</button>
+<button class="ios-install" id="iosInstall" type="button">Install untuk pengguna iPhone</button>
 <p class="hint">Setelah terpasang, buka aplikasinya dari layar utama lalu masuk dengan akun Google.</p>
 <div class="ok" id="ok">✅ Aplikasi sudah terpasang. Buka <b>PuyuhKu</b> dari layar utama HP Anda, lalu masuk dengan Google.</div>
 </div></header>
@@ -151,7 +153,14 @@ var ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform=
 var inapp=/FBAN|FBAV|Instagram|Line\/|MicroMessenger|TikTok|; wv\)/i.test(ua);
 var ok=document.getElementById("ok"),bg=document.getElementById("sheetBg"),btns=[document.getElementById("install"),document.getElementById("install2")];
 addEventListener("appinstalled",function(){window.__dp=null;ok.style.display="block";scrollTo({top:0,behavior:"smooth"})});
+document.getElementById("iosInstall").onclick=function(){
+ document.getElementById("sheetT").textContent="Install PuyuhKu di iPhone";
+ document.getElementById("sheetP").textContent="Tambahkan PuyuhKu ke Layar Utama melalui Safari agar bisa dibuka seperti aplikasi.";
+ document.getElementById("sheetOl").innerHTML="<li>Buka halaman ini di <b>Safari</b> (bukan dari browser dalam aplikasi lain)</li><li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas)</li><li>Pilih <b>Tambahkan ke Layar Utama</b>, lalu ketuk <b>Tambah</b></li><li>Buka aplikasi dari ikon di Layar Utama dan masuk dengan akun Google</li>";
+ bg.classList.add("show");
+};
 function help(){
+ document.getElementById("sheetT").textContent="Cara memasang";
  var p=document.getElementById("sheetP"),o=document.getElementById("sheetOl");
  if(inapp){p.textContent="Anda membuka lewat aplikasi lain (WhatsApp/Instagram/dll) sehingga tidak bisa memasang.";o.innerHTML="<li>Buka menu <b>⋮</b> lalu pilih <b>Buka di Chrome</b> (atau salin tautan dan tempel di Chrome)</li><li>Tekan lagi tombol <b>Pasang Aplikasi</b></li>"}
  else if(ios){p.textContent="Di iPhone/iPad, pemasangan hanya bisa lewat Safari.";o.innerHTML="<li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas)</li><li>Pilih <b>Tambah ke Layar Utama</b></li><li>Ketuk <b>Tambah</b>, lalu buka PuyuhKu dari layar utama</li>"}
