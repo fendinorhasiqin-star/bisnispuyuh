@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#FFD84D"><title>Kandang Puyuh — Laporan Keuangan Peternakan Puyuh</title>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#1F5C3A"><title>Kandang Puyuh — Laporan Keuangan Peternakan Puyuh</title>
 <meta name="description" content="Tahu untung-rugi peternakan puyuh Anda langsung dari HP. Catat panen, penjualan, piutang, pakan, dan populasi, lalu lihat laporan keuangannya otomatis.">
 <meta property="og:type" content="website"><meta property="og:title" content="PuyuhKu — Tahu untung-rugi peternakan puyuh dari HP"><meta property="og:description" content="Catat panen, penjualan, piutang, dan pakan. Laporan keuangan tersusun otomatis. Gratis, tanpa Play Store."><meta property="og:image" content="icon-192.png"><meta property="og:locale" content="id_ID">
 <meta name="twitter:card" content="summary">
@@ -8,46 +8,46 @@
 <script>/* Dibuka dari aplikasi terpasang -> langsung ke login (yang meneruskan ke aplikasi bila sudah masuk) */
 if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)location.replace("login.html")</script><script>window.__dp=null;addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dp=e})</script>
 <style>
-:root{--y:#FFD84D;--ink:#1B1A14;--cream:#F6F3E8}
+:root{--g:#1F5C3A;--ink:#0F2418;--cream:#F2F5EC;--acc:#9FE0B2}
 *{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;min-width:320px;overflow-x:hidden;font:16px/1.5 'DM Sans',system-ui,sans-serif;background:var(--y);color:var(--ink)}
+body{margin:0;min-width:320px;overflow-x:hidden;font:16px/1.5 'DM Sans',system-ui,sans-serif;background:var(--g);color:var(--cream)}
 a,button{-webkit-tap-highlight-color:transparent}a:focus-visible,button:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px var(--ink)}
 .w{max-width:960px;margin:0 auto;padding:0 clamp(20px,5vw,32px)}
 h1,h2,.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-1px;margin:0}
 h1{font-size:clamp(40px,9vw,68px);line-height:1.02;letter-spacing:-2px;max-width:700px}
 h2{font-size:clamp(28px,5vw,40px);line-height:1.1;margin-bottom:20px}
-h1 mark{background:var(--ink);color:var(--y);padding:0 8px;border-radius:8px}
+h1 mark{background:var(--cream);color:var(--g);padding:0 8px;border-radius:8px}
 .hero{padding:calc(24px + env(safe-area-inset-top)) 0 56px}
 .nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
 .brand{font-size:22px;display:flex;align-items:center;gap:8px}.brand img{width:32px;height:32px;border-radius:8px}.brand i{font-style:normal;color:#fff}
-.nav a.in{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--ink)}
+.nav a.in{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--cream)}
 .hero p{max-width:520px;margin:18px 0 26px}
 .btns{display:flex;gap:12px;flex-wrap:wrap}
 .btn{min-height:52px;padding:0 28px;border-radius:999px;font:700 16px 'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:2px solid var(--ink);cursor:pointer}
-.btn.dk{background:var(--ink);color:var(--y)}.btn.wh{background:#fff;color:var(--ink)}.btn.yl{background:var(--y);color:var(--ink)}.btn.ol{background:transparent;color:#fff;border-color:#fff}
+.btn.dk{background:var(--ink);color:#fff}.btn.wh{background:#fff;color:var(--ink)}.btn.yl{background:var(--acc);color:var(--ink)}.btn.ol{background:transparent;color:#fff;border-color:#fff}
 .hint{font-size:13px;margin:14px 0 0!important}
-.ios-install{display:block;margin-top:6px;min-height:44px;border:0;background:none;color:var(--ink);font:700 14px 'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
-.ok{display:none;margin-top:14px;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 16px;font-size:14px;max-width:480px}
-section{padding:48px 0}.wh{background:#fff}.dk{background:var(--ink);color:var(--cream)}.bt{border-top:3px solid var(--ink)}
-.dk h2{color:var(--y)}
+.ios-install{display:block;margin-top:6px;min-height:44px;border:0;background:none;color:var(--cream);font:700 14px 'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
+.ok{display:none;margin-top:14px;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 16px;font-size:14px;max-width:480px}
+section{padding:48px 0}.wh{background:#fff;color:var(--ink)}.dk{background:var(--ink);color:var(--cream)}.bt{border-top:3px solid var(--ink)}
+.dk h2{color:var(--acc)}
 .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-.card{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:18px;box-shadow:4px 4px 0 var(--ink)}
+.card{color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:20px;padding:18px;box-shadow:4px 4px 0 var(--ink)}
 .card b{display:block;font:800 17px 'Bricolage Grotesque',sans-serif;margin-bottom:6px}.card span{font-size:14px;line-height:1.5}
 .pain{display:flex;gap:12px;align-items:flex-start;font-weight:700;margin-bottom:14px}.pain svg{flex:none;margin-top:2px}
-.step{display:flex;gap:14px;align-items:center;font-weight:700}.step i{flex:none;width:42px;height:42px;border-radius:50%;background:var(--y);border:2px solid var(--ink);display:grid;place-items:center;font:800 18px 'Bricolage Grotesque',sans-serif;font-style:normal}
+.step{display:flex;gap:14px;align-items:center;font-weight:700}.step i{flex:none;width:42px;height:42px;border-radius:50%;background:var(--g);color:#fff;border:2px solid var(--ink);display:grid;place-items:center;font:800 18px 'Bricolage Grotesque',sans-serif;font-style:normal}
 .pv{display:flex;flex-wrap:wrap;gap:36px;align-items:center;justify-content:center}.pv>div:first-child{flex:1 1 320px}
 .phone{width:250px;background:#fff;color:var(--ink);border-radius:34px;border:7px solid #3A3A33;padding:14px;display:grid;gap:10px}
-.lb{background:var(--y);border-radius:20px;padding:14px}.lb small{font-size:11px;font-weight:700}.lb b{display:block;font:800 28px 'Bricolage Grotesque',sans-serif;letter-spacing:-.5px}
+.lb{background:var(--g);color:#fff;border-radius:20px;padding:14px}.lb small{font-size:11px;font-weight:700}.lb b{display:block;font:800 28px 'Bricolage Grotesque',sans-serif;letter-spacing:-.5px}
 .rows{border:1.5px solid #E5E0CC;border-radius:14px;padding:6px 12px}.rows div{display:flex;justify-content:space-between;font-size:13px;font-weight:600;padding:6px 0}
 .tabs{display:flex;gap:6px;font-size:11px;font-weight:700}.tabs span{flex:1;text-align:center;background:var(--cream);border-radius:10px;padding:8px 0}
-.q{border-bottom:2px solid var(--ink);padding:16px 0}.q b{display:block;font-size:17px}.q span{display:block;margin-top:6px}
+.q{border-bottom:2px solid rgba(242,245,236,.35);padding:16px 0}.wh .q{border-color:var(--ink)}.q b{display:block;font-size:17px}.q span{display:block;margin-top:6px}
 .end{background:var(--ink);padding:56px 0}.end h2{font-size:clamp(32px,6vw,48px)}.end .btns{max-width:520px}
 footer{text-align:center;font-size:12px;color:#CFCBB8;background:var(--ink);padding:0 20px calc(28px + env(safe-area-inset-bottom))}
 @media(max-width:600px){.btns .btn{width:100%}}
 .sheet-bg{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:9}.sheet-bg.show{display:flex}
-.sheet{background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));max-height:90dvh;overflow:auto}
+.sheet{color:var(--ink);background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));max-height:90dvh;overflow:auto}
 .sheet h3{margin:0 0 4px;font-size:18px}.sheet p{margin:0 0 12px;color:#555;font-size:14px}.sheet ol{margin:0 0 16px;padding-left:20px;line-height:1.8}
-.sheet button{width:100%;min-height:48px;border:0;background:var(--ink);color:var(--y);font:700 16px 'DM Sans',sans-serif;border-radius:14px;cursor:pointer}
+.sheet button{width:100%;min-height:48px;border:0;background:var(--ink);color:#fff;font:700 16px 'DM Sans',sans-serif;border-radius:14px;cursor:pointer}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style></head>
 <body>
@@ -61,7 +61,7 @@ footer{text-align:center;font-size:12px;color:#CFCBB8;background:var(--ink);padd
 <div class="ok" id="ok">✅ Aplikasi sudah terpasang. Buka <b>PuyuhKu</b> dari layar utama HP Anda, lalu masuk dengan Google.</div>
 </div></header>
 <section class="wh bt"><div class="w"><h2>Masih sering begini?</h2>
-<div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#FFD84D"/><path d="M7 7l8 8M15 7l-8 8" stroke="#1B1A14" stroke-width="2.2" stroke-linecap="round"/></svg><span>Sering bingung apakah bulan ini benar-benar untung atau rugi?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#FFD84D"/><path d="M7 7l8 8M15 7l-8 8" stroke="#1B1A14" stroke-width="2.2" stroke-linecap="round"/></svg><span>Catatan harian di buku sering hilang, rusak, atau sulit dicari?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#FFD84D"/><path d="M7 7l8 8M15 7l-8 8" stroke="#1B1A14" stroke-width="2.2" stroke-linecap="round"/></svg><span>Tidak tahu berapa biaya pakan per kg telur yang sebenarnya?</span></div></div></section>
+<div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1F5C3A"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>Sering bingung apakah bulan ini benar-benar untung atau rugi?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1F5C3A"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>Catatan harian di buku sering hilang, rusak, atau sulit dicari?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1F5C3A"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>Tidak tahu berapa biaya pakan per kg telur yang sebenarnya?</span></div></div></section>
 <section class="bt"><div class="w"><h2>Mulai dalam 3 langkah</h2><div class="g">
 <div class="card step"><i>1</i><span>Pasang aplikasi di layar utama HP</span></div><div class="card step"><i>2</i><span>Buka aplikasi, masuk dengan akun Google</span></div><div class="card step"><i>3</i><span>Catat harian, laporan jadi sendiri</span></div></div></div></section>
 <section class="dk"><div class="w pv"><div><h2>Pemasukan, pengeluaran, dan laba dalam satu layar</h2><p>Setiap panen, penjualan, dan biaya pakan yang dicatat langsung masuk ke laporan keuangan. Tidak perlu buku catatan atau hitung manual.</p></div>
