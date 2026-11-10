@@ -173,7 +173,7 @@ details.fgroup-more{margin:16px 0 14px}details.fgroup-more summary{list-style:no
 </head>
 <body>
 <div id="successToast" class="success-toast" role="status" aria-live="polite"><b>BERHASIL</b></div>
-<div id="loading" class="loading">🐦 Memuat data…</div>
+<div id="loading" class="loading"><span style="display:flex;align-items:center;gap:8px"><img class="ico-puyuh" src="puyuh-hero.png" alt="" style="width:30px;height:30px">Memuat data…</span></div>
 <div id="app" class="app hidden">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="ic-kandang" viewBox="0 0 48 48"><ellipse cx="24" cy="43" rx="20" ry="2" fill="#000" opacity=".12"/><rect x="8" y="37" width="4" height="6.5" rx="1" fill="#8a5a30"/><rect x="36" y="37" width="4" height="6.5" rx="1" fill="#8a5a30"/><rect x="5" y="22" width="38" height="16.5" rx="2.5" fill="#d9a866"/><rect x="9" y="25.5" width="30" height="10.5" rx="2" fill="#5e3f23"/><ellipse cx="22.5" cy="31.6" rx="7" ry="4.1" fill="#c8924f"/><ellipse cx="24" cy="33.1" rx="4.6" ry="2.5" fill="#f6e3b8"/><circle cx="29.6" cy="28.6" r="2.5" fill="#c8924f"/><path d="M28.6 26.3 27.8 24.4l2.1 1.2z" fill="#6b3f1e"/><path d="M31.8 28.7l2 .7-2 .7z" fill="#f0a030"/><circle cx="30.4" cy="28.3" r=".6" fill="#222"/><path d="M14 25.5V36M19 25.5V36M24 25.5V36M29 25.5V36M34 25.5V36" stroke="#f6ecd2" stroke-width="1" opacity=".7"/><rect x="9" y="25.5" width="30" height="10.5" rx="2" fill="none" stroke="#f6ecd2" stroke-width="1.6"/><path d="M2.5 23.5 24 10.5l21.5 13z" fill="#a8552d" stroke="#a8552d" stroke-width="2" stroke-linejoin="round"/><path d="M11 21.8 24 13.8l13 8" fill="none" stroke="#c76b3f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="ic-lainnya" viewBox="0 0 48 48"><rect x="6" y="6" width="16" height="16" rx="4.5" fill="#1f5c3a"/><rect x="26" y="6" width="16" height="16" rx="4.5" fill="#e9a23b"/><rect x="6" y="26" width="16" height="16" rx="4.5" fill="#c8924f"/><rect x="26" y="26" width="16" height="16" rx="4.5" fill="#2f7d4a"/></symbol></svg><header class="top"><div class="topline"><button class="hero-icon" aria-label="Buka pengaturan" data-go="settings">☰</button><span class="brand">PuyuhKu</span><div class="egg-tick" id="eggTick" aria-live="polite" hidden><span id="eggTickText"></span></div><button class="hero-icon" aria-label="Notifikasi">🔔</button></div><div class="hero-copy"><h1>Laporan Keuangan<br>Peternakan Puyuh</h1><p>Usaha lebih terarah,<br>untung lebih maksimal</p></div><div class="month" id="monthLabel"></div></header>
 <main class="content">
@@ -366,7 +366,7 @@ $("shareImgBtn").onclick=async()=>{
  let fs=60;x.font=`800 ${fs}px ${F}`;while(x.measureText(s.farm).width>W-2*P&&fs>30){fs-=2;x.font=`800 ${fs}px ${F}`}
  x.fillStyle="#FFFFFF";x.textBaseline="alphabetic";x.fillText(s.farm,P,112);
  x.font=`600 36px ${F}`;x.fillStyle="#D5EBDA";x.fillText("Laporan Keuangan · "+s.period,P,172);
- x.font=`600 28px ${F}`;x.fillStyle="#D5EBDA";x.fillText("🐦 PuyuhKu",P,220);
+ x.font=`600 28px ${F}`;x.fillStyle="#D5EBDA";const qi=await new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src="puyuh-hero.png"});let qx=P;if(qi){x.drawImage(qi,P,188,36,36);qx=P+46}x.fillText("PuyuhKu",qx,220);
  s.rows.forEach(([l,v],i)=>{const y=HEAD+i*RH,isProfit=i===2;
   if(isProfit){x.fillStyle=s.locked?"#fbece8":s.profitNeg?"#fae9e7":"#E3F1E5";x.fillRect(0,y,W,RH)}
   x.strokeStyle="#e4dcc8";x.lineWidth=2;x.beginPath();x.moveTo(P,y+RH);x.lineTo(W-P,y+RH);x.stroke();
