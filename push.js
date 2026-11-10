@@ -1,6 +1,6 @@
 // push.js — taruh di frontend, panggil enablePush() dari tombol "Aktifkan notifikasi"
 // Isi 3 nilai ini:
-const SUPABASE_URL = 'https://mnkedbgfmflexflfzdnr.supabase.co/rest/v1/';
+const SUPABASE_URL = 'https://mnkedbgfmflexflfzdnr.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_JWxmpVkosiVuvDYjvxlYdg_XpkgqG0K';
 const VAPID_PUBLIC_KEY = 'BKIHQCgWaQW4X-tI2Z3gozkDNUpkcFENfzK84JqJeBL8ShTWBjSKIR6scUCa7jg3RMf62BkYt8T05hPuJTa_PF8';
 
@@ -18,7 +18,8 @@ function urlBase64ToUint8Array(base64) {
 
 // User diambil otomatis dari sesi login Supabase
 export async function enablePush() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session && session.user;
   if (!user) { alert('Silakan login dulu.'); return false; }
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
     alert('Browser ini belum mendukung notifikasi. Di iPhone, pasang dulu lewat "Add to Home Screen".');
