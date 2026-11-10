@@ -173,6 +173,14 @@ details.fgroup-more{margin:16px 0 14px}details.fgroup-more summary{list-style:no
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=DM+Sans:wght@500;700&display=swap">
 </head>
 <body>
+<button id="btnNotif">🔔 Aktifkan notifikasi</button>
+<script type="module">
+  import { enablePush } from './push.js';
+  document.getElementById('btnNotif').onclick = async () => {
+    const ok = await enablePush();
+    if (ok) alert('Notifikasi aktif!');
+  };
+</script>
 <div id="successToast" class="success-toast" role="status" aria-live="polite"><b>BERHASIL</b></div>
 <div id="loading" class="loading"><span style="display:flex;align-items:center;gap:8px"><img class="ico-puyuh" src="puyuh-hero.png" alt="" style="width:30px;height:30px">Memuat data…</span></div>
 <div id="app" class="app hidden">
