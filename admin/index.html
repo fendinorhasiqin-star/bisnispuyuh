@@ -46,7 +46,30 @@ select.select-chip{padding-right:6px}
 .login-card .button{width:100%;height:40px;justify-content:center;font-size:12px}
 .login-card .button[disabled]{opacity:.65;cursor:wait}
 .login-error{font-size:11px;color:#b5473b;background:#fdf3f1;border-radius:7px;padding:8px 10px;margin-bottom:14px;line-height:1.5}
-  </style>
+  
+.modal-backdrop{place-items:stretch end;padding:0}
+.user-modal{width:min(100%,440px);height:100%;border-radius:16px 0 0 16px;padding:20px;overflow-y:auto;animation:drawerIn .22s ease-out;box-shadow:-12px 0 40px #10241724}
+@keyframes drawerIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.user-modal .modal-top{align-items:flex-start;gap:12px}.modal-user-head{display:flex;align-items:center;gap:12px;min-width:0}.modal-user-head h2{font:700 16px Manrope,sans-serif;word-break:break-word}.modal-user-head p{font-size:11px;color:var(--muted);word-break:break-all}
+.drawer-status{display:flex;align-items:center;gap:10px;margin:14px 0 4px}.drawer-status small{color:var(--muted);font-size:11px}
+.drawer-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:10px 0 6px}
+.drawer-tabs button{border:0;background:none;padding:10px 12px;font-size:12px;font-weight:600;color:#7b8678;border-bottom:2px solid transparent;margin-bottom:-1px}
+.drawer-tabs button.on{color:var(--green);border-bottom-color:var(--green)}
+.drawer-pane[hidden]{display:none}
+.modal-status{display:none}
+@media(max-width:760px){
+.user-modal{width:100%;border-radius:0;padding:16px}
+.cardtable,.cardtable tbody{display:block;width:100%}.cardtable thead{display:none}
+.cardtable tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;padding:13px 14px;margin:0 0 10px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+.cardtable td{display:block;padding:0;border:0;min-width:0}
+.cardtable td[data-label]::before{content:attr(data-label);display:block;font-size:10px;color:var(--muted);margin-bottom:2px}
+.cardtable td[colspan]{grid-column:1/-1;text-align:center}
+.cardtable-users td:nth-child(1){grid-column:1}.cardtable-users td:nth-child(5){grid-column:2;grid-row:1;text-align:right}
+.cardtable-users td:nth-child(6){grid-column:1/-1}.cardtable-users td:nth-child(6) .view-button{width:100%;padding:8px;font-size:11px}
+.cardtable-users .person-cell{min-width:0}
+.cardtable-sell td:nth-child(1){grid-column:1/-1;font-size:13px}
+}
+</style>
 </head>
 <body>
   <div class="boot" id="boot">Memuat panel…</div>
@@ -111,13 +134,13 @@ select.select-chip{padding-right:6px}
             <section class="panel status-panel"><div class="panel-heading"><div><h2>Status aplikasi</h2><p>Kondisi sambungan saat ini</p></div><span class="live-dot wait" id="live-dot">● Memeriksa</span></div><div class="status-hero"><div class="status-graphic"><span>🐦</span><i></i></div><div><strong>KandangPuyuh</strong><span>aplikasi utama</span></div></div><div class="status-list" id="status-list"></div><button class="text-link" id="btn-reload" type="button">Muat ulang data <span>↻</span></button></section>
           </div>
 
-          <section class="panel users-panel"><div class="panel-heading"><div><h2>Pengguna terbaru</h2><p>Pengguna yang baru bergabung di KandangPuyuh</p></div><a class="text-link" href="#users">Lihat semua <span>→</span></a></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="recent-users"></tbody></table></div></section>
+          <section class="panel users-panel"><div class="panel-heading"><div><h2>Pengguna terbaru</h2><p>Pengguna yang baru bergabung di KandangPuyuh</p></div><a class="text-link" href="#users">Lihat semua <span>→</span></a></div><div class="table-wrap"><table class="cardtable cardtable-users"><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="recent-users"></tbody></table></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
         </section>
 
         <section class="page" data-page="users" hidden>
           <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> PENGELOLAAN</div><h1>Pengguna</h1><p>Kelola dan pantau akun pengguna KandangPuyuh.</p></div><span class="date-chip">♙ <span id="user-total">0</span> pengguna</span></div>
-          <section class="panel users-panel full-users"><div class="panel-heading user-toolbar"><div><h2>Semua pengguna</h2><p>Daftar akun yang terdaftar di aplikasi</p></div><label class="search-box"><span>⌕</span><input id="user-search" type="search" placeholder="Cari nama, email, atau WhatsApp…" /></label><select class="select-chip" id="user-filter" aria-label="Filter pengguna"><option value="all">Semua pengguna</option><option value="active7">Aktif 7 hari terakhir</option><option value="idle14">Tidak aktif 14+ hari</option><option value="idle30">Tidak aktif 30+ hari</option><option value="never">Belum pernah mencatat</option><option value="noted">Punya catatan admin</option><option value="followup">Perlu follow-up</option></select><select class="select-chip" id="user-sort" aria-label="Urutkan pengguna"><option value="joined_desc">Terbaru bergabung</option><option value="joined_asc">Paling lama bergabung</option><option value="last_desc">Aktivitas terakhir</option><option value="count_desc">Paling banyak catatan</option><option value="name_asc">Nama A–Z</option></select></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="all-users"></tbody></table></div><div class="table-foot" id="table-foot"></div></section>
+          <section class="panel users-panel full-users"><div class="panel-heading user-toolbar"><div><h2>Semua pengguna</h2><p>Daftar akun yang terdaftar di aplikasi</p></div><label class="search-box"><span>⌕</span><input id="user-search" type="search" placeholder="Cari nama, email, atau WhatsApp…" /></label><select class="select-chip" id="user-filter" aria-label="Filter pengguna"><option value="all">Semua pengguna</option><option value="active7">Aktif 7 hari terakhir</option><option value="idle14">Tidak aktif 14+ hari</option><option value="idle30">Tidak aktif 30+ hari</option><option value="never">Belum pernah mencatat</option><option value="noted">Punya catatan admin</option><option value="followup">Perlu follow-up</option></select><select class="select-chip" id="user-sort" aria-label="Urutkan pengguna"><option value="joined_desc">Terbaru bergabung</option><option value="joined_asc">Paling lama bergabung</option><option value="last_desc">Aktivitas terakhir</option><option value="count_desc">Paling banyak catatan</option><option value="name_asc">Nama A–Z</option></select></div><div class="table-wrap"><table class="cardtable cardtable-users"><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="all-users"></tbody></table></div><div class="table-foot" id="table-foot"></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
         </section>
 
@@ -125,7 +148,7 @@ select.select-chip{padding-right:6px}
           <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> ANALITIK</div><h1>Laporan</h1><p>Ringkasan performa dan aktivitas pengguna aplikasi.</p></div><span class="date-chip">◷ <span id="report-month-label"></span></span></div>
           <div class="report-cards"><article class="report-card"><span>Total pengguna</span><strong id="r-total">–</strong><small id="r-total-sub">Semua akun terdaftar</small></article><article class="report-card"><span>Pengguna aktif</span><strong id="r-active">–</strong><small id="r-active-sub">Sudah punya catatan</small></article><article class="report-card"><span>Pendaftaran bulan ini</span><strong id="r-new">–</strong><small id="r-new-sub">Bulan berjalan</small></article></div>
           <section class="panel report-note"><div class="report-note-icon">✦</div><div><h2 id="r-note-title">Ringkasan pengguna</h2><p id="r-note-text">Memuat data…</p></div></section>
-          <section class="panel users-panel"><div class="panel-heading"><div><h2>Pendaftaran terbaru</h2><p>10 pengguna yang terakhir bergabung</p></div></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="report-users"></tbody></table></div></section>
+          <section class="panel users-panel"><div class="panel-heading"><div><h2>Pendaftaran terbaru</h2><p>10 pengguna yang terakhir bergabung</p></div></div><div class="table-wrap"><table class="cardtable cardtable-users"><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="report-users"></tbody></table></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
         </section>
 
@@ -134,7 +157,7 @@ select.select-chip{padding-right:6px}
           <div class="alert-banner" id="sell-alert" hidden></div>
           <div class="metric-grid"><article class="metric-card"><div class="metric-top"><span>RATA-RATA HARGA JUAL</span></div><strong id="s-avg" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-avg-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>HARGA ACUAN PASAR</span></div><strong id="s-ref" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-ref-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>KISARAN HARGA</span></div><strong id="s-range" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-range-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>TRANSAKSI</span></div><strong id="s-count" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-count-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article></div>
           <section class="panel"><div class="panel-heading"><div><h2>Rata-rata harga jual per bulan</h2><p>Tertimbang menurut kg terjual</p></div></div><div id="sell-trend" style="padding:4px 4px 8px"></div></section>
-          <section class="panel users-panel" style="margin-top:17px"><div class="panel-heading"><div><h2>Harga jual per pengguna</h2><p>Diurutkan dari transaksi terbanyak</p></div></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>TRANSAKSI</th><th>KG TERJUAL</th><th>RATA-RATA /KG</th><th>TERENDAH – TERTINGGI</th><th>HARGA TERAKHIR</th></tr></thead><tbody id="sell-users"></tbody></table></div></section>
+          <section class="panel users-panel" style="margin-top:17px"><div class="panel-heading"><div><h2>Harga jual per pengguna</h2><p>Diurutkan dari transaksi terbanyak</p></div></div><div class="table-wrap"><table class="cardtable cardtable-sell"><thead><tr><th>PENGGUNA</th><th>TRANSAKSI</th><th>KG TERJUAL</th><th>RATA-RATA /KG</th><th>TERENDAH – TERTINGGI</th><th>HARGA TERAKHIR</th></tr></thead><tbody id="sell-users"></tbody></table></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.2</span></footer>
         </section>
 
@@ -165,12 +188,19 @@ select.select-chip{padding-right:6px}
 
   <div class="modal-backdrop" id="user-modal" hidden>
     <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal-top"><div class="modal-mark">🐦</div><button class="modal-close" id="modal-close" aria-label="Tutup">×</button></div>
-      <div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div>
-      <div class="modal-status"><span>Status akun</span><span class="status-badge" id="modal-status">Aktif</span></div>
-      <div class="modal-details"><div><span>WhatsApp</span><strong id="modal-whatsapp"></strong></div><div><span>Nama peternakan</span><strong id="modal-farm"></strong></div><div><span>ID pengguna</span><strong id="modal-id"></strong></div><div><span>Tanggal bergabung</span><strong id="modal-date"></strong></div></div>
-      <div class="note-box" style="margin:14px 0 4px;text-align:left"><label style="font-size:11px;font-weight:700;color:#737e70">Catatan admin <span style="font-weight:400">· hanya terlihat admin</span></label><select class="select-chip" id="note-tag" style="width:100%;margin:6px 0"><option value="">Tanpa label</option><option value="followup">Perlu follow-up</option><option value="issue">Ada masalah / komplain</option><option value="lead">Calon pelanggan berbayar</option><option value="big">Peternak besar</option><option value="contacted">Sudah dihubungi</option></select><textarea id="note-text" maxlength="2000" rows="4" placeholder="Tulis catatan tentang pengguna ini…" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:12px;resize:vertical"></textarea><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="button button-secondary" id="note-save" type="button">Simpan catatan</button><small id="note-status" style="color:var(--muted);font-size:11px;line-height:1.4"></small></div></div><a class="button button-primary finance-button" id="finance-link" href="#finance">Laporan keuangan <span>→</span></a>
-      <p class="counts-note" id="modal-counts"></p>
+      <div class="modal-top"><div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div><button class="modal-close" id="modal-close" aria-label="Tutup">×</button></div>
+      <div class="drawer-status"><span class="status-badge" id="modal-status">Aktif</span><small id="modal-last"></small></div>
+      <div class="drawer-tabs" role="tablist"><button type="button" class="on" data-tab="summary">Ringkasan</button><button type="button" data-tab="notes" id="tab-notes">Catatan</button><button type="button" data-tab="finance">Keuangan</button></div>
+      <div class="drawer-pane" data-pane="summary">
+        <div class="modal-details"><div><span>WhatsApp</span><strong id="modal-whatsapp"></strong></div><div><span>Nama peternakan</span><strong id="modal-farm"></strong></div><div><span>ID pengguna</span><strong id="modal-id"></strong></div><div><span>Tanggal bergabung</span><strong id="modal-date"></strong></div></div>
+        <a class="button button-primary finance-button" id="modal-wa" target="_blank" rel="noopener noreferrer" hidden>Chat lewat WhatsApp <span>→</span></a>
+        <p class="counts-note" id="modal-counts"></p>
+      </div>
+      <div class="drawer-pane" data-pane="notes" hidden><div class="note-box" style="margin:14px 0 4px;text-align:left"><label style="font-size:11px;font-weight:700;color:#737e70">Catatan admin <span style="font-weight:400">· hanya terlihat admin</span></label><select class="select-chip" id="note-tag" style="width:100%;margin:6px 0"><option value="">Tanpa label</option><option value="followup">Perlu follow-up</option><option value="issue">Ada masalah / komplain</option><option value="lead">Calon pelanggan berbayar</option><option value="big">Peternak besar</option><option value="contacted">Sudah dihubungi</option></select><textarea id="note-text" maxlength="2000" rows="4" placeholder="Tulis catatan tentang pengguna ini…" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:12px;resize:vertical"></textarea><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="button button-secondary" id="note-save" type="button">Simpan catatan</button><small id="note-status" style="color:var(--muted);font-size:11px;line-height:1.4"></small></div></div></div>
+      <div class="drawer-pane" data-pane="finance" hidden>
+        <div class="modal-details" id="modal-fin-counts"></div>
+        <a class="button button-primary finance-button" id="finance-link" href="#finance">Buka laporan keuangan lengkap <span>→</span></a>
+      </div>
     </section>
   </div>
 
@@ -307,11 +337,11 @@ select.select-chip{padding-right:6px}
     const wa = u.whatsapp
       ? `<a class="whatsapp-link" href="${escapeHtml(waLink(u.whatsapp))}" target="_blank" rel="noopener noreferrer">${escapeHtml(u.whatsapp)}</a>`
       : '<span class="muted-cell">Belum diisi</span>';
-    return `<tr>
+    return `<tr data-user-id="${escapeHtml(u.id)}" style="cursor:pointer">
       <td><div class="person-cell"><span class="user-avatar ${u.color}">${escapeHtml(initials(u.name))}</span><span class="person-info"><strong>${escapeHtml(u.name)}${u.note ? ` <span title="${escapeHtml(u.note.slice(0, 120))}" style="font-size:11px">📝</span>` : ''}${u.tag ? ` <span class="status-badge" style="margin-left:4px;font-size:10px">${escapeHtml(TAGS[u.tag] || u.tag)}</span>` : ''}</strong><span>${escapeHtml(u.email || '(email belum tersimpan)')}</span></span></div></td>
-      <td>${wa}</td>
-      <td class="farm-name">${u.farm ? escapeHtml(u.farm) : '<span class="muted-cell">Belum diisi</span>'}</td>
-      <td>${fmtDate(u.joined)}</td>
+      <td data-label="WhatsApp">${wa}</td>
+      <td class="farm-name" data-label="Peternakan">${u.farm ? escapeHtml(u.farm) : '<span class="muted-cell">Belum diisi</span>'}</td>
+      <td data-label="Bergabung">${fmtDate(u.joined)}</td>
       <td><span class="status-badge ${u.state === 'active' ? '' : 'inactive'}">${u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif'}</span><div class="muted-cell" style="font-size:11px;margin-top:3px">${lastLabel(u)}</div></td>
       <td><button class="view-button" type="button" data-user-id="${escapeHtml(u.id)}">Detail</button></td>
     </tr>`;
@@ -582,7 +612,7 @@ select.select-chip{padding-right:6px}
     tr.innerHTML = keys.length ? keys.map((k, i) => `<div style="display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12px"><span style="width:96px;color:var(--muted)">${monthLabel(k)}</span><div style="flex:1;height:10px;background:var(--green-soft);border-radius:6px;overflow:hidden"><div style="height:100%;width:${(vals[i] / mx * 100).toFixed(1)}%;background:var(--green)"></div></div><b style="width:96px;text-align:right">${formatRupiah(vals[i])}</b></div>`).join('') : '<div class="empty-row" style="padding:18px;text-align:center;color:var(--muted)">Belum ada penjualan pada periode ini.</div>';
     const by = {}; rows.forEach((r) => { (by[r.uid] = by[r.uid] || []).push(r); });
     const list = Object.entries(by).map(([uid, a]) => { const u = users.find((z) => z.id === uid), last = a.reduce((m, r) => (r.d > m.d ? r : m), a[0]); return { name: u ? u.name : 'Pengguna tidak dikenal', n: a.length, kg: a.reduce((t, r) => t + r.kg, 0), avg: wavg(a), lo: Math.min(...a.map((r) => r.p)), hi: Math.max(...a.map((r) => r.p)), last }; }).sort((a, b) => b.n - a.n);
-    body.innerHTML = list.length ? list.map((r) => `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td>${r.n}</td><td>${r.kg.toLocaleString('id-ID', { maximumFractionDigits: 1 })}</td><td><b>${formatRupiah(r.avg)}</b>${ref ? `<div class="muted-cell" style="font-size:11px">${r.avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(r.avg - ref))} dari acuan</div>` : ''}</td><td>${formatRupiah(r.lo)} – ${formatRupiah(r.hi)}</td><td>${formatRupiah(r.last.p)}<div class="muted-cell" style="font-size:11px">${fmtDate(r.last.d)}</div></td></tr>`).join('') : emptyRow('Belum ada penjualan pada periode ini.');
+    body.innerHTML = list.length ? list.map((r) => `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td data-label="Transaksi">${r.n}</td><td data-label="Kg terjual">${r.kg.toLocaleString('id-ID', { maximumFractionDigits: 1 })}</td><td data-label="Rata-rata /kg"><b>${formatRupiah(r.avg)}</b>${ref ? `<div class="muted-cell" style="font-size:11px">${r.avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(r.avg - ref))} dari acuan</div>` : ''}</td><td data-label="Terendah – tertinggi">${formatRupiah(r.lo)} – ${formatRupiah(r.hi)}</td><td data-label="Harga terakhir">${formatRupiah(r.last.p)}<div class="muted-cell" style="font-size:11px">${fmtDate(r.last.d)}</div></td></tr>`).join('') : emptyRow('Belum ada penjualan pada periode ini.');
   }
 
   const pageNames = { dashboard: 'Ringkasan', users: 'Pengguna', reports: 'Laporan', prices: 'Harga jual', 'user-finance': 'Laporan keuangan' };
@@ -664,6 +694,11 @@ select.select-chip{padding-right:6px}
 
   // ---------- Detail pengguna (modal) ----------
   const modal = $('#user-modal');
+  function setTab(t) {
+    $$('.drawer-tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
+    $$('.drawer-pane').forEach((p) => { p.hidden = p.dataset.pane !== t; });
+  }
+  $('.drawer-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab); });
   function showUser(u) {
     if (!u) return;
     $('#modal-avatar').textContent = initials(u.name);
@@ -677,6 +712,12 @@ select.select-chip{padding-right:6px}
     $('#modal-date').textContent = fmtDate(u.joined);
     $('#modal-status').textContent = u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif';
     $('#modal-status').classList.toggle('inactive', u.state !== 'active');
+    $('#modal-last').textContent = lastLabel(u).replace('Terakhir: ', 'Aktivitas: ');
+    const wa = u.whatsapp ? waLink(u.whatsapp) : '';
+    $('#modal-wa').hidden = !wa; if (wa) $('#modal-wa').href = wa;
+    $('#modal-fin-counts').innerHTML = SUBS.map((n) => `<div><span>${escapeHtml(SUB_LABELS[n] || n)}</span><strong>${u.counts[n]}</strong></div>`).join('');
+    $('#tab-notes').textContent = 'Catatan' + (u.note || u.tag ? ' •' : '');
+    setTab('summary');
     noteUid = u.id;
     $('#note-tag').value = u.tag || '';
     $('#note-text').value = u.note || '';
@@ -708,6 +749,7 @@ select.select-chip{padding-right:6px}
   priceModal.addEventListener('click', (event) => { if (event.target === priceModal) priceModal.hidden = true; });
 
   document.addEventListener('click', (event) => {
+    if (event.target.closest('a')) return;
     const btn = event.target.closest('[data-user-id]');
     if (btn) showUser(users.find((u) => u.id === btn.dataset.userId));
     if (event.target === modal || event.target.closest('#modal-close') || event.target.closest('#finance-link')) modal.hidden = true;
