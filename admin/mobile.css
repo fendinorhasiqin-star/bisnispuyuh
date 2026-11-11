@@ -1,0 +1,130 @@
+/* mobile.css - kenyamanan panel admin di layar Android (<=760px) */
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+button,a,select,input{touch-action:manipulation}
+.bottom-nav{display:none}
+
+@media(max-width:760px){
+body{font-size:15px}
+.content{padding:16px 14px calc(88px + env(safe-area-inset-bottom,0px))}
+
+/* ---- Bar atas & menu samping ---- */
+.topbar{height:56px;padding:0 8px 0 4px}
+.mobile-menu{width:44px;height:44px;font-size:22px;padding:0}
+.breadcrumb>span{display:none}
+.breadcrumb strong{display:block;font-size:16px;font-weight:700;color:var(--ink)}
+.preview-pill{padding:8px}
+.top-avatar{width:34px;height:34px;font-size:12px}
+.sidebar{width:min(82vw,300px);overflow-y:auto}
+.nav-link{height:48px;font-size:15px}
+.nav-count{font-size:12px}
+.logout-btn{height:40px;padding:0 14px;font-size:13px}
+.profile-info small{font-size:12px;max-width:100px}
+.profile-info strong{font-size:13px}
+body:has(.sidebar.open)::after{content:"";position:fixed;inset:0;background:rgba(17,35,23,.45);z-index:9}
+
+/* ---- Menu bawah ---- */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -4px 18px rgba(30,50,33,.06)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:60px;font-size:12px;font-weight:600;color:#7b8678}
+.bottom-nav a span{font-size:20px;line-height:1}
+.bottom-nav a.on{color:var(--green)}
+.bottom-nav a.on span{background:var(--green-soft);border-radius:14px;padding:2px 16px}
+body:has(#dashboard-view[hidden]) .bottom-nav{display:none}
+
+/* ---- Judul halaman & tombol ---- */
+.page-heading h1{font-size:24px}
+.page-heading p{font-size:14px}
+.eyebrow{font-size:11px}
+.heading-actions{flex-wrap:wrap;gap:8px}
+.heading-actions .button,.heading-actions .date-chip{flex:1 1 100%;justify-content:center}
+.button,.date-chip{height:46px;font-size:14px;border-radius:10px}
+.button span{font-size:18px}
+.page-heading>.button,.page-heading>select,.page-heading>.date-chip{width:100%}
+.select-chip{height:46px;font-size:14px;border-radius:10px;padding:0 10px}
+
+/* ---- Kartu ringkasan ---- */
+.metric-card{min-height:0;padding:14px}
+.metric-top{font-size:12px}
+.metric-value{font-size:26px}
+.metric-foot{font-size:12px;line-height:1.4}
+.attention-link{font-size:12px}
+.sparkline{display:none}
+.report-card>span,.report-card small{font-size:12px}
+.report-card strong{font-size:24px}
+.report-note h2{font-size:15px}
+.report-note p{font-size:13px}
+
+/* ---- Panel, grafik, status ---- */
+.panel-heading h2{font-size:15px}
+.panel-heading p{font-size:12px}
+.chart-legend,.chart-legend strong{font-size:12px}
+.chart-y,.bar-column{font-size:11px}
+.live-dot{font-size:12px}
+.status-hero strong{font-size:14px}
+.status-hero>div:last-child span{font-size:12px}
+.status-list>div,.status-list>div strong{font-size:13px}
+.status-check{width:18px;height:18px;font-size:11px}
+.text-link{font-size:13px}
+.status-panel>button.text-link{height:44px}
+.footer{font-size:11px}
+
+/* ---- Daftar pengguna & harga jual (kartu) ---- */
+.cardtable tr{padding:14px;gap:10px 12px}
+.cardtable td{font-size:14px}
+.cardtable td[data-label]::before{font-size:12px}
+.person-info strong{font-size:15px}
+.person-info span{font-size:12px}
+.whatsapp-link{font-size:14px}
+.status-badge{font-size:12px;padding:5px 10px}
+.cardtable-users td:nth-child(6) .view-button{height:44px;font-size:14px;border-radius:10px}
+.view-button{min-height:40px;font-size:13px;padding:0 14px}
+.user-avatar{width:38px;height:38px;font-size:13px}
+.muted-cell{font-size:12px!important}
+.table-foot{font-size:12px}
+.cardtable-sell td:nth-child(1){font-size:15px}
+
+/* ---- Pencarian & filter ---- */
+.search-box{height:46px;border-radius:10px;padding:0 12px}
+.search-box input{font-size:16px}
+.search-box>span{font-size:22px}
+.user-toolbar .select-chip{flex:1 1 100%}
+
+/* ---- Laporan keuangan: transaksi jadi kartu ---- */
+.finance-ledger .table-wrap{overflow-x:visible!important}
+.finance-ledger table,.finance-ledger tbody{display:block;min-width:0!important;width:100%}
+.finance-ledger thead{display:none}
+.finance-ledger tr{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:13px 2px;border-bottom:1px solid var(--line)}
+.finance-ledger td{display:block;padding:0;border:0;white-space:normal;font-size:14px}
+.finance-ledger td:nth-child(1){grid-column:1;grid-row:1;font-size:12px;color:var(--muted)}
+.finance-ledger td:nth-child(5){grid-column:2;grid-row:1;text-align:right;font-size:15px}
+.finance-ledger td:nth-child(2){grid-column:1/-1;grid-row:2;color:var(--ink)}
+.finance-ledger td:nth-child(3){grid-column:1;grid-row:3;font-size:12px;color:var(--muted)}
+.finance-ledger td:nth-child(4){grid-column:2;grid-row:3;text-align:right}
+.finance-ledger td[colspan]{grid-column:1/-1;grid-row:auto;text-align:center}
+.finance-type{font-size:12px;padding:4px 10px}
+.finance-user .date-chip{height:auto;padding:6px 10px}
+.finance-user>div:nth-child(2) strong{font-size:15px}
+.finance-user>div:nth-child(2) span{font-size:12px}
+.finance-disclaimer{font-size:12px;line-height:1.5}
+
+/* ---- Panel detail & form (layar penuh) ---- */
+.user-modal{padding:16px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.modal-close{width:44px;height:44px;font-size:24px;flex-shrink:0}
+.modal-user-head h2{font-size:18px}
+.modal-user-head p{font-size:13px}
+.drawer-tabs button{flex:1;height:48px;font-size:14px;padding:0}
+.modal-details>div{font-size:14px}
+.counts-note,.drawer-status small{font-size:13px}
+#note-text{font-size:16px!important;min-height:120px}
+#note-tag{height:46px;font-size:16px}
+#note-status{font-size:12px!important}
+.note-box label{font-size:13px!important}
+
+/* ---- Login & isian ---- */
+.login-card{padding:24px 20px}
+.login-card h1{font-size:22px}
+.login-card p.sub{font-size:14px}
+.field label{font-size:13px}
+.field input{height:48px;font-size:16px;border-radius:10px}
+.login-card .button{height:48px;font-size:15px}
+.login-error{font-size:13px}
+}
