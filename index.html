@@ -1,109 +1,824 @@
-<!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#1F5C3A"><title>Kandang Puyuh — Laporan Keuangan Peternakan Puyuh</title>
-<meta name="description" content="Tahu untung-rugi peternakan puyuh Anda langsung dari HP. Catat panen, penjualan, piutang, pakan, dan populasi, lalu lihat laporan keuangannya otomatis.">
-<meta property="og:type" content="website"><meta property="og:title" content="PuyuhKu — Tahu untung-rugi peternakan puyuh dari HP"><meta property="og:description" content="Catat panen, penjualan, piutang, dan pakan. Laporan keuangan tersusun otomatis. Gratis, tanpa Play Store."><meta property="og:image" content="icon-192.png"><meta property="og:locale" content="id_ID">
-<meta name="twitter:card" content="summary">
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="PuyuhKu"><meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=DM+Sans:wght@500;700&display=swap">
-<script>/* Dibuka dari aplikasi terpasang -> langsung ke login (yang meneruskan ke aplikasi bila sudah masuk) */
-if(matchMedia("(display-mode: standalone)").matches||navigator.standalone)location.replace("login.html")</script><script>window.__dp=null;addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__dp=e})</script>
-<style>
-:root{--g:#1F5C3A;--ink:#0F2418;--cream:#F2F5EC;--acc:#9FE0B2}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;min-width:320px;overflow-x:hidden;font:16px/1.5 'DM Sans',system-ui,sans-serif;background:var(--g);color:var(--cream)}
-a,button{-webkit-tap-highlight-color:transparent}a:focus-visible,button:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px var(--ink)}
-.w{max-width:960px;margin:0 auto;padding:0 clamp(20px,5vw,32px)}
-h1,h2,.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-1px;margin:0}
-h1{font-size:clamp(40px,9vw,68px);line-height:1.02;letter-spacing:-2px;max-width:700px}
-h2{font-size:clamp(28px,5vw,40px);line-height:1.1;margin-bottom:20px}
-h1 mark{background:var(--cream);color:var(--g);padding:0 8px;border-radius:8px}
-.hero{padding:calc(24px + env(safe-area-inset-top)) 0 56px}
-.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
-.brand{font-size:22px;display:flex;align-items:center;gap:8px}.brand img{width:32px;height:32px;border-radius:8px}.brand i{font-style:normal;color:#fff}
-.nav a.in{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--cream)}
-.hero p{max-width:520px;margin:18px 0 26px}
-.btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{min-height:52px;padding:0 28px;border-radius:999px;font:700 16px 'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:2px solid var(--ink);cursor:pointer}
-.btn.dk{background:var(--ink);color:#fff}.btn.wh{background:#fff;color:var(--ink)}.btn.yl{background:var(--acc);color:var(--ink)}.btn.ol{background:transparent;color:#fff;border-color:#fff}
-.hint{font-size:13px;margin:14px 0 0!important}
-.ios-install{display:block;margin-top:6px;min-height:44px;border:0;background:none;color:var(--cream);font:700 14px 'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
-.ok{display:none;margin-top:14px;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 16px;font-size:14px;max-width:480px}
-section{padding:48px 0}.wh{background:#fff;color:var(--ink)}.dk{background:var(--ink);color:var(--cream)}.bt{border-top:3px solid var(--ink)}
-.dk h2{color:var(--acc)}
-.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-.card{color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:20px;padding:18px;box-shadow:4px 4px 0 var(--ink)}
-.card b{display:block;font:800 17px 'Bricolage Grotesque',sans-serif;margin-bottom:6px}.card span{font-size:14px;line-height:1.5}
-.pain{display:flex;gap:12px;align-items:flex-start;font-weight:700;margin-bottom:14px}.pain svg{flex:none;margin-top:2px}
-.step{display:flex;gap:14px;align-items:center;font-weight:700}.step i{flex:none;width:42px;height:42px;border-radius:50%;background:var(--g);color:#fff;border:2px solid var(--ink);display:grid;place-items:center;font:800 18px 'Bricolage Grotesque',sans-serif;font-style:normal}
-.pv{display:flex;flex-wrap:wrap;gap:36px;align-items:center;justify-content:center}.pv>div:first-child{flex:1 1 320px}
-.phone{width:250px;background:#fff;color:var(--ink);border-radius:34px;border:7px solid #3A3A33;padding:14px;display:grid;gap:10px}
-.lb{background:var(--g);color:#fff;border-radius:20px;padding:14px}.lb small{font-size:11px;font-weight:700}.lb b{display:block;font:800 28px 'Bricolage Grotesque',sans-serif;letter-spacing:-.5px}
-.rows{border:1.5px solid #E5E0CC;border-radius:14px;padding:6px 12px}.rows div{display:flex;justify-content:space-between;font-size:13px;font-weight:600;padding:6px 0}
-.tabs{display:flex;gap:6px;font-size:11px;font-weight:700}.tabs span{flex:1;text-align:center;background:var(--cream);border-radius:10px;padding:8px 0}
-.q{border-bottom:2px solid rgba(242,245,236,.35);padding:16px 0}.wh .q{border-color:var(--ink)}.q b{display:block;font-size:17px}.q span{display:block;margin-top:6px}
-.end{background:var(--ink);padding:56px 0}.end h2{font-size:clamp(32px,6vw,48px)}.end .btns{max-width:520px}
-footer{text-align:center;font-size:12px;color:#CFCBB8;background:var(--ink);padding:0 20px calc(28px + env(safe-area-inset-bottom))}
-@media(max-width:600px){.btns .btn{width:100%}}
-.sheet-bg{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:9}.sheet-bg.show{display:flex}
-.sheet{color:var(--ink);background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));max-height:90dvh;overflow:auto}
-.sheet h3{margin:0 0 4px;font-size:18px}.sheet p{margin:0 0 12px;color:#555;font-size:14px}.sheet ol{margin:0 0 16px;padding-left:20px;line-height:1.8}
-.sheet button{width:100%;min-height:48px;border:0;background:var(--ink);color:#fff;font:700 16px 'DM Sans',sans-serif;border-radius:14px;cursor:pointer}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style></head>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f8f4" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>KandangPuyuh — Panel Admin</title>
+  <style>
+:root{--ink:#20291f;--muted:#828b80;--green:#2e7047;--green-dark:#245b39;--green-soft:#eaf3e8;--line:#e9ece6;--paper:#fff;--bg:#f6f8f4;--amber:#c28427;--red:#c75d51;--shadow:0 4px 18px rgba(30,50,33,.045)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}a{color:inherit;text-decoration:none}button{cursor:pointer}.app-shell{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:252px;background:#173b2a;color:#e9f0e8;padding:27px 18px 16px;display:flex;flex-direction:column;z-index:10}.brand{display:flex;align-items:center;gap:11px;padding:0 8px;margin-bottom:48px}.brand-mark{height:38px;width:38px;border-radius:12px;background:#e8bc63;color:#173b2a;display:grid;place-items:center;font:800 22px Manrope,sans-serif;box-shadow:inset 0 0 0 1px #f4d58a}.brand-copy{display:flex;flex-direction:column;line-height:1.2}.brand-copy strong{font:800 15px Manrope,sans-serif;letter-spacing:-.5px;color:#fff}.brand-copy small{font-size:11px;color:#abc1ae;margin-top:4px;letter-spacing:.04em}.nav-label{font-size:10px;font-weight:700;letter-spacing:.13em;color:#8da692;padding:0 12px;margin-bottom:12px}.navigation{display:grid;gap:5px}.nav-link{height:44px;padding:0 12px;display:flex;align-items:center;gap:12px;border-radius:9px;color:#c2d2c4;font-weight:500;transition:.15s}.nav-link:hover{background:#214a34;color:#fff}.nav-link.active{background:#2c5d3d;color:#fff;box-shadow:inset 3px 0 #dcb45d}.nav-icon{font-size:18px;line-height:1;width:20px;text-align:center;color:#a9c1ab}.nav-count{margin-left:auto;background:#315d3e;color:#e7efe6;border-radius:20px;padding:2px 8px;font-size:11px}.sidebar-bottom{margin-top:auto}.help-card{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.045);border-radius:11px;padding:14px;margin-bottom:16px;position:relative}.help-icon{color:#f0cd79;font-size:17px;display:block;margin-bottom:8px}.help-card strong{font-size:12px;color:#fff}.help-card p{font-size:11px;color:#a9bdaa;line-height:1.5;margin:5px 0 10px}.help-card a{font-size:11px;color:#f0cd79;font-weight:600}.help-card a span{margin-left:4px}.profile{display:flex;align-items:center;gap:10px;padding:13px 4px 0;border-top:1px solid rgba(255,255,255,.12)}.profile-avatar,.top-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#dcebd8;color:#315d3e;font-size:11px;font-weight:700}.profile-info{display:grid;line-height:1.3}.profile-info strong{font-size:12px;color:#f4f6f2}.profile-info small{font-size:10px;color:#9fb3a2;margin-top:3px}.profile-dots{margin-left:auto;color:#a9bdaa;letter-spacing:2px;font-size:11px}.main-area{margin-left:252px;min-height:100vh}.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 42px;position:sticky;top:0;z-index:5}.breadcrumb{display:flex;align-items:center;gap:10px;font-size:12px;color:#8b9389}.breadcrumb strong{font-weight:600;color:#3c463b}.crumb-slash{color:#c5cbc2}.topbar-right{display:flex;align-items:center;gap:20px}.preview-pill{display:flex;align-items:center;gap:7px;border:1px solid #e5eddc;background:#f5f8f1;color:#627455;border-radius:30px;padding:6px 11px;font-size:11px;font-weight:600}.preview-pill i,.live-dot{color:#3d9a61}.preview-pill i{display:block;width:7px;height:7px;border-radius:50%;background:#57a86b;box-shadow:0 0 0 3px #e4f1e3}.icon-button{position:relative;width:32px;height:32px;border:0;border-radius:9px;background:transparent;color:#778176;font-size:20px}.icon-button:hover{background:#f4f6f2}.icon-button b{position:absolute;width:6px;height:6px;border-radius:50%;background:#da795e;right:5px;top:5px;border:1px solid #fff}.top-avatar{width:31px;height:31px;background:#e9f1e5}.mobile-menu{display:none}.content{max-width:1440px;margin:0 auto;padding:29px 42px 24px}.preview-notice{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid #f0e2bd;background:#fffaf0;border-radius:8px;color:#837249;font-size:11px;margin-bottom:27px}.preview-notice strong{color:#67562a;font-weight:700}.notice-icon{width:17px;height:17px;border:1px solid #c4a85f;border-radius:50%;display:grid;place-items:center;font:bold 11px Georgia;color:#9a7b2d;flex-shrink:0}.preview-notice button{margin-left:auto;border:0;background:none;font-size:18px;color:#a39163;line-height:1}.page[hidden],[hidden]{display:none!important}.page-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:23px}.eyebrow{font-size:9px;letter-spacing:.13em;font-weight:700;color:#8a9787;margin-bottom:8px}.eyebrow span{padding:0 4px;color:#b3beb0}.page-heading h1{font:700 25px Manrope,sans-serif;letter-spacing:-.8px;line-height:1.3}.page-heading p{color:var(--muted);font-size:12px;margin-top:5px}.heading-actions{display:flex;align-items:center;gap:11px}.date-chip{height:36px;padding:0 11px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#687265;font-size:11px;white-space:nowrap}.date-chip>span:first-child{color:#869283}.button{height:36px;border:0;border-radius:7px;padding:0 13px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:11px}.button-primary{background:var(--green);color:white;box-shadow:0 2px 5px #2e704726}.button-primary:hover{background:var(--green-dark)}.button-primary span{font-size:15px}.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:17px}.metric-card{min-height:143px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:15px 16px;position:relative;overflow:hidden;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;justify-content:space-between;color:#737e70;font-size:11px;font-weight:500}.metric-icon{width:29px;height:29px;display:grid;place-items:center;border-radius:8px;font-size:15px}.mint{background:#edf5e9;color:#438153}.blue{background:#edf3f9;color:#5685a9}.amber{background:#fbf3e4;color:#b88936}.rose{background:#f9edeb;color:#c5685c}.metric-value{font:700 26px Manrope,sans-serif;letter-spacing:-.7px;margin-top:7px}.metric-foot{font-size:10px;color:#939b91;margin-top:3px}.trend{color:#438a56;font-weight:700}.attention{color:#bc7250;font-weight:700}.sparkline{position:absolute;right:15px;bottom:13px;height:30px;display:flex;align-items:end;gap:4px;opacity:.75}.sparkline i{display:block;width:5px;height:var(--h);border-radius:3px 3px 0 0;background:#83b88a}.blue-line i{background:#8eb2d1}.orange-line i{background:#e1b46c}.attention-link{font-size:10px;margin-top:8px;color:#a96a4b;font-weight:600}.attention-link span{margin-left:3px}.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,1fr);gap:15px;margin-bottom:16px}.panel{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}.growth-panel,.status-panel{min-height:278px;padding:17px 18px}.panel-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.panel-heading h2{font:700 13px Manrope,sans-serif;letter-spacing:-.15px}.panel-heading p{font-size:10px;color:#929a90;margin-top:4px}.select-chip{border:1px solid var(--line);border-radius:6px;background:#fff;color:#677164;padding:6px 9px;font-size:10px}.select-chip span{margin-left:8px;color:#929b90}.chart-legend{display:flex;align-items:center;justify-content:space-between;margin:18px 0 3px;font-size:10px;color:#798275}.chart-legend>span{display:flex;align-items:center;gap:7px}.chart-legend>span i{width:7px;height:7px;border-radius:50%;background:#57956a}.chart-legend strong{font-size:10px;color:#498653}.chart-legend small{font-weight:400;color:#9ba397;margin-left:3px}.chart{height:153px;display:flex;padding-top:10px}.chart-y{width:27px;display:flex;flex-direction:column;justify-content:space-between;font-size:9px;color:#a3aaa0;padding-bottom:20px}.chart-main{position:relative;flex:1}.chart-lines{position:absolute;inset:0 0 20px;display:flex;flex-direction:column;justify-content:space-between}.chart-lines i{height:1px;background:#eef0eb}.bar-set{position:absolute;inset:0 4px 0;display:flex;align-items:stretch;justify-content:space-around}.bar-column{width:11%;display:flex;align-items:center;justify-content:flex-end;flex-direction:column;gap:7px;color:#9ba297;font-size:9px;z-index:1}.bar-column i{width:min(23px,52%);height:var(--bar);background:#dcebdd;border-radius:4px 4px 0 0;transition:background .2s}.bar-column.current i{background:#4f8b5e}.bar-column.current span{color:#4f7755;font-weight:700}.live-dot{font-size:10px;font-weight:600;background:#f0f7ef;border-radius:20px;padding:5px 8px}.status-hero{display:flex;align-items:center;gap:12px;border-bottom:1px solid #eff1ed;padding:18px 0 15px}.status-graphic{width:42px;height:42px;background:#edf5e9;border-radius:12px;display:grid;place-items:center;font-size:22px;position:relative}.status-graphic i{position:absolute;width:9px;height:9px;border-radius:50%;background:#56a66b;border:2px solid white;right:-1px;bottom:0}.status-hero>div:last-child{display:grid;gap:2px}.status-hero strong{font:700 12px Manrope,sans-serif}.status-hero>div:last-child span{font-size:10px;color:#8b9588}.status-list{padding:12px 0 8px;display:grid;gap:11px}.status-list>div,.status-list>div>span{display:flex;align-items:center}.status-list>div{justify-content:space-between;gap:5px;font-size:9px}.status-list>div>span{gap:6px;color:#6f796d}.status-list>div strong{font-weight:600;color:#697867;font-size:9px}.status-check{width:14px;height:14px;display:grid;place-items:center;border-radius:50%;background:#eaf4e9;color:#4d945d;font-size:9px;font-style:normal}.text-link{font-size:10px;color:var(--green);font-weight:700;white-space:nowrap}.text-link span{font-size:14px;margin-left:4px}.status-panel>.text-link{display:block;border-top:1px solid #eff1ed;padding-top:11px;margin-top:3px}.users-panel{padding:17px 18px}.users-panel>.panel-heading{margin-bottom:13px}.table-wrap{width:100%;overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}thead th{padding:9px 10px;color:#98a093;background:#fafbf9;font-size:8px;font-weight:700;letter-spacing:.08em;white-space:nowrap;border-top:1px solid #f0f1ed;border-bottom:1px solid #f0f1ed}thead th:first-child{padding-left:12px}tbody td{padding:10px;color:#657061;font-size:10px;border-bottom:1px solid #f0f1ed;white-space:nowrap}tbody tr:last-child td{border-bottom:0}.person-cell{display:flex;align-items:center;gap:9px;min-width:170px}.user-avatar{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;background:#e7f0e4;color:#457550;font-size:10px;font-weight:700}.user-avatar.purple{background:#f1eafb;color:#8465a7}.user-avatar.gold{background:#fbf0dc;color:#a47c31}.person-info{display:grid;gap:2px}.person-info strong{font-size:10px;color:#3a4539;font-weight:600}.person-info span{font-size:9px;color:#9aa196}.farm-name{color:#556151}.whatsapp-link{color:#438153;font-weight:600}.whatsapp-link:hover{text-decoration:underline}.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:20px;background:#edf6ec;color:#4d8755;font-size:9px;font-weight:600}.status-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:#65a570}.status-badge.inactive{background:#fbf2e4;color:#ae8138}.status-badge.inactive::before{background:#d1a14e}.view-button{border:1px solid #e7ebe4;border-radius:6px;background:#fff;color:#57765b;padding:5px 9px;font-size:9px;font-weight:600}.view-button:hover{border-color:#a8c5a6;background:#f7faf6}.footer{display:flex;justify-content:space-between;color:#a1a99e;font-size:9px;padding:17px 2px 0}.footer i{font-style:normal;padding:0 4px}.full-users{overflow:hidden}.full-users .panel-heading{padding:17px 18px 14px;margin:0}.user-toolbar{align-items:center}.search-box{height:34px;width:220px;border:1px solid var(--line);border-radius:7px;display:flex;align-items:center;padding:0 10px;gap:7px;color:#9aa398}.search-box>span{font-size:19px;line-height:1}.search-box input{border:0;outline:0;width:100%;background:transparent;color:var(--ink);font-size:10px}.table-foot{font-size:10px;color:#90998e;padding:12px 18px;border-top:1px solid #f0f1ed}.report-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}.report-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:17px;display:grid;gap:5px;box-shadow:var(--shadow)}.report-card>span{font-size:10px;color:#7b8578}.report-card strong{font:700 25px Manrope,sans-serif}.report-card small{font-size:10px;color:#9aa195}.report-card small b{color:#438a56}.report-note{padding:19px;display:flex;align-items:center;gap:14px;margin-bottom:16px}.report-note-icon{width:38px;height:38px;border-radius:10px;background:#f8f0dd;color:#b48a3e;display:grid;place-items:center;font-size:18px;flex-shrink:0}.report-note h2{font:700 13px Manrope,sans-serif}.report-note p{font-size:10px;color:#808a7d;margin-top:4px}.modal-backdrop{position:fixed;inset:0;background:rgba(17,35,23,.44);display:grid;place-items:center;padding:20px;z-index:30}.user-modal{background:#fff;border-radius:14px;width:min(100%,400px);padding:20px;box-shadow:0 20px 60px #10241730}.modal-top{display:flex;justify-content:space-between;align-items:center}.modal-mark{width:39px;height:39px;border-radius:12px;background:#edf5e9;display:grid;place-items:center;font-size:21px}.modal-close{border:0;background:#f5f6f3;width:30px;height:30px;border-radius:50%;font-size:20px;color:#707b6e}.modal-user-head{display:flex;align-items:center;gap:12px;margin:18px 0}.user-avatar.large{width:43px;height:43px;font-size:14px}.modal-user-head h2{font:700 15px Manrope,sans-serif}.modal-user-head p{font-size:11px;color:#879184;margin-top:3px}.modal-status{padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:#758071;font-size:11px}.modal-details{display:grid;gap:13px;padding:15px 0}.modal-details>div{display:flex;justify-content:space-between;gap:10px;font-size:11px}.modal-details span{color:#899286}.modal-details strong{color:#455142;font-weight:600;text-align:right}.modal-preview-note{border-radius:7px;background:#fff9ea;padding:9px 10px;color:#9a824b;font-size:10px}.finance-button{width:100%;justify-content:space-between;margin:0 0 12px}.button-secondary{background:#fff;border:1px solid var(--line);color:#566450}.finance-user{display:flex;align-items:center;gap:12px;padding:14px 17px;margin-bottom:14px}.finance-user>div:nth-child(2){display:grid;gap:3px;min-width:0}.finance-user>div:nth-child(2) strong{font:700 12px Manrope,sans-serif}.finance-user>div:nth-child(2) span{font-size:10px;color:#8b9588;overflow-wrap:anywhere}.finance-user .date-chip{margin-left:auto}.finance-summary{margin-bottom:16px}.finance-summary .report-card strong{font-size:21px}.finance-ledger{padding:17px 18px}.finance-ledger>.panel-heading{margin-bottom:13px}.finance-ledger table{min-width:650px}.finance-ledger .amount-heading,.finance-amount{text-align:right}.finance-type{display:inline-flex;padding:4px 8px;border-radius:20px;font-size:9px;font-weight:600}.finance-type.income{background:#edf6ec;color:#4d8755}.finance-type.expense{background:#fbf2e4;color:#ae8138}.finance-amount{font-weight:700}.finance-amount.income{color:#438153}.finance-amount.expense{color:#ae8138}.finance-disclaimer{font-size:10px;color:#9a824b;background:#fff9ea;padding:10px 12px;border-radius:7px;margin-top:12px}@media(max-width:760px){.finance-user{flex-wrap:wrap;padding:13px}.finance-user .date-chip{margin-left:0}.finance-ledger{padding:14px 12px}.finance-ledger>.panel-heading{align-items:center}.finance-ledger .table-wrap{margin:0 -12px;width:calc(100% + 24px)}.finance-ledger table{min-width:650px}.finance-summary .report-card strong{font-size:20px}}
+@media(max-width:1100px){.content{padding:25px 27px}.topbar{padding:0 27px}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.metric-card{min-height:133px}}
+@media(max-width:760px){.sidebar{width:240px;transform:translateX(-100%);transition:transform .2s;box-shadow:10px 0 35px #10241724}.sidebar.open{transform:translateX(0)}.main-area{margin-left:0}.topbar{height:58px;padding:0 16px;gap:12px}.mobile-menu{display:block;border:0;background:transparent;color:#4a5848;font-size:18px;padding:5px}.breadcrumb{margin-right:auto;font-size:10px;gap:7px}.topbar-right{gap:11px}.preview-pill{font-size:0;padding:7px}.preview-pill i{margin:0}.icon-button{font-size:18px}.top-avatar{width:29px;height:29px}.content{padding:20px 15px 24px}.preview-notice{align-items:flex-start;font-size:10px;margin-bottom:22px;padding:10px}.notice-icon{margin-top:1px}.page-heading{align-items:flex-start;flex-direction:column;margin-bottom:18px;gap:12px}.page-heading h1{font-size:22px}.heading-actions{width:100%;justify-content:space-between}.date-chip,.button{height:35px}.metric-grid{gap:9px;margin-bottom:12px}.metric-card{padding:12px;min-height:130px}.metric-top{font-size:10px}.metric-icon{width:26px;height:26px}.metric-value{font-size:23px}.metric-foot{font-size:9px}.sparkline{right:11px;bottom:11px;gap:3px}.sparkline i{width:4px}.dashboard-grid{grid-template-columns:1fr;gap:11px}.growth-panel,.status-panel{min-height:unset;padding:15px}.growth-panel{height:270px}.status-panel{padding-bottom:14px}.users-panel{padding:14px 12px}.users-panel>.panel-heading{align-items:center}.panel-heading h2{font-size:12px}.panel-heading p{font-size:9px}.table-wrap{margin:0 -12px;width:calc(100% + 24px)}table{min-width:650px}.users-panel .panel-heading>.text-link{font-size:9px}.footer{font-size:8px}.user-toolbar{align-items:stretch!important;flex-direction:column}.search-box{width:100%}.full-users .panel-heading{padding:14px 13px}.full-users .table-wrap{margin:0;width:100%}.full-users table{min-width:690px}.table-foot{padding:10px 13px}.report-cards{grid-template-columns:1fr;gap:9px}.report-card{padding:13px 15px}.report-card strong{font-size:22px}.report-note{align-items:flex-start;padding:14px}.report-note p{line-height:1.55}.modal-backdrop{padding:14px}.user-modal{padding:17px}.profile{padding-bottom:4px}}
+@media(min-width:761px) and (max-width:900px){.sidebar{width:220px}.main-area{margin-left:220px}.content{padding:22px 20px}.topbar{padding:0 20px}.dashboard-grid{grid-template-columns:minmax(0,1.35fr) minmax(235px,1fr)}.metric-grid{gap:10px}.metric-card{padding:13px}}
+/* ===== Tambahan untuk versi terhubung Supabase ===== */
+.muted-cell{color:#a3aa9f;font-style:italic}
+.empty-row{text-align:center;padding:26px 10px!important;color:#98a093!important;white-space:normal!important}
+.alert-banner{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid #efc9c2;background:#fdf3f1;border-radius:8px;color:#9c4a3f;font-size:12px;margin-bottom:22px;line-height:1.55}
+.alert-banner strong{color:#7f362d}
+.alert-banner button{margin-left:auto;border:1px solid #e3b4ab;background:#fff;color:#9c4a3f;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;white-space:nowrap}
+.status-panel>button.text-link{background:none;border:0;border-top:1px solid #eff1ed;width:100%;text-align:left;font-family:inherit}
+.status-check.bad{background:#fbe9e6;color:#c75d51}
+.live-dot.bad{background:#fbe9e6;color:#c75d51}
+.live-dot.wait{background:#f4f1e6;color:#9a7b2d}
+.logout-btn{margin-left:auto;border:1px solid rgba(255,255,255,.18);background:transparent;color:#c2d2c4;border-radius:6px;padding:4px 9px;font-size:10px;font-weight:600}
+.logout-btn:hover{background:#214a34;color:#fff}
+.profile-info{min-width:0}.profile-info small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px}
+.select-chip{font-family:inherit}
+select.select-chip{padding-right:6px}
+.counts-note{border-radius:7px;background:#f5f8f1;padding:9px 10px;color:#627455;font-size:10px;line-height:1.6}
+.modal-details strong{word-break:break-all}
+.view-button:focus-visible,.button:focus-visible,.nav-link:focus-visible,.logout-btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #4f8b5e;outline-offset:2px}
+.boot{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);color:#7b8578;font-size:12px;z-index:50}
+.login-view{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:var(--bg);z-index:40}
+.login-card{width:min(100%,380px);background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 26px;box-shadow:0 20px 60px #10241714}
+.login-card .brand{padding:0;margin-bottom:22px}
+.login-card .brand-copy strong{color:var(--ink)}
+.login-card .brand-copy small{color:#8a9787}
+.login-card h1{font:700 20px Manrope,sans-serif;letter-spacing:-.5px}
+.login-card p.sub{font-size:12px;color:var(--muted);margin:5px 0 20px}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:11px;font-weight:600;color:#566450}
+.field input{height:40px;border:1px solid #dfe4db;border-radius:8px;padding:0 12px;font-size:13px;background:#fff;color:var(--ink)}
+.login-card .button{width:100%;height:40px;justify-content:center;font-size:12px}
+.login-card .button[disabled]{opacity:.65;cursor:wait}
+.login-error{font-size:11px;color:#b5473b;background:#fdf3f1;border-radius:7px;padding:8px 10px;margin-bottom:14px;line-height:1.5}
+  
+.modal-backdrop{place-items:stretch end;padding:0}
+.user-modal{width:min(100%,440px);height:100%;border-radius:16px 0 0 16px;padding:20px;overflow-y:auto;animation:drawerIn .22s ease-out;box-shadow:-12px 0 40px #10241724}
+@keyframes drawerIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.user-modal .modal-top{align-items:flex-start;gap:12px}.modal-user-head{display:flex;align-items:center;gap:12px;min-width:0}.modal-user-head h2{font:700 16px Manrope,sans-serif;word-break:break-word}.modal-user-head p{font-size:11px;color:var(--muted);word-break:break-all}
+.drawer-status{display:flex;align-items:center;gap:10px;margin:14px 0 4px}.drawer-status small{color:var(--muted);font-size:11px}
+.drawer-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:10px 0 6px}
+.drawer-tabs button{border:0;background:none;padding:10px 12px;font-size:12px;font-weight:600;color:#7b8678;border-bottom:2px solid transparent;margin-bottom:-1px}
+.drawer-tabs button.on{color:var(--green);border-bottom-color:var(--green)}
+.drawer-pane[hidden]{display:none}
+.modal-status{display:none}
+@media(max-width:760px){
+.user-modal{width:100%;border-radius:0;padding:16px}
+.cardtable,.cardtable tbody{display:block;width:100%;min-width:0!important}.full-users .cardtable{min-width:0!important}.table-wrap{overflow-x:visible!important}.cardtable td{white-space:normal!important}.user-toolbar{flex-direction:row!important;flex-wrap:wrap;gap:10px}.user-toolbar>div:first-child{flex:1 1 100%}.user-toolbar .search-box{flex:1 1 100%;width:100%}.user-toolbar .select-chip{flex:1 1 calc(50% - 5px);min-width:0;width:auto}.full-users .panel-heading{padding:12px 4px 4px}.cardtable-users td:nth-child(2) a{word-break:break-all}.cardtable thead{display:none}
+.cardtable tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;padding:13px 14px;margin:0 0 10px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+.cardtable td{display:block;padding:0;border:0;min-width:0}
+.cardtable td[data-label]::before{content:attr(data-label);display:block;font-size:10px;color:var(--muted);margin-bottom:2px}
+.cardtable td[colspan]{grid-column:1/-1;text-align:center}
+.cardtable-users td:nth-child(1){grid-column:1}.cardtable-users td:nth-child(5){grid-column:2;grid-row:1;text-align:right}
+.cardtable-users td:nth-child(6){grid-column:1/-1}.cardtable-users td:nth-child(6) .view-button{width:100%;padding:8px;font-size:11px}
+.cardtable-users .person-cell{min-width:0}
+.cardtable-sell td:nth-child(1){grid-column:1/-1;font-size:13px}
+}
+</style>
+</head>
 <body>
-<header class="hero"><div class="w">
-<nav class="nav"><span class="brand"><img src="icon-192.png" alt="">KandangPuyuh.com<i></i></span><a class="in" href="login.html">Masuk</a></nav>
-<h1>Untung-rugi kandang, <mark>sekali lihat.</mark></h1>
-<p>Tahu untung-rugi, stok telur, dan biaya pakan secara real-time. Gratis, mudah, dan bisa tanpa sinyal!</p>
-<div class="btns"><button class="btn dk" id="install" type="button">Pasang Aplikasi</button><a class="btn wh" href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu">Tanya via WhatsApp</a></div>
-<button class="ios-install" id="iosInstall" type="button">Install untuk pengguna iPhone</button>
-<p class="hint">Setelah terpasang, buka aplikasinya dari layar utama lalu masuk dengan akun Google.</p>
-<div class="ok" id="ok">✅ Aplikasi sudah terpasang. Buka <b>PuyuhKu</b> dari layar utama HP Anda, lalu masuk dengan Google.</div>
-</div></header>
-<section class="wh bt"><div class="w"><h2>Masih sering begini?</h2>
-<div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1F5C3A"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>Sering bingung apakah bulan ini benar-benar untung atau rugi?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1F5C3A"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>Catatan harian di buku sering hilang, rusak, atau sulit dicari?</span></div><div class="pain"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1F5C3A"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>Tidak tahu berapa biaya pakan per kg telur yang sebenarnya?</span></div></div></section>
-<section class="bt"><div class="w"><h2>Mulai dalam 3 langkah</h2><div class="g">
-<div class="card step"><i>1</i><span>Pasang aplikasi di layar utama HP</span></div><div class="card step"><i>2</i><span>Buka aplikasi, masuk dengan akun Google</span></div><div class="card step"><i>3</i><span>Catat harian, laporan jadi sendiri</span></div></div></div></section>
-<section class="dk"><div class="w pv"><div><h2>Pemasukan, pengeluaran, dan laba dalam satu layar</h2><p>Setiap panen, penjualan, dan biaya pakan yang dicatat langsung masuk ke laporan keuangan. Tidak perlu buku catatan atau hitung manual.</p></div>
-<div class="phone" role="img" aria-label="Contoh tampilan laporan di aplikasi"><div class="lb"><small>LABA BERSIH (CONTOH DATA)</small><b>Rp1.300.000</b></div>
-<div class="rows"><div><span>Penjualan</span><span>Rp 4.200.000</span></div><div><span>Pengeluaran</span><span>Rp 2.900.000</span></div><div><span>Populasi</span><span>1.000 ekor</span></div></div>
-<div class="tabs"><span>Panen</span><span>Jual</span><span>Laporan</span></div></div></div></section>
-<section><div class="w"><h2>Semua yang kandang butuhkan</h2><div class="g">
-<div class="card"><b>Laporan otomatis</b><span>Input harian, laporan laba/rugi bulanan tersusun sendiri.</span></div><div class="card"><b>Pantau stok &amp; panen</b><span>Ketahui jumlah telur utuh, pecah, dan sisa stok secara real-time.</span></div><div class="card"><b>Analisis biaya pakan</b><span>Hitung efisiensi biaya pakan per ekor dan per kg telur secara otomatis.</span></div><div class="card"><b>Tetap bisa offline</b><span>Catat data meski di kandang tidak ada sinyal. Data tersinkron saat internet tersedia.</span></div></div></div></section>
-<section class="wh bt"><div class="w"><h2>Telah dipercaya oleh 1.000+ peternak puyuh di Indonesia</h2><div class="g">
-<div class="q" style="border:0"><span style="margin:0">“Sejak pakai PuyuhKu, saya jadi tahu pola pakan mana yang paling efisien. Laba naik, catatan rapi!”</span><b style="margin-top:8px;font-size:15px">Pak Saniman, Peternak Puyuh Blitar</b></div>
-<div class="q" style="border:0"><span style="margin:0">“Catatan panen dan pengeluaran jadi lebih rapi. Saya bisa memantau usaha tanpa repot menghitung manual.”</span><b style="margin-top:8px;font-size:15px">Ahmad Fauzi, Peternak Puyuh Madura</b></div></div></div></section>
-<section class="bt"><div class="w"><h2>Pertanyaan yang sering ditanyakan</h2>
-<div class="q"><b>Apakah aplikasi ini benar-benar gratis?</b><span>Ya, 100% gratis untuk fitur dasar.</span></div><div class="q"><b>Apakah data saya aman?</b><span>Aman, data tersinkronisasi dengan akun Google Anda.</span></div><div class="q"><b>Saya gaptek, apakah sulit digunakan?</b><span>Aplikasi ini dirancang sesederhana menulis di buku, dengan tampilan besar dan jelas.</span></div></div></section>
-<section class="end dk"><div class="w"><h2>Mulai catat hari ini.</h2><div class="btns"><button class="btn yl" id="install2" type="button">Pasang Aplikasi Sekarang</button><a class="btn ol" href="https://wa.me/6287875015256?text=Halo%2C%20saya%20mau%20tanya%20soal%20aplikasi%20PuyuhKu">Hubungi via WhatsApp</a></div></div></section>
-<footer>© KandangPuyuh.com</footer>
-<div class="sheet-bg" id="sheetBg" role="dialog" aria-modal="true" aria-labelledby="sheetT"><div class="sheet"><h3 id="sheetT">Cara memasang</h3><p id="sheetP"></p><ol id="sheetOl"></ol><button type="button" id="sheetClose">Mengerti</button></div></div>
-<script>
-var ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-var inapp=/FBAN|FBAV|Instagram|Line\/|MicroMessenger|TikTok|; wv\)/i.test(ua);
-var ok=document.getElementById("ok"),bg=document.getElementById("sheetBg"),btns=[document.getElementById("install"),document.getElementById("install2")];
-addEventListener("appinstalled",function(){window.__dp=null;ok.style.display="block";scrollTo({top:0,behavior:"smooth"})});
-document.getElementById("iosInstall").onclick=function(){
- document.getElementById("sheetT").textContent="Install PuyuhKu di iPhone";
- document.getElementById("sheetP").textContent="Tambahkan PuyuhKu ke Layar Utama melalui Safari agar bisa dibuka seperti aplikasi.";
- document.getElementById("sheetOl").innerHTML="<li>Buka halaman ini di <b>Safari</b> (bukan dari browser dalam aplikasi lain)</li><li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas)</li><li>Pilih <b>Tambahkan ke Layar Utama</b>, lalu ketuk <b>Tambah</b></li><li>Buka aplikasi dari ikon di Layar Utama dan masuk dengan akun Google</li>";
- bg.classList.add("show");
-};
-function help(){
- document.getElementById("sheetT").textContent="Cara memasang";
- var p=document.getElementById("sheetP"),o=document.getElementById("sheetOl");
- if(inapp){p.textContent="Anda membuka lewat aplikasi lain (WhatsApp/Instagram/dll) sehingga tidak bisa memasang.";o.innerHTML="<li>Buka menu <b>⋮</b> lalu pilih <b>Buka di Chrome</b> (atau salin tautan dan tempel di Chrome)</li><li>Tekan lagi tombol <b>Pasang Aplikasi</b></li>"}
- else if(ios){p.textContent="Di iPhone/iPad, pemasangan hanya bisa lewat Safari.";o.innerHTML="<li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas)</li><li>Pilih <b>Tambah ke Layar Utama</b></li><li>Ketuk <b>Tambah</b>, lalu buka PuyuhKu dari layar utama</li>"}
- else{p.textContent="Browser belum menyiapkan pemasangan otomatis. Coba muat ulang halaman, atau pasang lewat menu:";o.innerHTML="<li>Ketuk menu <b>⋮</b> di pojok kanan atas Chrome</li><li>Pilih <b>Pasang aplikasi</b> / <b>Tambahkan ke layar utama</b></li><li>Ketuk <b>Pasang</b>, lalu buka PuyuhKu dari layar utama</li>"}
- bg.classList.add("show")}
-function install(){
- var dp=window.__dp;
- if(dp){window.__dp=null;dp.prompt();dp.userChoice.then(function(c){if(c.outcome!=="accepted")ok.style.display="none"});return}
- help()}
-btns.forEach(function(b){b.onclick=install});
-document.getElementById("sheetClose").onclick=function(){bg.classList.remove("show")};
-bg.onclick=function(e){if(e.target===bg)bg.classList.remove("show")};
-addEventListener("keydown",function(e){if(e.key==="Escape")bg.classList.remove("show")});
-if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(e){console.warn("SW gagal:",e)})});
-</script>
-</body></html>
+  <div class="boot" id="boot">Memuat panel…</div>
+
+  <!-- ===== Halaman login ===== -->
+  <div class="login-view" id="login-view" hidden>
+    <form class="login-card" id="login-form" autocomplete="on" novalidate>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">K</span>
+        <span class="brand-copy"><strong>kandangpuyuh</strong><small>.com / admin</small></span>
+      </div>
+      <h1>Masuk sebagai superadmin</h1>
+      <p class="sub">Gunakan email dan password akun admin Anda.</p>
+      <div class="login-error" id="login-error" role="alert" hidden></div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" inputmode="email" autocomplete="username" required /></div>
+      <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required /></div>
+      <button class="button button-primary" id="login-btn" type="submit">Masuk</button>
+    </form>
+  </div>
+
+  <!-- ===== Aplikasi ===== -->
+  <div class="app-shell" id="dashboard-view" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" aria-label="KandangPuyuh dashboard">
+        <span class="brand-mark" aria-hidden="true">K</span>
+        <span class="brand-copy"><strong>kandangpuyuh</strong><small>.com / admin</small></span>
+      </a>
+      <div class="nav-label">MENU UTAMA</div>
+      <nav class="navigation" aria-label="Navigasi utama">
+        <a href="#dashboard" class="nav-link"><span class="nav-icon">▦</span> Ringkasan</a>
+        <a href="#users" class="nav-link"><span class="nav-icon">♙</span> Pengguna <span class="nav-count" id="nav-count">–</span></a>
+        <a href="#reports" class="nav-link"><span class="nav-icon">▤</span> Laporan</a>
+        <a href="#prices" class="nav-link"><span class="nav-icon">◈</span> Harga jual</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="profile"><div class="profile-avatar" id="admin-avatar">SA</div><div class="profile-info"><strong>Super Admin</strong><small id="admin-email">Administrator</small></div><button class="logout-btn" id="btn-logout" type="button">Keluar</button></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" aria-label="Buka navigasi">☰</button>
+        <div class="breadcrumb"><span>kandangpuyuh.com</span><span class="crumb-slash">/</span><strong id="breadcrumb-page">Ringkasan</strong></div>
+        <div class="topbar-right"><span class="preview-pill"><i></i> <span id="pill-text">Terhubung</span></span><div class="top-avatar" id="top-avatar">SA</div></div>
+      </header>
+
+      <div class="content">
+        <div class="alert-banner" id="load-alert" role="alert" hidden></div>
+
+        <section class="page" data-page="dashboard">
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> OVERVIEW</div><h1>Selamat datang kembali</h1><p>Pantau perkembangan pengguna dan aktivitas aplikasi Anda.</p></div><div class="heading-actions"><span class="date-chip"><span>◷</span> <span id="today-label"></span></span><button class="button button-secondary" id="open-price-modal" type="button">Update harga telur</button><button class="button button-primary" id="view-users" type="button">Lihat pengguna <span>→</span></button></div></div>
+
+          <div class="metric-grid">
+            <article class="metric-card"><div class="metric-top"><span>Total pengguna</span><span class="metric-icon mint">♙</span></div><div class="metric-value" id="m-total">–</div><div class="metric-foot" id="m-total-foot">Memuat…</div></article>
+            <article class="metric-card"><div class="metric-top"><span>Pengguna aktif</span><span class="metric-icon blue">◉</span></div><div class="metric-value" id="m-active">–</div><div class="metric-foot" id="m-active-foot">Sudah punya catatan</div></article>
+            <article class="metric-card"><div class="metric-top"><span>Pengguna baru</span><span class="metric-icon amber">✚</span></div><div class="metric-value" id="m-new">–</div><div class="metric-foot" id="m-new-foot">Bulan ini</div></article>
+            <article class="metric-card"><div class="metric-top"><span>Perlu perhatian</span><span class="metric-icon rose">!</span></div><div class="metric-value" id="m-attn">–</div><div class="metric-foot" id="m-attn-foot">Belum mengisi WhatsApp</div><div class="attention-link"><a href="#users">Tinjau pengguna <span>→</span></a></div></article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel growth-panel"><div class="panel-heading"><div><h2>Pertumbuhan pengguna</h2><p>Pendaftaran selama 6 bulan terakhir</p></div></div><div class="chart-legend"><span><i></i> Pengguna baru</span><strong id="chart-total">0 <small>dalam 6 bulan</small></strong></div><div class="chart"><div class="chart-y" id="chart-y"></div><div class="chart-main"><div class="chart-lines"><i></i><i></i><i></i><i></i><i></i></div><div class="bar-set" id="chart-bars"></div></div></div></section>
+            <section class="panel status-panel"><div class="panel-heading"><div><h2>Status aplikasi</h2><p>Kondisi sambungan saat ini</p></div><span class="live-dot wait" id="live-dot">● Memeriksa</span></div><div class="status-hero"><div class="status-graphic"><span>🐦</span><i></i></div><div><strong>KandangPuyuh</strong><span>aplikasi utama</span></div></div><div class="status-list" id="status-list"></div><button class="text-link" id="btn-reload" type="button">Muat ulang data <span>↻</span></button></section>
+          </div>
+
+          <section class="panel users-panel"><div class="panel-heading"><div><h2>Pengguna terbaru</h2><p>Pengguna yang baru bergabung di KandangPuyuh</p></div><a class="text-link" href="#users">Lihat semua <span>→</span></a></div><div class="table-wrap"><table class="cardtable cardtable-users"><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="recent-users"></tbody></table></div></section>
+          <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
+        </section>
+
+        <section class="page" data-page="users" hidden>
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> PENGELOLAAN</div><h1>Pengguna</h1><p>Kelola dan pantau akun pengguna KandangPuyuh.</p></div><span class="date-chip">♙ <span id="user-total">0</span> pengguna</span></div>
+          <section class="panel users-panel full-users"><div class="panel-heading user-toolbar"><div><h2>Semua pengguna</h2><p>Daftar akun yang terdaftar di aplikasi</p></div><label class="search-box"><span>⌕</span><input id="user-search" type="search" placeholder="Cari nama, email, atau WhatsApp…" /></label><select class="select-chip" id="user-filter" aria-label="Filter pengguna"><option value="all">Semua pengguna</option><option value="active7">Aktif 7 hari terakhir</option><option value="idle14">Tidak aktif 14+ hari</option><option value="idle30">Tidak aktif 30+ hari</option><option value="never">Belum pernah mencatat</option><option value="noted">Punya catatan admin</option><option value="followup">Perlu follow-up</option></select><select class="select-chip" id="user-sort" aria-label="Urutkan pengguna"><option value="joined_desc">Terbaru bergabung</option><option value="joined_asc">Paling lama bergabung</option><option value="last_desc">Aktivitas terakhir</option><option value="count_desc">Paling banyak catatan</option><option value="name_asc">Nama A–Z</option></select></div><div class="table-wrap"><table class="cardtable cardtable-users"><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="all-users"></tbody></table></div><div class="table-foot" id="table-foot"></div></section>
+          <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
+        </section>
+
+        <section class="page" data-page="reports" hidden>
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> ANALITIK</div><h1>Laporan</h1><p>Ringkasan performa dan aktivitas pengguna aplikasi.</p></div><span class="date-chip">◷ <span id="report-month-label"></span></span></div>
+          <div class="report-cards"><article class="report-card"><span>Total pengguna</span><strong id="r-total">–</strong><small id="r-total-sub">Semua akun terdaftar</small></article><article class="report-card"><span>Pengguna aktif</span><strong id="r-active">–</strong><small id="r-active-sub">Sudah punya catatan</small></article><article class="report-card"><span>Pendaftaran bulan ini</span><strong id="r-new">–</strong><small id="r-new-sub">Bulan berjalan</small></article></div>
+          <section class="panel report-note"><div class="report-note-icon">✦</div><div><h2 id="r-note-title">Ringkasan pengguna</h2><p id="r-note-text">Memuat data…</p></div></section>
+          <section class="panel users-panel"><div class="panel-heading"><div><h2>Pendaftaran terbaru</h2><p>10 pengguna yang terakhir bergabung</p></div></div><div class="table-wrap"><table class="cardtable cardtable-users"><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="report-users"></tbody></table></div></section>
+          <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
+        </section>
+
+        <section class="page" data-page="prices" hidden>
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> PASAR</div><h1>Harga jual pengguna</h1><p>Harga telur per kg yang dicatat pengguna saat menjual.</p></div><select class="select-chip" id="price-range" aria-label="Periode"><option value="30">30 hari terakhir</option><option value="90">90 hari terakhir</option><option value="0">Semua waktu</option></select></div>
+          <div class="alert-banner" id="sell-alert" hidden></div>
+          <div class="metric-grid"><article class="metric-card"><div class="metric-top"><span>RATA-RATA HARGA JUAL</span></div><strong id="s-avg" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-avg-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>HARGA ACUAN PASAR</span></div><strong id="s-ref" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-ref-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>KISARAN HARGA</span></div><strong id="s-range" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-range-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>TRANSAKSI</span></div><strong id="s-count" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-count-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article></div>
+          <section class="panel"><div class="panel-heading"><div><h2>Rata-rata harga jual per bulan</h2><p>Tertimbang menurut kg terjual</p></div></div><div id="sell-trend" style="padding:4px 4px 8px"></div></section>
+          <section class="panel users-panel" style="margin-top:17px"><div class="panel-heading"><div><h2>Harga jual per pengguna</h2><p>Diurutkan dari transaksi terbanyak</p></div></div><div class="table-wrap"><table class="cardtable cardtable-sell"><thead><tr><th>PENGGUNA</th><th>TRANSAKSI</th><th>KG TERJUAL</th><th>RATA-RATA /KG</th><th>TERENDAH – TERTINGGI</th><th>HARGA TERAKHIR</th></tr></thead><tbody id="sell-users"></tbody></table></div></section>
+          <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.2</span></footer>
+        </section>
+
+        <section class="page" data-page="user-finance" hidden>
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> LAPORAN PER PENGGUNA</div><h1>Laporan keuangan</h1><p>Rincian transaksi dan saldo untuk <strong id="finance-user-name">pengguna</strong>.</p></div><a class="button button-secondary" href="#users">← Kembali ke pengguna</a></div>
+          <section class="finance-user panel"><div class="user-avatar large" id="finance-avatar">A</div><div><strong id="finance-farm">Nama peternakan</strong><span id="finance-user-meta"></span></div><span class="date-chip" id="finance-joined"></span></section>
+          <div class="report-cards finance-summary"><article class="report-card"><span>Total pemasukan</span><strong id="finance-income">Rp 0</strong><small id="finance-period-a">Semua periode</small></article><article class="report-card"><span>Total pengeluaran</span><strong id="finance-expenses">Rp 0</strong><small id="finance-period-b">Semua periode</small></article><article class="report-card"><span>Saldo bersih</span><strong id="finance-balance">Rp 0</strong><small>Pemasukan dikurangi pengeluaran</small></article></div>
+          <section class="panel finance-ledger"><div class="panel-heading"><div><h2>Seluruh transaksi</h2><p id="finance-transaction-count">Memuat transaksi…</p></div><select class="select-chip" id="finance-month" aria-label="Pilih periode"><option value="all">Semua periode</option></select></div><div class="table-wrap"><table><thead><tr><th>TANGGAL</th><th>DESKRIPSI</th><th>KATEGORI</th><th>JENIS</th><th class="amount-heading">JUMLAH</th></tr></thead><tbody id="finance-transactions"></tbody></table></div></section>
+          <p class="finance-disclaimer" id="finance-note">Pemasukan dihitung dari pembayaran yang sudah diterima ditambah pemasukan lain, sama seperti di aplikasi.</p>
+          <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="price-modal" hidden>
+    <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="price-modal-title">
+      <div class="modal-top"><div><h2 id="price-modal-title" style="font:700 16px Manrope,sans-serif">Update harga telur puyuh</h2><p style="font-size:11px;color:#879184;margin-top:4px">Harga terbaru akan menjadi acuan bersama di aplikasi.</p></div><button class="modal-close" id="price-modal-close" type="button" aria-label="Tutup">×</button></div>
+      <form id="price-form" style="margin-top:18px">
+        <div class="field"><label for="price-per-kg">Harga per kg (Rp)</label><input id="price-per-kg" type="number" min="1" step="1" inputmode="numeric" required /></div>
+        <div class="field"><label for="price-region">Wilayah</label><input id="price-region" type="text" value="Blitar" required /></div>
+        <div class="field"><label for="price-note">Catatan (opsional)</label><input id="price-note" type="text" /></div>
+        <p class="login-error" id="price-error" role="alert" hidden></p>
+        <button class="button button-primary" id="save-price" type="submit">Simpan harga</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="user-modal" hidden>
+    <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-top"><div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div><button class="modal-close" id="modal-close" aria-label="Tutup">×</button></div>
+      <div class="drawer-status"><span class="status-badge" id="modal-status">Aktif</span><small id="modal-last"></small></div>
+      <div class="drawer-tabs" role="tablist"><button type="button" class="on" data-tab="summary">Ringkasan</button><button type="button" data-tab="notes" id="tab-notes">Catatan</button><button type="button" data-tab="finance">Keuangan</button></div>
+      <div class="drawer-pane" data-pane="summary">
+        <div class="modal-details"><div><span>WhatsApp</span><strong id="modal-whatsapp"></strong></div><div><span>Nama peternakan</span><strong id="modal-farm"></strong></div><div><span>ID pengguna</span><strong id="modal-id"></strong></div><div><span>Tanggal bergabung</span><strong id="modal-date"></strong></div></div>
+        <a class="button button-primary finance-button" id="modal-wa" target="_blank" rel="noopener noreferrer" hidden>Chat lewat WhatsApp <span>→</span></a>
+        <p class="counts-note" id="modal-counts"></p>
+      </div>
+      <div class="drawer-pane" data-pane="notes" hidden><div class="note-box" style="margin:14px 0 4px;text-align:left"><label style="font-size:11px;font-weight:700;color:#737e70">Catatan admin <span style="font-weight:400">· hanya terlihat admin</span></label><select class="select-chip" id="note-tag" style="width:100%;margin:6px 0"><option value="">Tanpa label</option><option value="followup">Perlu follow-up</option><option value="issue">Ada masalah / komplain</option><option value="lead">Calon pelanggan berbayar</option><option value="big">Peternak besar</option><option value="contacted">Sudah dihubungi</option></select><textarea id="note-text" maxlength="2000" rows="4" placeholder="Tulis catatan tentang pengguna ini…" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:12px;resize:vertical"></textarea><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="button button-secondary" id="note-save" type="button">Simpan catatan</button><small id="note-status" style="color:var(--muted);font-size:11px;line-height:1.4"></small></div></div></div>
+      <div class="drawer-pane" data-pane="finance" hidden>
+        <div class="modal-details" id="modal-fin-counts"></div>
+        <a class="button button-primary finance-button" id="finance-link" href="#finance">Buka laporan keuangan lengkap <span>→</span></a>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/services.js"></script>
+  <script>
+(() => {
+  const PREVIEW_MODE = false;
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+  const bootEl = $('#boot'), loginView = $('#login-view'), appView = $('#dashboard-view');
+
+  // Pustaka Supabase / file js gagal dimuat (mis. tanpa internet)?
+  if ((!PREVIEW_MODE && typeof Auth === 'undefined') || typeof Services === 'undefined' || !Services.puyuhku) {
+    bootEl.innerHTML = '<div style="max-width:340px;text-align:center;line-height:1.6;padding:0 20px">Panel tidak bisa dimulai. Pastikan perangkat terhubung ke internet dan folder <b>js/</b> (config.js, core.js, services.js) ada di samping index.html.</div>';
+    return;
+  }
+
+  const SUBS = (window.SUPERADMIN_CONFIG.apps.find((a) => a.id === 'puyuhku') || {}).subcollections || [];
+  const SUB_LABELS = { expenses: 'pengeluaran', sales: 'penjualan', incomes: 'pemasukan lain', production: 'panen', damaged: 'telur rusak', deaths: 'puyuh mati/afkir' };
+  const COLORS = ['', 'purple', 'gold'];
+
+  let users = [];
+  let loadError = null;
+  let loaded = false;
+  let loading = false;
+  let lastLoaded = null;
+  let query = '';
+
+  // ---------- Helper ----------
+  const initials = (name) => (String(name || '?').trim().split(/\s+/).slice(0, 2).map((p) => p[0]).join('') || '?').toUpperCase();
+  const formatRupiah = (n) => (n < 0 ? '-Rp ' : 'Rp ') + Math.abs(Math.round(n)).toLocaleString('id-ID');
+  const fmtDate = (d) => (d ? d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '–');
+  const monthKey = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  const monthLabel = (key) => { const [y, m] = key.split('-').map(Number); return new Date(y, m - 1, 1).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }); };
+  const num = (v) => Number(v) || 0;
+  const hashOf = (s) => String(s).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+
+  function toDate(v) {
+    if (v === null || v === undefined || v === '') return null;
+    if (typeof v === 'string') {
+      const m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+    }
+    const d = new Date(v);
+    return isNaN(d) ? null : d;
+  }
+
+  function waLink(raw) {
+    let d = String(raw).replace(/\D/g, '');
+    if (!d) return '';
+    if (d.startsWith('0')) d = '62' + d.slice(1);
+    else if (d.startsWith('8')) d = '62' + d;
+    return 'https://wa.me/' + d;
+  }
+
+  function describeError(e) {
+    const code = (e && (e.code || e.error_code)) || '';
+    const msg = (e && e.message) || '';
+    if (['42501', 'PGRST301', 'PGRST302'].includes(code) || (e && (e.status === 401 || e.status === 403)) || /forbidden/i.test(msg))
+      return 'Akses ditolak. Pastikan akun ini sudah terdaftar di tabel <b>admins</b> dan <b>supabase-setup.sql</b> sudah dijalankan.';
+    if (code === 'PGRST202' || (e && e.status === 404) || /could not find the function|does not exist/i.test(msg))
+      return 'Fungsi atau tabel admin belum ada di Supabase. Jalankan <b>supabase-setup.sql</b> di SQL Editor Supabase, lalu muat ulang.';
+    if (/failed to fetch|network|load failed/i.test(msg))
+      return 'Tidak bisa terhubung ke Supabase. Periksa koneksi internet serta URL dan anon key di <b>js/config.js</b>.';
+    return 'Gagal memuat data: ' + escapeHtml(msg || 'kesalahan tidak diketahui') + '.';
+  }
+
+  // ---------- Data pengguna ----------
+  const TAGS = { followup: 'Perlu follow-up', issue: 'Ada masalah', lead: 'Calon berbayar', big: 'Peternak besar', contacted: 'Sudah dihubungi' };
+  let notes = {}, notesReady = true, noteUid = null;
+  const daysSince = (d) => (d ? Math.floor((Date.now() - d.getTime()) / 864e5) : null);
+  function lastLabel(u) {
+    if (u.total === 0) return 'Belum pernah mencatat';
+    const d = daysSince(u.last);
+    if (d === null) return 'Sudah lama';
+    if (d <= 0) return 'Terakhir: hari ini';
+    if (d === 1) return 'Terakhir: kemarin';
+    if (d < 60) return `Terakhir: ${d} hari lalu`;
+    return `Terakhir: ${Math.floor(d / 30)} bulan lalu`;
+  }
+  function normalize(u) {
+    const email = u.email || '';
+    const farm = u.farmName || '';
+    const counts = {};
+    SUBS.forEach((n) => { counts[n] = num(u[n]); });
+    const total = SUBS.reduce((a, n) => a + counts[n], 0);
+    const joined = u.createdAt ? toDate(u.createdAt) : null;
+    return {
+      id: u.id,
+      name: u.name || (email ? email.split('@')[0] : '') || farm || 'Tanpa nama',
+      email, farm,
+      whatsapp: u.whatsapp || '',
+      joined, counts, total,
+      active: total > 0,
+      color: COLORS[hashOf(u.id) % COLORS.length],
+    };
+  }
+
+  async function loadData() {
+    if (loading) return;
+    loading = true;
+    renderStatus();
+    try {
+      const raw = await Services.puyuhku.listUsers();
+      let act = null;
+      try { act = await Services.puyuhku.lastActivity(); } catch (e) { act = null; }
+      try { notes = await Services.puyuhku.listNotes(); notesReady = true; } catch (e) { notes = {}; notesReady = false; }
+      users = raw.map(normalize).sort((a, b) => (b.joined ? b.joined.getTime() : 0) - (a.joined ? a.joined.getTime() : 0));
+      users.forEach((u) => {
+        u.last = act && act[u.id] ? toDate(act[u.id]) : null;
+        u.note = notes[u.id] ? notes[u.id].note : '';
+        u.tag = notes[u.id] ? notes[u.id].tag : '';
+        const dd = daysSince(u.last);
+        u.state = u.total === 0 ? 'never' : (dd !== null && dd < 14 ? 'active' : 'idle');
+      });
+      loadError = null;
+      lastLoaded = new Date();
+      Log.add('muat_data', `${users.length} pengguna dimuat`);
+    } catch (e) {
+      loadError = e;
+      Log.add('muat_data_gagal', (e && e.message) || 'error');
+    }
+    loaded = true;
+    loading = false;
+    renderAll();
+    route();
+  }
+
+  // ---------- Render: tabel pengguna ----------
+  function userRow(u) {
+    const wa = u.whatsapp
+      ? `<a class="whatsapp-link" href="${escapeHtml(waLink(u.whatsapp))}" target="_blank" rel="noopener noreferrer">${escapeHtml(u.whatsapp)}</a>`
+      : '<span class="muted-cell">Belum diisi</span>';
+    return `<tr data-user-id="${escapeHtml(u.id)}" style="cursor:pointer">
+      <td><div class="person-cell"><span class="user-avatar ${u.color}">${escapeHtml(initials(u.name))}</span><span class="person-info"><strong>${escapeHtml(u.name)}${u.note ? ` <span title="${escapeHtml(u.note.slice(0, 120))}" style="font-size:11px">📝</span>` : ''}${u.tag ? ` <span class="status-badge" style="margin-left:4px;font-size:10px">${escapeHtml(TAGS[u.tag] || u.tag)}</span>` : ''}</strong><span>${escapeHtml(u.email || '(email belum tersimpan)')}</span></span></div></td>
+      <td data-label="WhatsApp">${wa}</td>
+      <td class="farm-name" data-label="Peternakan">${u.farm ? escapeHtml(u.farm) : '<span class="muted-cell">Belum diisi</span>'}</td>
+      <td data-label="Bergabung">${fmtDate(u.joined)}</td>
+      <td><span class="status-badge ${u.state === 'active' ? '' : 'inactive'}">${u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif'}</span><div class="muted-cell" style="font-size:11px;margin-top:3px">${lastLabel(u)}</div></td>
+      <td><button class="view-button" type="button" data-user-id="${escapeHtml(u.id)}">Detail</button></td>
+    </tr>`;
+  }
+  const emptyRow = (text) => `<tr><td colspan="6" class="empty-row">${text}</td></tr>`;
+  function rowsOf(list, emptyText) {
+    if (!loaded) return emptyRow('Memuat data pengguna…');
+    if (loadError) return emptyRow('Data pengguna belum bisa ditampilkan.');
+    return list.length ? list.map(userRow).join('') : emptyRow(emptyText);
+  }
+
+  function renderUsers() {
+    const q = query.trim().toLowerCase();
+    const fv = $('#user-filter').value, sv = $('#user-sort').value;
+    const okF = (u) => {
+      const dd = daysSince(u.last);
+      if (fv === 'active7') return dd !== null && dd <= 7;
+      if (fv === 'idle14') return u.total > 0 && (dd === null || dd >= 14);
+      if (fv === 'idle30') return u.total > 0 && (dd === null || dd >= 30);
+      if (fv === 'never') return u.total === 0;
+      if (fv === 'noted') return !!(u.note || u.tag);
+      if (fv === 'followup') return u.tag === 'followup';
+      return true;
+    };
+    const t = (d) => (d ? d.getTime() : 0);
+    const sorters = {
+      joined_desc: (a, b) => t(b.joined) - t(a.joined),
+      joined_asc: (a, b) => (t(a.joined) || Infinity) - (t(b.joined) || Infinity),
+      last_desc: (a, b) => t(b.last) - t(a.last),
+      count_desc: (a, b) => b.total - a.total,
+      name_asc: (a, b) => a.name.localeCompare(b.name, 'id'),
+    };
+    const filtered = users.filter((u) => okF(u) && `${u.name} ${u.email} ${u.whatsapp} ${u.farm} ${u.note || ''}`.toLowerCase().includes(q)).sort(sorters[sv] || sorters.joined_desc);
+    $('#all-users').innerHTML = rowsOf(filtered, 'Tidak ada pengguna yang cocok dengan pencarian atau filter.');
+    $('#table-foot').textContent = loaded && !loadError ? `Menampilkan ${filtered.length} dari ${users.length} pengguna` : '';
+    $('#user-total').textContent = loaded && !loadError ? users.length : 0;
+  }
+
+  // ---------- Render: dashboard ----------
+  function countJoined(key) { return users.filter((u) => u.joined && monthKey(u.joined) === key).length; }
+  const trendSpan = (text, cls = 'trend') => `<span class="${cls}">${text}</span>`;
+
+  function renderDashboard() {
+    const now = new Date();
+    const thisKey = monthKey(now);
+    const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const prevKey = monthKey(prev);
+    const ok = loaded && !loadError;
+
+    $('#today-label').textContent = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    $('#recent-users').innerHTML = rowsOf(users.slice(0, 5), 'Belum ada pengguna yang mendaftar.');
+
+    if (!ok) {
+      ['m-total', 'm-active', 'm-new', 'm-attn'].forEach((id) => { $('#' + id).textContent = '–'; });
+      $('#m-total-foot').textContent = loaded ? 'Data belum termuat' : 'Memuat…';
+      renderChart();
+      return;
+    }
+
+    const active = users.filter((u) => u.active).length;
+    const newNow = countJoined(thisKey), newPrev = countJoined(prevKey);
+    const noWa = users.filter((u) => !u.whatsapp).length;
+    const diff = newNow - newPrev;
+
+    $('#m-total').textContent = users.length.toLocaleString('id-ID');
+    $('#m-total-foot').innerHTML = trendSpan(`+${newNow}`) + '<span> bergabung bulan ini</span>';
+    $('#m-active').textContent = active.toLocaleString('id-ID');
+    $('#m-active-foot').innerHTML = users.length
+      ? trendSpan(Math.round((active / users.length) * 100) + '%') + '<span> dari seluruh pengguna sudah punya catatan</span>'
+      : '<span>Belum ada pengguna</span>';
+    $('#m-new').textContent = newNow.toLocaleString('id-ID');
+    $('#m-new-foot').innerHTML = diff === 0
+      ? '<span>Sama dengan bulan lalu</span>'
+      : trendSpan(`${diff > 0 ? '↗' : '↘'} ${Math.abs(diff)}`, diff > 0 ? 'trend' : 'attention') + '<span> dibanding bulan lalu</span>';
+    $('#m-attn').textContent = noWa.toLocaleString('id-ID');
+    $('#m-attn-foot').innerHTML = noWa
+      ? trendSpan('Perlu ditinjau', 'attention') + '<span> pengguna belum mengisi WhatsApp</span>'
+      : trendSpan('Aman') + '<span> semua pengguna sudah mengisi WhatsApp</span>';
+    renderChart();
+  }
+
+  function renderChart() {
+    const now = new Date();
+    const months = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({ key: monthKey(d), label: d.toLocaleDateString('id-ID', { month: 'short' }), n: 0 });
+    }
+    users.forEach((u) => { if (u.joined) { const m = months.find((x) => x.key === monthKey(u.joined)); if (m) m.n++; } });
+    const maxN = Math.max(...months.map((m) => m.n), 4);
+    const step = Math.ceil(maxN / 4), top = step * 4;
+    $('#chart-y').innerHTML = [top, step * 3, step * 2, step, 0].map((v) => `<span>${v}</span>`).join('');
+    $('#chart-bars').innerHTML = months.map((m, i) => {
+      const h = m.n ? Math.max((m.n / top) * 100, 3) : 0;
+      return `<div class="bar-column${i === months.length - 1 ? ' current' : ''}" title="${escapeHtml(monthLabel(m.key))}: ${m.n} pengguna baru"><i style="--bar:${h}%"></i><span>${escapeHtml(m.label)}</span></div>`;
+    }).join('');
+    $('#chart-total').innerHTML = `${months.reduce((a, m) => a + m.n, 0)} <small>dalam 6 bulan</small>`;
+  }
+
+  // ---------- Render: status, peringatan, laporan ----------
+  function renderStatus() {
+    const dot = $('#live-dot'), pill = $('#pill-text');
+    const row = (ok, label, value) => `<div><span><i class="status-check${ok ? '' : ' bad'}">${ok ? '✓' : '!'}</i> ${label}</span><strong>${value}</strong></div>`;
+    if (!loaded || loading) {
+      dot.className = 'live-dot wait'; dot.textContent = '● Memeriksa'; pill.textContent = 'Memeriksa…';
+      $('#status-list').innerHTML = row(true, 'Sambungan Supabase', 'Memeriksa…');
+      return;
+    }
+    const ok = !loadError;
+    dot.className = 'live-dot' + (ok ? '' : ' bad');
+    dot.textContent = ok ? '● Aktif' : '● Bermasalah';
+    pill.textContent = ok ? 'Terhubung' : 'Bermasalah';
+    $('#status-list').innerHTML =
+      row(ok, 'Sambungan Supabase', ok ? 'Terhubung' : 'Gagal') +
+      row(true, 'Akses superadmin', 'Aktif') +
+      row(ok, 'Data pengguna', ok ? `${users.length} akun dimuat` : 'Belum termuat') +
+      row(ok, 'Pembaruan terakhir', lastLoaded ? lastLoaded.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '–');
+  }
+
+  function renderAlert() {
+    const box = $('#load-alert');
+    if (!loadError) { box.hidden = true; box.innerHTML = ''; return; }
+    box.hidden = false;
+    box.innerHTML = `<span><strong>Data belum bisa dimuat.</strong> ${describeError(loadError)}</span><button type="button" id="alert-retry">Coba lagi</button>`;
+  }
+
+  function renderReports() {
+    const ok = loaded && !loadError;
+    const now = new Date();
+    $('#report-month-label').textContent = now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+    $('#report-users').innerHTML = rowsOf(users.slice(0, 10), 'Belum ada pengguna yang mendaftar.');
+    if (!ok) { ['r-total', 'r-active', 'r-new'].forEach((id) => { $('#' + id).textContent = '–'; }); $('#r-note-text').textContent = loaded ? 'Data belum termuat.' : 'Memuat data…'; return; }
+    const active = users.filter((u) => u.active).length;
+    const newNow = countJoined(monthKey(now));
+    const pct = users.length ? Math.round((active / users.length) * 100) : 0;
+    $('#r-total').textContent = users.length.toLocaleString('id-ID');
+    $('#r-active').textContent = active.toLocaleString('id-ID');
+    $('#r-active-sub').innerHTML = `<b>${pct}%</b> dari seluruh pengguna`;
+    $('#r-new').textContent = newNow.toLocaleString('id-ID');
+    $('#r-note-title').textContent = 'Ringkasan pengguna';
+    $('#r-note-text').textContent = `Ada ${newNow} pengguna baru bergabung bulan ini. Pengguna aktif (yang sudah punya catatan) mencapai ${pct}% dari seluruh akun terdaftar.`;
+  }
+
+  function renderAll() {
+    $('#nav-count').textContent = loaded && !loadError ? users.length : '–';
+    renderAlert();
+    renderStatus();
+    renderDashboard();
+    renderUsers();
+    renderReports();
+  }
+
+  // ---------- Laporan keuangan per pengguna ----------
+  const financeCache = {};   // uid -> { rows } atau { error }
+  let financeUid = null;
+  let financeMonth = 'all';
+
+  function ledgerOf(d) {
+    const out = [];
+    d.sales.forEach((x) => {
+      const pays = Array.isArray(x.payments) ? x.payments.filter(Boolean) : [{ date: x.date, amount: num(x.total) }];
+      pays.forEach((p, i) => out.push({
+        date: toDate(p.date || x.date), type: 'income', cat: 'Penjualan', amount: num(p.amount),
+        desc: 'Penjualan' + (x.buyer ? ' ke ' + x.buyer : '') + (pays.length > 1 ? ` (pembayaran ${i + 1} dari ${pays.length})` : ''),
+      }));
+    });
+    d.incomes.forEach((x) => out.push({ date: toDate(x.date), type: 'income', cat: 'Pemasukan lain', amount: num(x.amount), desc: x.source || x.note || 'Pemasukan lain' }));
+    d.expenses.forEach((x) => out.push({ date: toDate(x.date), type: 'expense', cat: x.category || 'Pengeluaran', amount: num(x.amount), desc: x.note || x.category || 'Pengeluaran' }));
+    return out.filter((r) => r.amount !== 0).sort((a, b) => (b.date ? b.date.getTime() : 0) - (a.date ? a.date.getTime() : 0));
+  }
+
+  async function loadFinance(uid) {
+    if (financeCache[uid]) return;
+    financeCache[uid] = { loading: true };
+    try {
+      const [expenses, sales, incomes] = await Promise.all([
+        Services.puyuhku.listSub(uid, 'expenses'),
+        Services.puyuhku.listSub(uid, 'sales'),
+        Services.puyuhku.listSub(uid, 'incomes'),
+      ]);
+      const receivable = sales.reduce((a, x) => {
+        const paid = (Array.isArray(x.payments) ? x.payments : [{ amount: num(x.total) }]).reduce((s, p) => s + num(p && p.amount), 0);
+        return a + Math.max(0, num(x.total) - paid);
+      }, 0);
+      financeCache[uid] = { rows: ledgerOf({ expenses, sales, incomes }), receivable };
+    } catch (e) {
+      financeCache[uid] = { error: e };
+    }
+    if (financeUid === uid) renderFinance();
+  }
+
+  function renderFinance() {
+    const u = users.find((x) => x.id === financeUid);
+    if (!u) return;
+    $('#finance-user-name').textContent = u.name;
+    $('#finance-avatar').textContent = initials(u.name);
+    $('#finance-avatar').className = `user-avatar large ${u.color}`;
+    $('#finance-farm').textContent = u.farm || 'Nama peternakan belum diisi';
+    $('#finance-user-meta').textContent = [u.email, u.whatsapp].filter(Boolean).join(' · ');
+    $('#finance-joined').textContent = u.joined ? 'Bergabung ' + fmtDate(u.joined) : '';
+
+    const data = financeCache[financeUid];
+    const body = $('#finance-transactions'), count = $('#finance-transaction-count'), sel = $('#finance-month');
+    const setSummary = (i, e) => {
+      $('#finance-income').textContent = formatRupiah(i);
+      $('#finance-expenses').textContent = formatRupiah(e);
+      $('#finance-balance').textContent = formatRupiah(i - e);
+    };
+    if (!data || data.loading) { setSummary(0, 0); count.textContent = 'Memuat transaksi…'; body.innerHTML = emptyRow('Memuat transaksi…'); return; }
+    if (data.error) {
+      setSummary(0, 0); count.textContent = 'Transaksi belum bisa dimuat';
+      body.innerHTML = emptyRow(describeError(data.error) + ' <button class="view-button" type="button" id="finance-retry">Coba lagi</button>');
+      return;
+    }
+
+    const months = [...new Set(data.rows.filter((r) => r.date).map((r) => monthKey(r.date)))].sort().reverse();
+    if (financeMonth !== 'all' && !months.includes(financeMonth)) financeMonth = 'all';
+    sel.innerHTML = '<option value="all">Semua periode</option>' + months.map((m) => `<option value="${m}"${m === financeMonth ? ' selected' : ''}>${escapeHtml(monthLabel(m))}</option>`).join('');
+    sel.value = financeMonth;
+
+    const rows = financeMonth === 'all' ? data.rows : data.rows.filter((r) => r.date && monthKey(r.date) === financeMonth);
+    const income = rows.filter((r) => r.type === 'income').reduce((a, r) => a + r.amount, 0);
+    const expense = rows.filter((r) => r.type === 'expense').reduce((a, r) => a + r.amount, 0);
+    const period = financeMonth === 'all' ? 'Semua periode' : monthLabel(financeMonth);
+    setSummary(income, expense);
+    $('#finance-period-a').textContent = period;
+    $('#finance-period-b').textContent = period;
+    count.textContent = `${rows.length} transaksi · ${period}`;
+    body.innerHTML = rows.length
+      ? rows.map((r) => `<tr><td>${fmtDate(r.date)}</td><td>${escapeHtml(r.desc)}</td><td>${escapeHtml(r.cat)}</td><td><span class="finance-type ${r.type}">${r.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}</span></td><td class="finance-amount ${r.type}">${r.type === 'income' ? '+' : '-'}${escapeHtml(formatRupiah(r.amount))}</td></tr>`).join('')
+      : emptyRow('Pengguna ini belum punya transaksi pada periode ini.');
+    $('#finance-note').textContent = `Pemasukan dihitung dari pembayaran yang sudah diterima ditambah pemasukan lain, sama seperti di aplikasi. Piutang penjualan yang belum dibayar (semua waktu): ${formatRupiah(data.receivable)}.`;
+  }
+
+  // ---------- Router ----------
+  // ---------- Harga jual pengguna ----------
+  let sales = null, salesLoading = false, salesError = null, market = null;
+  async function loadSales() {
+    if (salesLoading || sales) return;
+    salesLoading = true; salesError = null; renderSales();
+    try {
+      const [s, m] = await Promise.all([Services.puyuhku.listAllSales(), Services.puyuhku.getMarketPrice().catch(() => null)]);
+      sales = s; market = m;
+    } catch (e) { salesError = e; }
+    salesLoading = false; renderSales();
+  }
+  function renderSales() {
+    const body = $('#sell-users'), tr = $('#sell-trend'), al = $('#sell-alert');
+    const set = (id, v, f) => { $('#' + id).textContent = v; $('#' + id + '-foot').innerHTML = f || ''; };
+    if (salesError) { al.hidden = false; al.innerHTML = describeError(salesError); body.innerHTML = emptyRow('Data penjualan belum bisa ditampilkan.'); return; }
+    al.hidden = true;
+    if (!sales) { body.innerHTML = emptyRow('Memuat data penjualan…'); tr.innerHTML = ''; ['s-avg', 's-ref', 's-range', 's-count'].forEach((i) => set(i, '–', '')); return; }
+    const days = +$('#price-range').value, since = days ? Date.now() - days * 864e5 : 0, rows = [];
+    sales.forEach((x) => {
+      const d = toDate(x.date); if (!d || d.getTime() < since) return;
+      const kg = num(x.kgEquivalent) || (x.unit === 'kg' ? num(x.qty) : 0); if (!(kg > 0)) return;
+      const p = x.unit === 'kg' && num(x.price) > 0 ? num(x.price) : (num(x.total) > 0 ? num(x.total) / kg : 0); if (!(p > 0)) return;
+      rows.push({ uid: x.user_id, d, kg, p });
+    });
+    const wavg = (a) => { const k = a.reduce((t, r) => t + r.kg, 0); return k > 0 ? a.reduce((t, r) => t + r.p * r.kg, 0) / k : 0; };
+    const ref = market ? num(market.price_per_kg) : 0, avg = wavg(rows), sellers = new Set(rows.map((r) => r.uid)).size;
+    set('s-avg', rows.length ? formatRupiah(avg) + '/kg' : '–', rows.length ? `${rows.reduce((t, r) => t + r.kg, 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })} kg terjual` : 'Belum ada penjualan');
+    set('s-ref', ref ? formatRupiah(ref) + '/kg' : '–', ref ? `${escapeHtml(market.region || '')} · ${fmtDate(toDate(market.updated_at))}${rows.length ? `<br>Pengguna menjual ${avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(avg - ref))} (${((avg - ref) / ref * 100).toFixed(1).replace('.', ',')}%)` : ''}` : 'Belum diisi');
+    set('s-range', rows.length ? `${formatRupiah(Math.min(...rows.map((r) => r.p)))} – ${formatRupiah(Math.max(...rows.map((r) => r.p)))}` : '–', 'Per kg, terendah sampai tertinggi');
+    set('s-count', rows.length.toLocaleString('id-ID'), `dari ${sellers} pengguna`);
+    const byM = {}; rows.forEach((r) => { (byM[monthKey(r.d)] = byM[monthKey(r.d)] || []).push(r); });
+    const keys = Object.keys(byM).sort().slice(-12), vals = keys.map((k) => wavg(byM[k])), mx = Math.max(...vals, 1);
+    tr.innerHTML = keys.length ? keys.map((k, i) => `<div style="display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12px"><span style="width:96px;color:var(--muted)">${monthLabel(k)}</span><div style="flex:1;height:10px;background:var(--green-soft);border-radius:6px;overflow:hidden"><div style="height:100%;width:${(vals[i] / mx * 100).toFixed(1)}%;background:var(--green)"></div></div><b style="width:96px;text-align:right">${formatRupiah(vals[i])}</b></div>`).join('') : '<div class="empty-row" style="padding:18px;text-align:center;color:var(--muted)">Belum ada penjualan pada periode ini.</div>';
+    const by = {}; rows.forEach((r) => { (by[r.uid] = by[r.uid] || []).push(r); });
+    const list = Object.entries(by).map(([uid, a]) => { const u = users.find((z) => z.id === uid), last = a.reduce((m, r) => (r.d > m.d ? r : m), a[0]); return { name: u ? u.name : 'Pengguna tidak dikenal', n: a.length, kg: a.reduce((t, r) => t + r.kg, 0), avg: wavg(a), lo: Math.min(...a.map((r) => r.p)), hi: Math.max(...a.map((r) => r.p)), last }; }).sort((a, b) => b.n - a.n);
+    body.innerHTML = list.length ? list.map((r) => `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td data-label="Transaksi">${r.n}</td><td data-label="Kg terjual">${r.kg.toLocaleString('id-ID', { maximumFractionDigits: 1 })}</td><td data-label="Rata-rata /kg"><b>${formatRupiah(r.avg)}</b>${ref ? `<div class="muted-cell" style="font-size:11px">${r.avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(r.avg - ref))} dari acuan</div>` : ''}</td><td data-label="Terendah – tertinggi">${formatRupiah(r.lo)} – ${formatRupiah(r.hi)}</td><td data-label="Harga terakhir">${formatRupiah(r.last.p)}<div class="muted-cell" style="font-size:11px">${fmtDate(r.last.d)}</div></td></tr>`).join('') : emptyRow('Belum ada penjualan pada periode ini.');
+  }
+
+  const pageNames = { dashboard: 'Ringkasan', users: 'Pengguna', reports: 'Laporan', prices: 'Harga jual', 'user-finance': 'Laporan keuangan' };
+  function route(scroll) {
+    if (appView.hidden) return;
+    const [requested, uid] = location.hash.slice(1).split('/');
+    let page = Object.prototype.hasOwnProperty.call(pageNames, requested) && requested !== 'user-finance' ? requested : 'dashboard';
+    if (requested === 'finance') {
+      if (!loaded) page = 'user-finance';
+      else if (users.some((u) => u.id === uid)) page = 'user-finance';
+      else { location.hash = '#users'; return; }
+      if (uid && uid !== financeUid) { financeUid = uid; financeMonth = 'all'; }
+      if (loaded && uid) { renderFinance(); loadFinance(uid); }
+    }
+    $$('[data-page]').forEach((s) => { s.hidden = s.dataset.page !== page; });
+    $$('.nav-link').forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${page}` || (page === 'user-finance' && a.getAttribute('href') === '#users')));
+    $('#breadcrumb-page').textContent = pageNames[page];
+    if (page === 'prices') loadSales();
+    $('#sidebar').classList.remove('open');
+    if (scroll) window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', () => route(true));
+
+  // ---------- Update harga telur bersama ----------
+  const priceModal = $('#price-modal');
+  const priceForm = $('#price-form');
+  const priceError = $('#price-error');
+
+  async function openPriceModal() {
+    priceModal.hidden = false;
+    priceError.hidden = true;
+    $('#price-per-kg').focus();
+    try {
+      const current = await Services.puyuhku.getMarketPrice();
+      if (current) {
+        $('#price-per-kg').value = current.price_per_kg;
+        $('#price-region').value = current.region || 'Blitar';
+        $('#price-note').value = current.note || '';
+      }
+    } catch (e) {
+      priceError.hidden = false;
+      priceError.textContent = 'Harga saat ini gagal dimuat. Anda tetap dapat memasukkan harga baru. ' + ((e && e.message) || '');
+    }
+  }
+
+  priceForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = $('#save-price');
+    const pricePerKg = Number($('#price-per-kg').value);
+    const region = $('#price-region').value.trim();
+    if (!Number.isFinite(pricePerKg) || pricePerKg <= 0 || !region) {
+      priceError.hidden = false;
+      priceError.textContent = 'Masukkan harga lebih dari 0 dan wilayah.';
+      return;
+    }
+    priceError.hidden = true;
+    button.disabled = true;
+    button.textContent = 'Menyimpan…';
+    try {
+      await Services.puyuhku.updateMarketPrice({
+        pricePerKg,
+        region,
+        note: $('#price-note').value.trim(),
+      });
+      priceError.hidden = false;
+      priceError.className = 'counts-note';
+      priceError.textContent = 'Harga berhasil diperbarui di Supabase.';
+      priceForm.reset();
+      $('#price-region').value = region;
+    } catch (e) {
+      priceError.hidden = false;
+      priceError.className = 'login-error';
+      priceError.textContent = 'Gagal menyimpan harga. Periksa koneksi dan izin Supabase: ' + ((e && e.message) || 'kesalahan tidak diketahui');
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Simpan harga';
+    }
+  });
+
+  // ---------- Detail pengguna (modal) ----------
+  const modal = $('#user-modal');
+  function setTab(t) {
+    $$('.drawer-tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
+    $$('.drawer-pane').forEach((p) => { p.hidden = p.dataset.pane !== t; });
+  }
+  $('.drawer-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab); });
+  function showUser(u) {
+    if (!u) return;
+    $('#modal-avatar').textContent = initials(u.name);
+    $('#modal-avatar').className = `user-avatar large ${u.color}`;
+    $('#modal-title').textContent = u.name;
+    $('#modal-email').textContent = u.email || '(email belum tersimpan)';
+    $('#modal-whatsapp').textContent = u.whatsapp || 'Belum diisi';
+    $('#modal-farm').textContent = u.farm || 'Belum diisi';
+    $('#modal-id').textContent = u.id.slice(0, 8) + '…';
+    $('#modal-id').title = u.id;
+    $('#modal-date').textContent = fmtDate(u.joined);
+    $('#modal-status').textContent = u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif';
+    $('#modal-status').classList.toggle('inactive', u.state !== 'active');
+    $('#modal-last').textContent = lastLabel(u).replace('Terakhir: ', 'Aktivitas: ');
+    const wa = u.whatsapp ? waLink(u.whatsapp) : '';
+    $('#modal-wa').hidden = !wa; if (wa) $('#modal-wa').href = wa;
+    $('#modal-fin-counts').innerHTML = SUBS.map((n) => `<div><span>${escapeHtml(SUB_LABELS[n] || n)}</span><strong>${u.counts[n]}</strong></div>`).join('');
+    $('#tab-notes').textContent = 'Catatan' + (u.note || u.tag ? ' •' : '');
+    setTab('summary');
+    noteUid = u.id;
+    $('#note-tag').value = u.tag || '';
+    $('#note-text').value = u.note || '';
+    ['#note-tag', '#note-text', '#note-save'].forEach((i) => { $(i).disabled = !notesReady; });
+    $('#note-status').textContent = notesReady ? (notes[u.id] ? 'Diubah ' + fmtDate(toDate(notes[u.id].updated_at)) : '') : 'Tabel catatan belum dibuat. Jalankan admin-notes.sql di Supabase.';
+    $('#finance-link').href = `#finance/${u.id}`;
+    $('#modal-counts').textContent = u.total
+      ? 'Catatan: ' + SUBS.filter((n) => u.counts[n]).map((n) => `${u.counts[n]} ${SUB_LABELS[n] || n}`).join(', ') + '.'
+      : 'Pengguna ini belum punya catatan apa pun.';
+    modal.hidden = false;
+    $('#modal-close').focus();
+  }
+
+  $('#open-price-modal').addEventListener('click', openPriceModal);
+  $('#note-save').addEventListener('click', async () => {
+    const u = users.find((z) => z.id === noteUid), st = $('#note-status'), btn = $('#note-save');
+    if (!u) return;
+    btn.disabled = true; st.textContent = 'Menyimpan…';
+    try {
+      const saved = await Services.puyuhku.saveNote(u.id, { note: $('#note-text').value, tag: $('#note-tag').value });
+      if (saved) notes[u.id] = saved; else delete notes[u.id];
+      u.note = saved ? saved.note : ''; u.tag = saved ? saved.tag : '';
+      st.textContent = saved ? 'Tersimpan' : 'Catatan dihapus';
+      renderAll();
+    } catch (e) { st.textContent = 'Gagal menyimpan: ' + ((e && e.message) || 'kesalahan'); }
+    btn.disabled = false;
+  });
+  $('#price-modal-close').addEventListener('click', () => { priceModal.hidden = true; });
+  priceModal.addEventListener('click', (event) => { if (event.target === priceModal) priceModal.hidden = true; });
+
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('a')) return;
+    const btn = event.target.closest('[data-user-id]');
+    if (btn) showUser(users.find((u) => u.id === btn.dataset.userId));
+    if (event.target === modal || event.target.closest('#modal-close') || event.target.closest('#finance-link')) modal.hidden = true;
+    if (event.target.closest('#alert-retry') || event.target.closest('#btn-reload')) loadData();
+    if (event.target.closest('#finance-retry')) { delete financeCache[financeUid]; loadFinance(financeUid); renderFinance(); }
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') modal.hidden = true; });
+  $('#finance-month').addEventListener('change', (event) => { financeMonth = event.target.value; renderFinance(); });
+  $('#user-search').addEventListener('input', (event) => { query = event.target.value; renderUsers(); });
+  $('#user-filter').addEventListener('change', renderUsers);
+  $('#user-sort').addEventListener('change', renderUsers);
+  $('#price-range').addEventListener('change', renderSales);
+  $('#view-users').addEventListener('click', () => { location.hash = '#users'; });
+  $('#mobile-menu').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
+
+  // ---------- Login / logout ----------
+  function showLogin(message) {
+    bootEl.hidden = true;
+    appView.hidden = true;
+    loginView.hidden = false;
+    const err = $('#login-error');
+    err.hidden = !message;
+    err.textContent = message || '';
+    $('#password').value = '';
+    setTimeout(() => $('#email').focus(), 0);
+  }
+
+  function showApp(user) {
+    bootEl.hidden = true;
+    loginView.hidden = true;
+    appView.hidden = false;
+    $('#btn-logout').hidden = PREVIEW_MODE;
+    const email = user.email || '';
+    $('#admin-email').textContent = email || 'Administrator';
+    $('#admin-avatar').textContent = initials(email.split('@')[0] || 'SA').slice(0, 2);
+    $('#top-avatar').textContent = $('#admin-avatar').textContent;
+    loaded = false; loadError = null; users = [];
+    renderAll();
+    route();
+    loadData();
+  }
+
+  $('#login-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = $('#email').value.trim(), password = $('#password').value;
+    const err = $('#login-error'), btn = $('#login-btn');
+    if (!email || !password) { err.hidden = false; err.textContent = 'Isi email dan password terlebih dahulu.'; return; }
+    err.hidden = true;
+    btn.disabled = true; btn.textContent = 'Memeriksa…';
+    const res = await Auth.login(email, password);
+    btn.disabled = false; btn.textContent = 'Masuk';
+    if (res.ok) { location.hash = '#dashboard'; showApp(res.user); }
+    else { err.hidden = false; err.textContent = res.message; }
+  });
+
+  $('#btn-logout').addEventListener('click', async () => {
+    await Auth.logout();
+    users = []; loaded = false; loadError = null;
+    Object.keys(financeCache).forEach((k) => delete financeCache[k]);
+    showLogin();
+  });
+
+  // ---------- Mulai ----------
+  if (PREVIEW_MODE) {
+    showApp({ email: 'preview@kandangpuyuh.com' });
+  } else {
+    Auth.ready().then((user) => (user ? showApp(user) : showLogin()), () => showLogin('Tidak bisa memeriksa sesi login. Periksa koneksi internet.'));
+  }
+})();
+  </script>
+</body>
+</html>
