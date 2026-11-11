@@ -79,6 +79,7 @@ select.select-chip{padding-right:6px}
         <a href="#dashboard" class="nav-link"><span class="nav-icon">▦</span> Ringkasan</a>
         <a href="#users" class="nav-link"><span class="nav-icon">♙</span> Pengguna <span class="nav-count" id="nav-count">–</span></a>
         <a href="#reports" class="nav-link"><span class="nav-icon">▤</span> Laporan</a>
+        <a href="#prices" class="nav-link"><span class="nav-icon">◈</span> Harga jual</a>
       </nav>
       <div class="sidebar-bottom">
         <div class="profile"><div class="profile-avatar" id="admin-avatar">SA</div><div class="profile-info"><strong>Super Admin</strong><small id="admin-email">Administrator</small></div><button class="logout-btn" id="btn-logout" type="button">Keluar</button></div>
@@ -116,7 +117,7 @@ select.select-chip{padding-right:6px}
 
         <section class="page" data-page="users" hidden>
           <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> PENGELOLAAN</div><h1>Pengguna</h1><p>Kelola dan pantau akun pengguna KandangPuyuh.</p></div><span class="date-chip">♙ <span id="user-total">0</span> pengguna</span></div>
-          <section class="panel users-panel full-users"><div class="panel-heading user-toolbar"><div><h2>Semua pengguna</h2><p>Daftar akun yang terdaftar di aplikasi</p></div><label class="search-box"><span>⌕</span><input id="user-search" type="search" placeholder="Cari nama, email, atau WhatsApp…" /></label></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="all-users"></tbody></table></div><div class="table-foot" id="table-foot"></div></section>
+          <section class="panel users-panel full-users"><div class="panel-heading user-toolbar"><div><h2>Semua pengguna</h2><p>Daftar akun yang terdaftar di aplikasi</p></div><label class="search-box"><span>⌕</span><input id="user-search" type="search" placeholder="Cari nama, email, atau WhatsApp…" /></label><select class="select-chip" id="user-filter" aria-label="Filter pengguna"><option value="all">Semua pengguna</option><option value="active7">Aktif 7 hari terakhir</option><option value="idle14">Tidak aktif 14+ hari</option><option value="idle30">Tidak aktif 30+ hari</option><option value="never">Belum pernah mencatat</option><option value="noted">Punya catatan admin</option><option value="followup">Perlu follow-up</option></select><select class="select-chip" id="user-sort" aria-label="Urutkan pengguna"><option value="joined_desc">Terbaru bergabung</option><option value="joined_asc">Paling lama bergabung</option><option value="last_desc">Aktivitas terakhir</option><option value="count_desc">Paling banyak catatan</option><option value="name_asc">Nama A–Z</option></select></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="all-users"></tbody></table></div><div class="table-foot" id="table-foot"></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
         </section>
 
@@ -126,6 +127,15 @@ select.select-chip{padding-right:6px}
           <section class="panel report-note"><div class="report-note-icon">✦</div><div><h2 id="r-note-title">Ringkasan pengguna</h2><p id="r-note-text">Memuat data…</p></div></section>
           <section class="panel users-panel"><div class="panel-heading"><div><h2>Pendaftaran terbaru</h2><p>10 pengguna yang terakhir bergabung</p></div></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>WHATSAPP</th><th>NAMA PETERNAKAN</th><th>TANGGAL BERGABUNG</th><th>STATUS</th><th></th></tr></thead><tbody id="report-users"></tbody></table></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
+        </section>
+
+        <section class="page" data-page="prices" hidden>
+          <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> PASAR</div><h1>Harga jual pengguna</h1><p>Harga telur per kg yang dicatat pengguna saat menjual.</p></div><select class="select-chip" id="price-range" aria-label="Periode"><option value="30">30 hari terakhir</option><option value="90">90 hari terakhir</option><option value="0">Semua waktu</option></select></div>
+          <div class="alert-banner" id="sell-alert" hidden></div>
+          <div class="metric-grid"><article class="metric-card"><div class="metric-top"><span>RATA-RATA HARGA JUAL</span></div><strong id="s-avg" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-avg-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>HARGA ACUAN PASAR</span></div><strong id="s-ref" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-ref-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>KISARAN HARGA</span></div><strong id="s-range" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-range-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>TRANSAKSI</span></div><strong id="s-count" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-count-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article></div>
+          <section class="panel"><div class="panel-heading"><div><h2>Rata-rata harga jual per bulan</h2><p>Tertimbang menurut kg terjual</p></div></div><div id="sell-trend" style="padding:4px 4px 8px"></div></section>
+          <section class="panel users-panel" style="margin-top:17px"><div class="panel-heading"><div><h2>Harga jual per pengguna</h2><p>Diurutkan dari transaksi terbanyak</p></div></div><div class="table-wrap"><table><thead><tr><th>PENGGUNA</th><th>TRANSAKSI</th><th>KG TERJUAL</th><th>RATA-RATA /KG</th><th>TERENDAH – TERTINGGI</th><th>HARGA TERAKHIR</th></tr></thead><tbody id="sell-users"></tbody></table></div></section>
+          <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.2</span></footer>
         </section>
 
         <section class="page" data-page="user-finance" hidden>
@@ -159,7 +169,7 @@ select.select-chip{padding-right:6px}
       <div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div>
       <div class="modal-status"><span>Status akun</span><span class="status-badge" id="modal-status">Aktif</span></div>
       <div class="modal-details"><div><span>WhatsApp</span><strong id="modal-whatsapp"></strong></div><div><span>Nama peternakan</span><strong id="modal-farm"></strong></div><div><span>ID pengguna</span><strong id="modal-id"></strong></div><div><span>Tanggal bergabung</span><strong id="modal-date"></strong></div></div>
-      <a class="button button-primary finance-button" id="finance-link" href="#finance">Laporan keuangan <span>→</span></a>
+      <div class="note-box" style="margin:14px 0 4px;text-align:left"><label style="font-size:11px;font-weight:700;color:#737e70">Catatan admin <span style="font-weight:400">· hanya terlihat admin</span></label><select class="select-chip" id="note-tag" style="width:100%;margin:6px 0"><option value="">Tanpa label</option><option value="followup">Perlu follow-up</option><option value="issue">Ada masalah / komplain</option><option value="lead">Calon pelanggan berbayar</option><option value="big">Peternak besar</option><option value="contacted">Sudah dihubungi</option></select><textarea id="note-text" maxlength="2000" rows="4" placeholder="Tulis catatan tentang pengguna ini…" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:12px;resize:vertical"></textarea><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="button button-secondary" id="note-save" type="button">Simpan catatan</button><small id="note-status" style="color:var(--muted);font-size:11px;line-height:1.4"></small></div></div><a class="button button-primary finance-button" id="finance-link" href="#finance">Laporan keuangan <span>→</span></a>
       <p class="counts-note" id="modal-counts"></p>
     </section>
   </div>
@@ -232,6 +242,18 @@ select.select-chip{padding-right:6px}
   }
 
   // ---------- Data pengguna ----------
+  const TAGS = { followup: 'Perlu follow-up', issue: 'Ada masalah', lead: 'Calon berbayar', big: 'Peternak besar', contacted: 'Sudah dihubungi' };
+  let notes = {}, notesReady = true, noteUid = null;
+  const daysSince = (d) => (d ? Math.floor((Date.now() - d.getTime()) / 864e5) : null);
+  function lastLabel(u) {
+    if (u.total === 0) return 'Belum pernah mencatat';
+    const d = daysSince(u.last);
+    if (d === null) return 'Sudah lama';
+    if (d <= 0) return 'Terakhir: hari ini';
+    if (d === 1) return 'Terakhir: kemarin';
+    if (d < 60) return `Terakhir: ${d} hari lalu`;
+    return `Terakhir: ${Math.floor(d / 30)} bulan lalu`;
+  }
   function normalize(u) {
     const email = u.email || '';
     const farm = u.farmName || '';
@@ -256,7 +278,17 @@ select.select-chip{padding-right:6px}
     renderStatus();
     try {
       const raw = await Services.puyuhku.listUsers();
+      let act = null;
+      try { act = await Services.puyuhku.lastActivity(); } catch (e) { act = null; }
+      try { notes = await Services.puyuhku.listNotes(); notesReady = true; } catch (e) { notes = {}; notesReady = false; }
       users = raw.map(normalize).sort((a, b) => (b.joined ? b.joined.getTime() : 0) - (a.joined ? a.joined.getTime() : 0));
+      users.forEach((u) => {
+        u.last = act && act[u.id] ? toDate(act[u.id]) : null;
+        u.note = notes[u.id] ? notes[u.id].note : '';
+        u.tag = notes[u.id] ? notes[u.id].tag : '';
+        const dd = daysSince(u.last);
+        u.state = u.total === 0 ? 'never' : (dd !== null && dd < 14 ? 'active' : 'idle');
+      });
       loadError = null;
       lastLoaded = new Date();
       Log.add('muat_data', `${users.length} pengguna dimuat`);
@@ -276,11 +308,11 @@ select.select-chip{padding-right:6px}
       ? `<a class="whatsapp-link" href="${escapeHtml(waLink(u.whatsapp))}" target="_blank" rel="noopener noreferrer">${escapeHtml(u.whatsapp)}</a>`
       : '<span class="muted-cell">Belum diisi</span>';
     return `<tr>
-      <td><div class="person-cell"><span class="user-avatar ${u.color}">${escapeHtml(initials(u.name))}</span><span class="person-info"><strong>${escapeHtml(u.name)}</strong><span>${escapeHtml(u.email || '(email belum tersimpan)')}</span></span></div></td>
+      <td><div class="person-cell"><span class="user-avatar ${u.color}">${escapeHtml(initials(u.name))}</span><span class="person-info"><strong>${escapeHtml(u.name)}${u.note ? ` <span title="${escapeHtml(u.note.slice(0, 120))}" style="font-size:11px">📝</span>` : ''}${u.tag ? ` <span class="status-badge" style="margin-left:4px;font-size:10px">${escapeHtml(TAGS[u.tag] || u.tag)}</span>` : ''}</strong><span>${escapeHtml(u.email || '(email belum tersimpan)')}</span></span></div></td>
       <td>${wa}</td>
       <td class="farm-name">${u.farm ? escapeHtml(u.farm) : '<span class="muted-cell">Belum diisi</span>'}</td>
       <td>${fmtDate(u.joined)}</td>
-      <td><span class="status-badge ${u.active ? '' : 'inactive'}">${u.active ? 'Aktif' : 'Belum aktif'}</span></td>
+      <td><span class="status-badge ${u.state === 'active' ? '' : 'inactive'}">${u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif'}</span><div class="muted-cell" style="font-size:11px;margin-top:3px">${lastLabel(u)}</div></td>
       <td><button class="view-button" type="button" data-user-id="${escapeHtml(u.id)}">Detail</button></td>
     </tr>`;
   }
@@ -293,8 +325,27 @@ select.select-chip{padding-right:6px}
 
   function renderUsers() {
     const q = query.trim().toLowerCase();
-    const filtered = users.filter((u) => `${u.name} ${u.email} ${u.whatsapp} ${u.farm}`.toLowerCase().includes(q));
-    $('#all-users').innerHTML = rowsOf(filtered, 'Tidak ada pengguna yang cocok dengan pencarian.');
+    const fv = $('#user-filter').value, sv = $('#user-sort').value;
+    const okF = (u) => {
+      const dd = daysSince(u.last);
+      if (fv === 'active7') return dd !== null && dd <= 7;
+      if (fv === 'idle14') return u.total > 0 && (dd === null || dd >= 14);
+      if (fv === 'idle30') return u.total > 0 && (dd === null || dd >= 30);
+      if (fv === 'never') return u.total === 0;
+      if (fv === 'noted') return !!(u.note || u.tag);
+      if (fv === 'followup') return u.tag === 'followup';
+      return true;
+    };
+    const t = (d) => (d ? d.getTime() : 0);
+    const sorters = {
+      joined_desc: (a, b) => t(b.joined) - t(a.joined),
+      joined_asc: (a, b) => (t(a.joined) || Infinity) - (t(b.joined) || Infinity),
+      last_desc: (a, b) => t(b.last) - t(a.last),
+      count_desc: (a, b) => b.total - a.total,
+      name_asc: (a, b) => a.name.localeCompare(b.name, 'id'),
+    };
+    const filtered = users.filter((u) => okF(u) && `${u.name} ${u.email} ${u.whatsapp} ${u.farm} ${u.note || ''}`.toLowerCase().includes(q)).sort(sorters[sv] || sorters.joined_desc);
+    $('#all-users').innerHTML = rowsOf(filtered, 'Tidak ada pengguna yang cocok dengan pencarian atau filter.');
     $('#table-foot').textContent = loaded && !loadError ? `Menampilkan ${filtered.length} dari ${users.length} pengguna` : '';
     $('#user-total').textContent = loaded && !loadError ? users.length : 0;
   }
@@ -496,7 +547,45 @@ select.select-chip{padding-right:6px}
   }
 
   // ---------- Router ----------
-  const pageNames = { dashboard: 'Ringkasan', users: 'Pengguna', reports: 'Laporan', 'user-finance': 'Laporan keuangan' };
+  // ---------- Harga jual pengguna ----------
+  let sales = null, salesLoading = false, salesError = null, market = null;
+  async function loadSales() {
+    if (salesLoading || sales) return;
+    salesLoading = true; salesError = null; renderSales();
+    try {
+      const [s, m] = await Promise.all([Services.puyuhku.listAllSales(), Services.puyuhku.getMarketPrice().catch(() => null)]);
+      sales = s; market = m;
+    } catch (e) { salesError = e; }
+    salesLoading = false; renderSales();
+  }
+  function renderSales() {
+    const body = $('#sell-users'), tr = $('#sell-trend'), al = $('#sell-alert');
+    const set = (id, v, f) => { $('#' + id).textContent = v; $('#' + id + '-foot').innerHTML = f || ''; };
+    if (salesError) { al.hidden = false; al.innerHTML = describeError(salesError); body.innerHTML = emptyRow('Data penjualan belum bisa ditampilkan.'); return; }
+    al.hidden = true;
+    if (!sales) { body.innerHTML = emptyRow('Memuat data penjualan…'); tr.innerHTML = ''; ['s-avg', 's-ref', 's-range', 's-count'].forEach((i) => set(i, '–', '')); return; }
+    const days = +$('#price-range').value, since = days ? Date.now() - days * 864e5 : 0, rows = [];
+    sales.forEach((x) => {
+      const d = toDate(x.date); if (!d || d.getTime() < since) return;
+      const kg = num(x.kgEquivalent) || (x.unit === 'kg' ? num(x.qty) : 0); if (!(kg > 0)) return;
+      const p = x.unit === 'kg' && num(x.price) > 0 ? num(x.price) : (num(x.total) > 0 ? num(x.total) / kg : 0); if (!(p > 0)) return;
+      rows.push({ uid: x.user_id, d, kg, p });
+    });
+    const wavg = (a) => { const k = a.reduce((t, r) => t + r.kg, 0); return k > 0 ? a.reduce((t, r) => t + r.p * r.kg, 0) / k : 0; };
+    const ref = market ? num(market.price_per_kg) : 0, avg = wavg(rows), sellers = new Set(rows.map((r) => r.uid)).size;
+    set('s-avg', rows.length ? formatRupiah(avg) + '/kg' : '–', rows.length ? `${rows.reduce((t, r) => t + r.kg, 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })} kg terjual` : 'Belum ada penjualan');
+    set('s-ref', ref ? formatRupiah(ref) + '/kg' : '–', ref ? `${escapeHtml(market.region || '')} · ${fmtDate(toDate(market.updated_at))}${rows.length ? `<br>Pengguna menjual ${avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(avg - ref))} (${((avg - ref) / ref * 100).toFixed(1).replace('.', ',')}%)` : ''}` : 'Belum diisi');
+    set('s-range', rows.length ? `${formatRupiah(Math.min(...rows.map((r) => r.p)))} – ${formatRupiah(Math.max(...rows.map((r) => r.p)))}` : '–', 'Per kg, terendah sampai tertinggi');
+    set('s-count', rows.length.toLocaleString('id-ID'), `dari ${sellers} pengguna`);
+    const byM = {}; rows.forEach((r) => { (byM[monthKey(r.d)] = byM[monthKey(r.d)] || []).push(r); });
+    const keys = Object.keys(byM).sort().slice(-12), vals = keys.map((k) => wavg(byM[k])), mx = Math.max(...vals, 1);
+    tr.innerHTML = keys.length ? keys.map((k, i) => `<div style="display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12px"><span style="width:96px;color:var(--muted)">${monthLabel(k)}</span><div style="flex:1;height:10px;background:var(--green-soft);border-radius:6px;overflow:hidden"><div style="height:100%;width:${(vals[i] / mx * 100).toFixed(1)}%;background:var(--green)"></div></div><b style="width:96px;text-align:right">${formatRupiah(vals[i])}</b></div>`).join('') : '<div class="empty-row" style="padding:18px;text-align:center;color:var(--muted)">Belum ada penjualan pada periode ini.</div>';
+    const by = {}; rows.forEach((r) => { (by[r.uid] = by[r.uid] || []).push(r); });
+    const list = Object.entries(by).map(([uid, a]) => { const u = users.find((z) => z.id === uid), last = a.reduce((m, r) => (r.d > m.d ? r : m), a[0]); return { name: u ? u.name : 'Pengguna tidak dikenal', n: a.length, kg: a.reduce((t, r) => t + r.kg, 0), avg: wavg(a), lo: Math.min(...a.map((r) => r.p)), hi: Math.max(...a.map((r) => r.p)), last }; }).sort((a, b) => b.n - a.n);
+    body.innerHTML = list.length ? list.map((r) => `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td>${r.n}</td><td>${r.kg.toLocaleString('id-ID', { maximumFractionDigits: 1 })}</td><td><b>${formatRupiah(r.avg)}</b>${ref ? `<div class="muted-cell" style="font-size:11px">${r.avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(r.avg - ref))} dari acuan</div>` : ''}</td><td>${formatRupiah(r.lo)} – ${formatRupiah(r.hi)}</td><td>${formatRupiah(r.last.p)}<div class="muted-cell" style="font-size:11px">${fmtDate(r.last.d)}</div></td></tr>`).join('') : emptyRow('Belum ada penjualan pada periode ini.');
+  }
+
+  const pageNames = { dashboard: 'Ringkasan', users: 'Pengguna', reports: 'Laporan', prices: 'Harga jual', 'user-finance': 'Laporan keuangan' };
   function route(scroll) {
     if (appView.hidden) return;
     const [requested, uid] = location.hash.slice(1).split('/');
@@ -511,6 +600,7 @@ select.select-chip{padding-right:6px}
     $$('[data-page]').forEach((s) => { s.hidden = s.dataset.page !== page; });
     $$('.nav-link').forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${page}` || (page === 'user-finance' && a.getAttribute('href') === '#users')));
     $('#breadcrumb-page').textContent = pageNames[page];
+    if (page === 'prices') loadSales();
     $('#sidebar').classList.remove('open');
     if (scroll) window.scrollTo(0, 0);
   }
@@ -585,8 +675,13 @@ select.select-chip{padding-right:6px}
     $('#modal-id').textContent = u.id.slice(0, 8) + '…';
     $('#modal-id').title = u.id;
     $('#modal-date').textContent = fmtDate(u.joined);
-    $('#modal-status').textContent = u.active ? 'Aktif' : 'Belum aktif';
-    $('#modal-status').classList.toggle('inactive', !u.active);
+    $('#modal-status').textContent = u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif';
+    $('#modal-status').classList.toggle('inactive', u.state !== 'active');
+    noteUid = u.id;
+    $('#note-tag').value = u.tag || '';
+    $('#note-text').value = u.note || '';
+    ['#note-tag', '#note-text', '#note-save'].forEach((i) => { $(i).disabled = !notesReady; });
+    $('#note-status').textContent = notesReady ? (notes[u.id] ? 'Diubah ' + fmtDate(toDate(notes[u.id].updated_at)) : '') : 'Tabel catatan belum dibuat. Jalankan admin-notes.sql di Supabase.';
     $('#finance-link').href = `#finance/${u.id}`;
     $('#modal-counts').textContent = u.total
       ? 'Catatan: ' + SUBS.filter((n) => u.counts[n]).map((n) => `${u.counts[n]} ${SUB_LABELS[n] || n}`).join(', ') + '.'
@@ -596,6 +691,19 @@ select.select-chip{padding-right:6px}
   }
 
   $('#open-price-modal').addEventListener('click', openPriceModal);
+  $('#note-save').addEventListener('click', async () => {
+    const u = users.find((z) => z.id === noteUid), st = $('#note-status'), btn = $('#note-save');
+    if (!u) return;
+    btn.disabled = true; st.textContent = 'Menyimpan…';
+    try {
+      const saved = await Services.puyuhku.saveNote(u.id, { note: $('#note-text').value, tag: $('#note-tag').value });
+      if (saved) notes[u.id] = saved; else delete notes[u.id];
+      u.note = saved ? saved.note : ''; u.tag = saved ? saved.tag : '';
+      st.textContent = saved ? 'Tersimpan' : 'Catatan dihapus';
+      renderAll();
+    } catch (e) { st.textContent = 'Gagal menyimpan: ' + ((e && e.message) || 'kesalahan'); }
+    btn.disabled = false;
+  });
   $('#price-modal-close').addEventListener('click', () => { priceModal.hidden = true; });
   priceModal.addEventListener('click', (event) => { if (event.target === priceModal) priceModal.hidden = true; });
 
@@ -609,6 +717,9 @@ select.select-chip{padding-right:6px}
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') modal.hidden = true; });
   $('#finance-month').addEventListener('change', (event) => { financeMonth = event.target.value; renderFinance(); });
   $('#user-search').addEventListener('input', (event) => { query = event.target.value; renderUsers(); });
+  $('#user-filter').addEventListener('change', renderUsers);
+  $('#user-sort').addEventListener('change', renderUsers);
+  $('#price-range').addEventListener('change', renderSales);
   $('#view-users').addEventListener('click', () => { location.hash = '#users'; });
   $('#mobile-menu').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
 
