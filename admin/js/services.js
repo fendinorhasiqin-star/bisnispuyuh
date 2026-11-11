@@ -155,5 +155,48 @@ window.Services = window.Services || {};
     return rows.map((r) => ({ ...(r.data || {}), id: r.id }));
   };
 
+  // Waktu terakhir tiap pengguna menyimpan catatan (selain profil), dari 5000 perubahan terbaru.
+  service.lastActivity = async () => {
+    const rows = await fetchAll(
+      () => sb.from("records").select("user_id,updated_at").neq("coll", "meta").order("updated_at", { ascending: false }).order("user_id"),
+      5000
+    );
+    const map = {};
+    rows.forEach((r) => { if (r.updated_at && !map[r.user_id]) map[r.user_id] = r.updated_at; });
+    return map;
+  };
+
+  // Seluruh catatan penjualan semua pengguna (maksimal 20000), untuk analisis harga jual.
+  service.listAllSales = async () => {
+    const rows = await fetchAll(
+      () => sb.from("records").select("user_id,id,data").eq("coll", "sales").order("user_id").order("id"),
+      20000
+    );
+    return rows.map((r) => ({ ...(r.data || {}), id: r.id, user_id: r.user_id }));
+  };
+
+  // Catatan admin per pengguna (tabel admin_notes, lihat admin-notes.sql).
+  service.listNotes = async () => {
+    const rows = await fetchAll(() => sb.from("admin_notes").select("user_id,note,tag,updated_at").order("user_id"), 5000);
+    const map = {};
+    rows.forEach((r) => { map[r.user_id] = r; });
+    return map;
+  };
+  service.saveNote = async (uid, { note, tag }) => {
+    const text = String(note || "").trim().slice(0, 2000);
+    if (!text && !tag) {
+      const { error } = await sb.from("admin_notes").delete().eq("user_id", uid);
+      if (error) throw error;
+      return null;
+    }
+    const { data, error } = await sb
+      .from("admin_notes")
+      .upsert({ user_id: uid, note: text, tag: tag || "", updated_at: new Date().toISOString() }, { onConflict: "user_id" })
+      .select("user_id,note,tag,updated_at")
+      .single();
+    if (error) throw error;
+    return data;
+  };
+
   window.Services.puyuhku = service;
 })();
