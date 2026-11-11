@@ -1,4 +1,4 @@
-// versi: 2026-11-11-7 (ubah baris ini setiap rilis supaya browser memasang sw.js baru)
+// versi: 2026-11-11-8 (ubah baris ini setiap rilis supaya browser memasang sw.js baru)
 // Tambahkan ke service worker PWA PuyuhKu (atau simpan sebagai /sw.js di root)
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
