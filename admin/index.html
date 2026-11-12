@@ -282,6 +282,63 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 }
 @media(min-width:761px){.bottom-nav{display:none!important}}
 
+/* Kartu pengguna yang lebih terstruktur di layar ponsel */
+@media(max-width:760px){
+ .cardtable-users tr{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 14px;padding:15px;margin-bottom:12px;border-radius:16px}
+ .cardtable-users td.user-card-person{grid-column:1/-1;grid-row:auto;padding-bottom:12px;border-bottom:1px solid #edf0eb;margin-bottom:11px}
+ .cardtable-users .person-cell{align-items:center;gap:11px}
+ .cardtable-users .person-info{min-width:0;gap:3px;flex:1}
+ .cardtable-users .user-card-mobile-status{margin-left:auto;align-self:flex-start}
+ .cardtable-users .person-info strong{font-size:14px;line-height:1.35;overflow-wrap:anywhere}
+ .cardtable-users .person-info>span{font-size:11px;line-height:1.4;overflow-wrap:anywhere}
+ .cardtable-users .user-avatar{width:42px;height:42px;font-size:14px}
+ .cardtable-users .user-card-whatsapp{display:none!important}
+ .cardtable-users .user-card-joined{grid-column:2;grid-row:2;padding:0 0 8px}
+ .cardtable-users .user-card-farm{grid-column:1;grid-row:2;min-width:0;padding:0 0 8px}
+ .cardtable-users td[data-label]::before{font-size:10px;font-weight:700;letter-spacing:.04em;color:#8b9588;margin-bottom:4px}
+  .cardtable-users td.user-card-status{grid-column:1/-1;grid-row:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 0 12px;border-bottom:1px solid #edf0eb;margin-bottom:11px}
+ .cardtable-users .user-card-status .status-badge{flex-shrink:0}
+ .cardtable-users .user-card-status .muted-cell{font-size:11px!important;text-align:right;line-height:1.35}
+ .cardtable-users .user-card-action{grid-column:1/-1;padding:0;display:grid;gap:8px}
+ .cardtable-users .user-card-action .view-button{width:100%;min-height:44px;border-radius:11px;font-size:13px;font-weight:700}
+ .cardtable-users .user-card-action .whatsapp-action{display:flex;align-items:center;justify-content:center;background:#edf6ec;color:#438153;text-decoration:none}
+ .cardtable-users td[colspan]{grid-column:1/-1}
+ .cardtable-users .user-card-title{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0}
+ .cardtable-users .user-card-title>strong{min-width:0;flex:1}
+ .cardtable-users .user-card-mobile-status{display:inline-flex;flex-shrink:0;white-space:nowrap;font-size:10px;padding:4px 8px}
+ .cardtable-users .user-card-status>.status-badge{display:none}
+ .cardtable-users td.user-card-status{justify-content:flex-start}
+}
+@media(min-width:761px){.user-card-mobile-status,.whatsapp-action{display:none!important}}
+
+/* Tampilan halaman harga jual */
+.prices-page .prices-summary{margin-bottom:14px}
+.prices-page .price-trend-panel{padding:17px 18px}
+.prices-page .price-trend{padding:8px 2px 2px}
+.price-trend-row{display:grid;grid-template-columns:96px minmax(40px,1fr) 100px;align-items:center;gap:10px;margin:10px 0;font-size:12px}
+.price-trend-month{color:var(--muted)}
+.price-trend-track{height:9px;background:var(--green-soft);border-radius:8px;overflow:hidden}
+.price-trend-track i{display:block;height:100%;background:var(--green);border-radius:inherit}
+.price-trend-value{text-align:right;white-space:nowrap}
+@media(max-width:760px){
+ .prices-page .prices-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
+ .prices-page .prices-summary .metric-card{min-width:0;min-height:112px;padding:13px;border-radius:15px}
+ .prices-page .prices-summary .metric-top{font-size:10px;line-height:1.35}
+ .prices-page .prices-summary strong{font-size:clamp(18px,5.5vw,23px)!important;line-height:1.25;margin-top:12px!important;overflow-wrap:anywhere}
+ .prices-page .prices-summary small{font-size:10px!important;line-height:1.4;margin-top:5px!important;overflow-wrap:anywhere}
+ .prices-page .price-trend-panel{padding:15px 13px;border-radius:15px}
+ .prices-page .price-trend{padding:7px 0 2px}
+ .price-trend-row{grid-template-columns:66px minmax(32px,1fr) 88px;gap:8px;margin:12px 0;font-size:11px}
+ .price-trend-month{font-size:10px}
+ .price-trend-value{font-size:11px}
+ .prices-page .users-panel{margin-top:13px!important}
+ .prices-page .cardtable-sell tr{padding:13px;border-radius:14px}
+ .prices-page .cardtable-sell td{font-size:12px;line-height:1.45}
+ .prices-page .cardtable-sell td:nth-child(1){font-size:14px;padding-bottom:2px}
+ .prices-page .cardtable-sell td[data-label]::before{font-size:10px}
+ .prices-page .cardtable-sell td b{font-size:12px}
+}
+
 </style>
 </head>
 <body>
@@ -365,11 +422,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.1</span></footer>
         </section>
 
-        <section class="page" data-page="prices" hidden>
+        <section class="page prices-page" data-page="prices" hidden>
           <div class="page-heading"><div><div class="eyebrow">KANDANGPUYUH.COM <span>·</span> PASAR</div><h1>Harga jual pengguna</h1><p>Harga telur per kg yang dicatat pengguna saat menjual.</p></div><select class="select-chip" id="price-range" aria-label="Periode"><option value="30">30 hari terakhir</option><option value="90">90 hari terakhir</option><option value="0">Semua waktu</option></select></div>
           <div class="alert-banner" id="sell-alert" hidden></div>
-          <div class="metric-grid"><article class="metric-card"><div class="metric-top"><span>RATA-RATA HARGA JUAL</span></div><strong id="s-avg" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-avg-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>HARGA ACUAN PASAR</span></div><strong id="s-ref" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-ref-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>KISARAN HARGA</span></div><strong id="s-range" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-range-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>TRANSAKSI</span></div><strong id="s-count" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-count-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article></div>
-          <section class="panel"><div class="panel-heading"><div><h2>Rata-rata harga jual per bulan</h2><p>Tertimbang menurut kg terjual</p></div></div><div id="sell-trend" style="padding:4px 4px 8px"></div></section>
+          <div class="metric-grid prices-summary"><article class="metric-card"><div class="metric-top"><span>RATA-RATA HARGA JUAL</span></div><strong id="s-avg" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-avg-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>HARGA ACUAN PASAR</span></div><strong id="s-ref" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-ref-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>KISARAN HARGA</span></div><strong id="s-range" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-range-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article><article class="metric-card"><div class="metric-top"><span>TRANSAKSI</span></div><strong id="s-count" style="display:block;font:700 24px Manrope,sans-serif;margin-top:14px">–</strong><small id="s-count-foot" style="display:block;color:var(--muted);font-size:11px;margin-top:6px"></small></article></div>
+          <section class="panel price-trend-panel"><div class="panel-heading"><div><h2>Rata-rata harga jual per bulan</h2><p>Tertimbang menurut kg terjual</p></div></div><div id="sell-trend" class="price-trend"></div></section>
           <section class="panel users-panel" style="margin-top:17px"><div class="panel-heading"><div><h2>Harga jual per pengguna</h2><p>Diurutkan dari transaksi terbanyak</p></div></div><div class="table-wrap"><table class="cardtable cardtable-sell"><thead><tr><th>PENGGUNA</th><th>TRANSAKSI</th><th>KG TERJUAL</th><th>RATA-RATA /KG</th><th>TERENDAH – TERTINGGI</th><th>HARGA TERAKHIR</th></tr></thead><tbody id="sell-users"></tbody></table></div></section>
           <footer class="footer"><span>© 2026 KandangPuyuh</span><span>Panel administrasi <i>·</i> v1.2</span></footer>
         </section>
@@ -893,7 +950,7 @@ window.Services = window.Services || {};
 </script>
   <script>
 (() => {
-  const PREVIEW_MODE = false;
+  const PREVIEW_MODE = true;
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const bootEl = $('#boot'), loginView = $('#login-view'), appView = $('#dashboard-view');
@@ -990,10 +1047,30 @@ window.Services = window.Services || {};
     loading = true;
     renderStatus();
     try {
-      const raw = await Services.puyuhku.listUsers();
+      const sampleDate = (daysAgo) => new Date(Date.now() - daysAgo * 864e5).toISOString();
+      const raw = PREVIEW_MODE ? [
+        { id: 'preview-001', name: 'Budi Santoso', email: 'budi@example.com', createdAt: sampleDate(2), farmName: 'Puyuh Berkah', whatsapp: '081234567890', sales: 8, production: 12, expenses: 4 },
+        { id: 'preview-002', name: 'Siti Aminah', email: 'siti@example.com', createdAt: sampleDate(9), farmName: 'Ternak Sejahtera', whatsapp: '082233445566', sales: 5, production: 7, incomes: 2 },
+        { id: 'preview-003', name: 'Agus Pratama', email: 'agus@example.com', createdAt: sampleDate(18), farmName: 'Puyuh Mandiri', whatsapp: '', sales: 3, expenses: 2, damaged: 1 },
+        { id: 'preview-004', name: 'Dewi Lestari', email: 'dewi@example.com', createdAt: sampleDate(42), farmName: 'Kandang Lestari', whatsapp: '081998877665' },
+        { id: 'preview-005', name: 'Rudi Hartono', email: 'rudi@example.com', createdAt: sampleDate(75), farmName: 'Puyuh Makmur', whatsapp: '085612345678', sales: 2, production: 3 },
+      ] : await Services.puyuhku.listUsers();
       let act = null;
-      try { act = await Services.puyuhku.lastActivity(); } catch (e) { act = null; }
-      try { notes = await Services.puyuhku.listNotes(); notesReady = true; } catch (e) { notes = {}; notesReady = false; }
+      if (PREVIEW_MODE) {
+        act = { 'preview-001': sampleDate(0), 'preview-002': sampleDate(2), 'preview-003': sampleDate(22), 'preview-004': sampleDate(40) };
+        notes = {
+          'preview-001': {
+            user_id: 'preview-001',
+            note: 'Hubungi kembali minggu depan untuk menanyakan perkembangan produksi dan menawarkan bantuan pencatatan.',
+            tag: 'followup',
+            updated_at: new Date().toISOString(),
+          },
+        };
+        notesReady = true;
+      } else {
+        try { act = await Services.puyuhku.lastActivity(); } catch (e) { act = null; }
+        try { notes = await Services.puyuhku.listNotes(); notesReady = true; } catch (e) { notes = {}; notesReady = false; }
+      }
       users = raw.map(normalize).sort((a, b) => (b.joined ? b.joined.getTime() : 0) - (a.joined ? a.joined.getTime() : 0));
       users.forEach((u) => {
         u.last = act && act[u.id] ? toDate(act[u.id]) : null;
@@ -1021,12 +1098,12 @@ window.Services = window.Services || {};
       ? `<a class="whatsapp-link" href="${escapeHtml(waLink(u.whatsapp))}" target="_blank" rel="noopener noreferrer">${escapeHtml(u.whatsapp)}</a>`
       : '<span class="muted-cell">Belum diisi</span>';
     return `<tr data-user-id="${escapeHtml(u.id)}" style="cursor:pointer">
-      <td><div class="person-cell"><span class="user-avatar ${u.color}">${escapeHtml(initials(u.name))}</span><span class="person-info"><strong>${escapeHtml(u.name)}${u.note ? ` <span title="${escapeHtml(u.note.slice(0, 120))}" style="font-size:11px">📝</span>` : ''}${u.tag ? ` <span class="status-badge" style="margin-left:4px;font-size:10px">${escapeHtml(TAGS[u.tag] || u.tag)}</span>` : ''}</strong><span>${escapeHtml(u.email || '(email belum tersimpan)')}</span></span></div></td>
-      <td data-label="WhatsApp">${wa}</td>
-      <td class="farm-name" data-label="Peternakan">${u.farm ? escapeHtml(u.farm) : '<span class="muted-cell">Belum diisi</span>'}</td>
-      <td data-label="Bergabung">${fmtDate(u.joined)}</td>
-      <td><span class="status-badge ${u.state === 'active' ? '' : 'inactive'}">${u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif'}</span><div class="muted-cell" style="font-size:11px;margin-top:3px">${lastLabel(u)}</div></td>
-      <td><button class="view-button" type="button" data-user-id="${escapeHtml(u.id)}">Detail</button></td>
+      <td class="user-card-person"><div class="person-cell"><span class="user-avatar ${u.color}">${escapeHtml(initials(u.name))}</span><span class="person-info"><span class="user-card-title"><strong>${escapeHtml(u.name)}${u.note ? ` <span title="${escapeHtml(u.note.slice(0, 120))}" style="font-size:11px">📝</span>` : ''}${u.tag ? ` <span class="status-badge" style="margin-left:4px;font-size:10px">${escapeHtml(TAGS[u.tag] || u.tag)}</span>` : ''}</strong></span><span>${escapeHtml(u.email || '(email belum tersimpan)')}</span></span><span class="status-badge user-card-mobile-status ${u.state === 'active' ? '' : 'inactive'}">${u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif'}</span></div></td>
+      <td class="user-card-whatsapp" data-label="WhatsApp">${wa}</td>
+      <td class="farm-name user-card-farm" data-label="Peternakan">${u.farm ? escapeHtml(u.farm) : '<span class="muted-cell">Belum diisi</span>'}<div class="muted-cell user-card-last" style="font-size:11px;margin-top:3px">${lastLabel(u)}</div></td>
+      <td class="user-card-joined" data-label="Bergabung">${fmtDate(u.joined)}</td>
+      <td class="user-card-status"><span class="status-badge ${u.state === 'active' ? '' : 'inactive'}">${u.state === 'active' ? 'Aktif' : u.state === 'idle' ? 'Tidak aktif' : 'Belum aktif'}</span></td>
+      <td class="user-card-action">${u.whatsapp ? `<a class="view-button whatsapp-action" href="${escapeHtml(waLink(u.whatsapp))}" target="_blank" rel="noopener noreferrer">Kirim WhatsApp</a>` : ''}<button class="view-button" type="button" data-user-id="${escapeHtml(u.id)}">Detail</button></td>
     </tr>`;
   }
   const emptyRow = (text) => `<tr><td colspan="6" class="empty-row">${text}</td></tr>`;
@@ -1264,6 +1341,19 @@ window.Services = window.Services || {};
   let sales = null, salesLoading = false, salesError = null, market = null;
   async function loadSales() {
     if (salesLoading || sales) return;
+    if (PREVIEW_MODE) {
+      const today = new Date();
+      const earlier = new Date(Date.now() - 864e5 * 8);
+      sales = [
+        { user_id: 'preview-001', date: today.toISOString(), kgEquivalent: 12, unit: 'kg', qty: 12, price: 32000, total: 384000 },
+        { user_id: 'preview-001', date: earlier.toISOString(), kgEquivalent: 8, unit: 'kg', qty: 8, price: 31500, total: 252000 },
+        { user_id: 'preview-002', date: today.toISOString(), kgEquivalent: 6, unit: 'kg', qty: 6, price: 33000, total: 198000 },
+        { user_id: 'preview-003', date: earlier.toISOString(), kgEquivalent: 4, unit: 'kg', qty: 4, price: 30500, total: 122000 },
+      ];
+      market = { price_per_kg: 32000, region: 'Blitar', updated_at: today.toISOString() };
+      renderSales();
+      return;
+    }
     salesLoading = true; salesError = null; renderSales();
     try {
       const [s, m] = await Promise.all([Services.puyuhku.listAllSales(), Services.puyuhku.getMarketPrice().catch(() => null)]);
@@ -1292,7 +1382,7 @@ window.Services = window.Services || {};
     set('s-count', rows.length.toLocaleString('id-ID'), `dari ${sellers} pengguna`);
     const byM = {}; rows.forEach((r) => { (byM[monthKey(r.d)] = byM[monthKey(r.d)] || []).push(r); });
     const keys = Object.keys(byM).sort().slice(-12), vals = keys.map((k) => wavg(byM[k])), mx = Math.max(...vals, 1);
-    tr.innerHTML = keys.length ? keys.map((k, i) => `<div style="display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12px"><span style="width:96px;color:var(--muted)">${monthLabel(k)}</span><div style="flex:1;height:10px;background:var(--green-soft);border-radius:6px;overflow:hidden"><div style="height:100%;width:${(vals[i] / mx * 100).toFixed(1)}%;background:var(--green)"></div></div><b style="width:96px;text-align:right">${formatRupiah(vals[i])}</b></div>`).join('') : '<div class="empty-row" style="padding:18px;text-align:center;color:var(--muted)">Belum ada penjualan pada periode ini.</div>';
+    tr.innerHTML = keys.length ? keys.map((k, i) => `<div class="price-trend-row"><span class="price-trend-month">${monthLabel(k)}</span><div class="price-trend-track"><i style="width:${(vals[i] / mx * 100).toFixed(1)}%"></i></div><b class="price-trend-value">${formatRupiah(vals[i])}</b></div>`).join('') : '<div class="empty-row" style="padding:18px;text-align:center;color:var(--muted)">Belum ada penjualan pada periode ini.</div>';
     const by = {}; rows.forEach((r) => { (by[r.uid] = by[r.uid] || []).push(r); });
     const list = Object.entries(by).map(([uid, a]) => { const u = users.find((z) => z.id === uid), last = a.reduce((m, r) => (r.d > m.d ? r : m), a[0]); return { name: u ? u.name : 'Pengguna tidak dikenal', n: a.length, kg: a.reduce((t, r) => t + r.kg, 0), avg: wavg(a), lo: Math.min(...a.map((r) => r.p)), hi: Math.max(...a.map((r) => r.p)), last }; }).sort((a, b) => b.n - a.n);
     body.innerHTML = list.length ? list.map((r) => `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td data-label="Transaksi">${r.n}</td><td data-label="Kg terjual">${r.kg.toLocaleString('id-ID', { maximumFractionDigits: 1 })}</td><td data-label="Rata-rata /kg"><b>${formatRupiah(r.avg)}</b>${ref ? `<div class="muted-cell" style="font-size:11px">${r.avg >= ref ? '+' : '–'}${formatRupiah(Math.abs(r.avg - ref))} dari acuan</div>` : ''}</td><td data-label="Terendah – tertinggi">${formatRupiah(r.lo)} – ${formatRupiah(r.hi)}</td><td data-label="Harga terakhir">${formatRupiah(r.last.p)}<div class="muted-cell" style="font-size:11px">${fmtDate(r.last.d)}</div></td></tr>`).join('') : emptyRow('Belum ada penjualan pada periode ini.');
@@ -1307,6 +1397,8 @@ window.Services = window.Services || {};
       if (!loaded) page = 'user-finance';
       else if (users.some((u) => u.id === uid)) page = 'user-finance';
       else { location.hash = '#users'; return; }
+      // Tampilkan laporan sebagai halaman penuh, bukan di balik drawer detail pengguna.
+      $('#user-modal').hidden = true;
       if (uid && uid !== financeUid) { financeUid = uid; financeMonth = 'all'; }
       if (loaded && uid) { renderFinance(); loadFinance(uid); }
     }
@@ -1331,6 +1423,14 @@ window.Services = window.Services || {};
     priceModal.hidden = false;
     priceError.hidden = true;
     $('#price-per-kg').focus();
+    if (PREVIEW_MODE) {
+      if (market) {
+        $('#price-per-kg').value = market.price_per_kg;
+        $('#price-region').value = market.region || 'Blitar';
+        $('#price-note').value = market.note || '';
+      }
+      return;
+    }
     try {
       const current = await Services.puyuhku.getMarketPrice();
       if (current) {
@@ -1358,11 +1458,16 @@ window.Services = window.Services || {};
     button.disabled = true;
     button.textContent = 'Menyimpan…';
     try {
-      await Services.puyuhku.updateMarketPrice({
-        pricePerKg,
-        region,
-        note: $('#price-note').value.trim(),
-      });
+      if (PREVIEW_MODE) {
+        market = { price_per_kg: pricePerKg, region, note: $('#price-note').value.trim(), updated_at: new Date().toISOString() };
+        renderSales();
+      } else {
+        await Services.puyuhku.updateMarketPrice({
+          pricePerKg,
+          region,
+          note: $('#price-note').value.trim(),
+        });
+      }
       priceError.hidden = false;
       priceError.className = 'counts-note';
       priceError.textContent = 'Harga berhasil diperbarui di Supabase.';
@@ -1408,7 +1513,9 @@ window.Services = window.Services || {};
     $('#note-tag').value = u.tag || '';
     $('#note-text').value = u.note || '';
     ['#note-tag', '#note-text', '#note-save'].forEach((i) => { $(i).disabled = !notesReady; });
-    $('#note-status').textContent = notesReady ? (notes[u.id] ? 'Diubah ' + fmtDate(toDate(notes[u.id].updated_at)) : '') : 'Tabel catatan belum dibuat. Jalankan admin-notes.sql di Supabase.';
+    $('#note-status').textContent = PREVIEW_MODE && notes[u.id]
+      ? 'Contoh pratinjau · tidak tersimpan ke Supabase.'
+      : notesReady ? (notes[u.id] ? 'Diubah ' + fmtDate(toDate(notes[u.id].updated_at)) : '') : 'Tabel catatan belum dibuat. Jalankan admin-notes.sql di Supabase.';
     $('#finance-link').href = `#finance/${u.id}`;
     $('#modal-counts').textContent = u.total
       ? 'Catatan: ' + SUBS.filter((n) => u.counts[n]).map((n) => `${u.counts[n]} ${SUB_LABELS[n] || n}`).join(', ') + '.'
@@ -1423,7 +1530,11 @@ window.Services = window.Services || {};
     if (!u) return;
     btn.disabled = true; st.textContent = 'Menyimpan…';
     try {
-      const saved = await Services.puyuhku.saveNote(u.id, { note: $('#note-text').value, tag: $('#note-tag').value });
+      const saved = PREVIEW_MODE
+        ? ($('#note-text').value.trim() || $('#note-tag').value
+          ? { user_id: u.id, note: $('#note-text').value.trim(), tag: $('#note-tag').value, updated_at: new Date().toISOString() }
+          : null)
+        : await Services.puyuhku.saveNote(u.id, { note: $('#note-text').value, tag: $('#note-tag').value });
       if (saved) notes[u.id] = saved; else delete notes[u.id];
       u.note = saved ? saved.note : ''; u.tag = saved ? saved.tag : '';
       st.textContent = saved ? 'Tersimpan' : 'Catatan dihapus';
