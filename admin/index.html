@@ -1542,7 +1542,7 @@ window.Services = window.Services || {};
     $('#note-status').textContent = PREVIEW_MODE && notes[u.id]
       ? 'Contoh pratinjau · tidak tersimpan ke Supabase.'
       : notesReady ? (notes[u.id] ? 'Diubah ' + fmtDate(toDate(notes[u.id].updated_at)) : '') : 'Tabel catatan belum dibuat. Jalankan admin-notes.sql di Supabase.';
-    $('#finance-link').href = `#finance/${u.id}`;
+    $('#finance-link').href = `../aplikasi.html?viewAs=${encodeURIComponent(u.id)}`;
     $('#modal-counts').textContent = u.total
       ? 'Catatan: ' + SUBS.filter((n) => u.counts[n]).map((n) => `${u.counts[n]} ${SUB_LABELS[n] || n}`).join(', ') + '.'
       : 'Pengguna ini belum punya catatan apa pun.';

@@ -169,7 +169,7 @@ details.fgroup-more{margin:16px 0 14px}details.fgroup-more summary{list-style:no
 @keyframes eggTickOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-7px)}}
 .egg-tick[hidden],body.subpage .egg-tick{display:none}
 @media (prefers-reduced-motion:reduce){.egg-tick span,.egg-tick span.out{animation:none}}
-#bellBtn{position:relative}.bell-badge{position:absolute;top:-2px;right:-2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#e53935;color:#fff;font:700 10px/16px "DM Sans",system-ui,sans-serif;text-align:center;box-sizing:border-box}.bell-badge[hidden]{display:none}
+.view-as #bellBtn,.view-as .nav button:not([data-page="reports"]),.view-as [data-go="settings"],.view-as #shareCard{display:none}.viewas-bar{position:sticky;top:0;z-index:99;background:#1f5c3a;color:#fff;text-align:center;font:600 12px/1.4 "DM Sans",sans-serif;padding:7px 12px}#bellBtn{position:relative}.bell-badge{position:absolute;top:-2px;right:-2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#e53935;color:#fff;font:700 10px/16px "DM Sans",system-ui,sans-serif;text-align:center;box-sizing:border-box}.bell-badge[hidden]{display:none}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=DM+Sans:wght@500;700&display=swap">
 </head>
@@ -230,6 +230,8 @@ details.fgroup-more{margin:16px 0 14px}details.fgroup-more summary{list-style:no
 const PREVIEW_MODE=false,PREVIEW_KEY="puyuhku-preview-v1";
 let auth,db,configured,onAuthStateChanged,signOut,collection,doc,onSnapshot,writeBatch,fetchMarketPrice;
 if(!PREVIEW_MODE)({auth,db,configured,onAuthStateChanged,signOut,collection,doc,onSnapshot,writeBatch,fetchMarketPrice}=await import("./supabase.js"));
+const VIEW_AS=(new URLSearchParams(location.search).get("viewAs")||"").trim();
+if(VIEW_AS&&writeBatch)writeBatch=()=>({set(){},delete(){},async commit(){}});
 const $=id=>document.getElementById(id), money=n=>"Rp"+Math.round(Number(n)||0).toLocaleString("id-ID"), today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}, monthNow=()=>today().slice(0,7);
 let records={production:[],sales:[],expenses:[],damaged:[],deaths:[],incomes:[],restocks:[],assets:[]},settings={farmName:"Peternakan Puyuh",population:0,populationDate:"",feedOpeningStockKg:0,feedOpeningStockDate:"",feedPricePerSack:0,feedSackKg:50,openingStockKg:0,openingBalance:0,eggWeightG:1000/90,employeeNames:[]},operationalMode=false,feedFormOpen=false,feedEst=null;
 const STORAGE_KEY="puyuhku-data-v1";
@@ -237,7 +239,7 @@ const COLS=["production","sales","expenses","damaged","deaths","incomes","restoc
 let uid=null,ready=false,legacyChecked=false;const synced={};
 const stable=v=>Array.isArray(v)?"["+v.map(stable).join(",")+"]":v&&typeof v==="object"?"{"+Object.keys(v).sort().filter(k=>v[k]!==undefined).map(k=>JSON.stringify(k)+":"+stable(v[k])).join(",")+"}":JSON.stringify(v);
 const strip=x=>{const{id,...d}=x;return d};
-function persist(){if(PREVIEW_MODE){if(ready)try{localStorage.setItem(PREVIEW_KEY,JSON.stringify({settings,records}))}catch(e){}return}if(!uid||!ready)return;const ops=[];
+function persist(){if(VIEW_AS)return;if(PREVIEW_MODE){if(ready)try{localStorage.setItem(PREVIEW_KEY,JSON.stringify({settings,records}))}catch(e){}return}if(!uid||!ready)return;const ops=[];
  COLS.forEach(c=>{const old=synced[c]||new Map(),next=new Map();(records[c]||[]).forEach(x=>{if(!x||!x.id)return;const d=JSON.parse(JSON.stringify(strip(x))),sx=stable(d);next.set(x.id,sx);if(old.get(x.id)!==sx)ops.push(["set",doc(db,"users",uid,c,x.id),d])});old.forEach((_,id)=>{if(!next.has(id))ops.push(["del",doc(db,"users",uid,c,id)])});synced[c]=next});
  const st=JSON.parse(JSON.stringify(settings)),ss=stable(st);if(ss!==synced.settings){ops.push(["set",doc(db,"users",uid,"meta","settings"),st]);synced.settings=ss}
  for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(o=>o[0]==="set"?b.set(o[1],o[2]):b.delete(o[1]));b.commit().catch(e=>{console.error(e);alert("Gagal menyinkronkan ke server: "+(e.code||e.message))})}}
@@ -598,7 +600,7 @@ function startSync(){const first=new Set(),server=new Set(),total=COLS.length+1;
  onSnapshot(doc(db,"users",uid,"meta","settings"),snap=>{if(snap.exists()){settings={...DEFAULTS,...snap.data()};synced.settings=stable(settings);fillSettings()}after("settings",snap)},e=>{console.error(e);$("loading").textContent="Gagal memuat data: "+(e.code||e.message)})}
 function legacyData(){try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");return v&&v.records?v:null}catch(e){return null}}
 function importLegacy(){const saved=legacyData();if(!saved){alert("Tidak ada data lama di browser ini.");return}let n=0;COLS.forEach(c=>{const have=new Set(records[c].map(x=>x.id));(saved.records[c]||[]).forEach(x=>{if(x&&x.id&&!have.has(x.id)){records[c].push(x);n++}})});if(synced.settings===undefined&&saved.settings)settings={...settings,...saved.settings};persist();fillSettings();render();showToast(n+" catatan lama berhasil diimpor.")}
-function checkLegacy(){const saved=legacyData();if(!saved||localStorage.getItem("puyuhku-import-asked"))return;if(!COLS.every(c=>records[c].length===0)||synced.settings!==undefined)return;if(!COLS.some(c=>(saved.records[c]||[]).length))return;localStorage.setItem("puyuhku-import-asked","1");if(confirm("Ditemukan data lama di browser ini. Impor ke akun Google Anda sekarang?"))importLegacy()}
+function checkLegacy(){if(VIEW_AS)return;const saved=legacyData();if(!saved||localStorage.getItem("puyuhku-import-asked"))return;if(!COLS.every(c=>records[c].length===0)||synced.settings!==undefined)return;if(!COLS.some(c=>(saved.records[c]||[]).length))return;localStorage.setItem("puyuhku-import-asked","1");if(confirm("Ditemukan data lama di browser ini. Impor ke akun Google Anda sekarang?"))importLegacy()}
 $("logoutBtn").onclick=async()=>{if(PREVIEW_MODE){alert("Mode preview: login sedang dimatikan.");return}if(!confirm("Keluar dari akun?"))return;await signOut(auth);location.replace("login.html")};
 (function(){const ADMIN_PIN="081277",modal=$("adminPinModal"),form=$("adminPinForm"),input=$("adminPinInput"),err=$("adminPinError");function openPinModal(){err.innerHTML="";input.value="";modal.classList.remove("hidden");document.body.style.overflow="hidden";setTimeout(()=>input.focus(),50)}function closePinModal(){modal.classList.add("hidden");document.body.style.overflow=""}$("adminAccessBtn").onclick=openPinModal;$("adminPinCancel").onclick=closePinModal;modal.onclick=e=>{if(e.target===modal)closePinModal()};form.onsubmit=e=>{e.preventDefault();if(input.value.trim()===ADMIN_PIN){closePinModal();location.href="admin/"}else{err.innerHTML='<div class="error">Kode PIN salah.</div>';input.value="";input.focus()}}})();
 function startPreview(){try{const v=JSON.parse(localStorage.getItem(PREVIEW_KEY)||"null");if(v){settings={...DEFAULTS,...v.settings};COLS.forEach(c=>records[c]=(v.records&&v.records[c])||[])}const PREVIEW_SEED_POP=1000;if(PREVIEW_SEED_POP>0&&!Number(settings.population||0)&&!(records.restocks||[]).length&&!(records.deaths||[]).length){settings.population=PREVIEW_SEED_POP;settings.populationDate=today();settings.hasBirds=true}const PREVIEW_SEED_PRICE=8500;if(PREVIEW_SEED_PRICE>0&&!Number(settings.seedPrice||0)&&!Number(settings.initialSeedPrice||0)&&!(records.restocks||[]).length){settings.seedPrice=PREVIEW_SEED_PRICE;settings.initialSeedPrice=PREVIEW_SEED_PRICE}if(!(records.assets||[]).length)records.assets=[{id:newEventId(),date:today(),category:"Kandang",name:"Kandang",qty:1,value:15000000,capacity:2000,condition:"Baik",note:""}];if(!settings.demoSeeded){const t=today(),sk=Number(settings.feedSackKg)||50;records.expenses.push({id:newEventId(),date:t,period:"purchase",category:"Pakan",qty:10*sk,leftKg:0,sak:10,kgSak:sk,unit:"kg",employeeName:"",payrollMonth:"",amount:4150000,note:"Contoh data preview"});records.production.push({id:newEventId(),date:t,unit:"kg",qty:20,kg:20,note:"Contoh data preview"});records.sales.push({id:newEventId(),date:t,unit:"kg",qty:20,price:30000,total:600000,kgEquivalent:20,buyer:"",note:"Contoh data preview"});if(!Number(settings.feedPricePerSack||0))settings.feedPricePerSack=415000;settings.demoSeeded=true}if(!settings.demoSeededUnpaid){const t=today();records.production.push({id:newEventId(),date:t,unit:"kg",qty:80,kg:80,note:"Contoh data preview"});records.sales.push({id:newEventId(),date:t,unit:"kg",qty:50,price:32000,total:1600000,kgEquivalent:50,buyer:"Pak Budi",note:"Contoh data preview: belum lunas",payments:[]});settings.demoSeededUnpaid=true}if(!settings.populationDate)settings.populationDate=[...(records.restocks||[]),...(records.deaths||[])].map(x=>x.date).filter(Boolean).sort()[0]||today()}catch(e){}ready=true;$("loading").classList.add("hidden");$("app").classList.remove("hidden");$("accName").textContent="Mode preview";$("accEmail").textContent="Login dimatikan sementara";fillSettings();render()}
@@ -625,8 +627,18 @@ function renderPopReport(){const c=popCalc(),avg=c.avg,pop=c.pop,unpriced=c.unpr
 $("businessStageLabel").addEventListener("click",e=>{if(e.currentTarget.dataset.static==="1"){e.stopPropagation();e.preventDefault();openBusinessSettings()}});
 function renderPopHint(){const empty=!Number(settings.population||0)&&!(records.restocks||[]).length&&!records.deaths.length;$("assetsEmpty").classList.toggle("hidden",!empty);$("popReportCard").classList.toggle("hidden",empty);if(!empty)renderPopReport()}
 
+let viewAsBusy=false;
+async function startViewAs(user){if(viewAsBusy)return;viewAsBusy=true;
+ let ok=false;try{const r=await db.sb.from("admins").select("user_id").eq("user_id",user.uid).maybeSingle();ok=!!(r&&r.data)}catch(e){}
+ if(!ok){$("loading").textContent="Akses ditolak: mode ini hanya untuk admin.";return}
+ uid=VIEW_AS;authUser=null;document.body.classList.add("view-as");
+ const bar=document.createElement("div");bar.className="viewas-bar";bar.textContent="Mode admin: hanya melihat data pengguna. Perubahan tidak disimpan.";document.body.prepend(bar);
+ document.addEventListener("submit",e=>{e.preventDefault();e.stopImmediatePropagation();alert("Mode admin: hanya melihat, tidak bisa mengubah data.")},true);
+ document.addEventListener("click",e=>{if(e.target.closest("[data-act]")||e.target.closest("#logoutBtn")){e.preventDefault();e.stopImmediatePropagation()}},true);
+ startSync();loadEggMarket();
+ const t=setInterval(()=>{if(ready){clearInterval(t);showPage("reports")}},120)}
 if(PREVIEW_MODE){startPreview();loadEggMarket();renderPage("home");currentPage="home"}else if(!configured)location.replace("login.html");
-else onAuthStateChanged(auth,user=>{if(!user){location.replace("login.html");return}if(uid)return;uid=user.uid;authUser=user;$("accName").textContent=user.displayName||"Akun Google";$("accEmail").textContent=user.email||"";startSync();loadEggMarket()});
+else onAuthStateChanged(auth,user=>{if(!user){location.replace("login.html");return}if(uid)return;if(VIEW_AS){startViewAs(user);return}uid=user.uid;authUser=user;$("accName").textContent=user.displayName||"Akun Google";$("accEmail").textContent=user.email||"";startSync();loadEggMarket()});
 </script>
 <script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
 <div id="notifModal" class="modal-bg hidden" role="dialog" aria-modal="true" aria-labelledby="notifTitle"><div class="card modal" style="text-align:center;padding:24px 20px"><div style="font-size:42px;line-height:1">🔔</div><div class="title" id="notifTitle" style="margin:10px 0 6px">Aktifkan notifikasi</div><p class="muted" id="notifText" style="margin:0 0 14px;line-height:1.5;font-size:13px">Dapatkan pengingat penting dari PuyuhKu langsung di HP, walau aplikasi tidak sedang dibuka.</p><div id="notifMsg" style="margin:0 0 12px;font-size:13px;line-height:1.4"></div><button type="button" class="btn full" id="notifEnableBtn">Aktifkan</button><button type="button" class="smallbtn full" id="notifCloseBtn" style="margin-top:8px">Nanti saja</button></div></div>
@@ -677,6 +689,7 @@ enableBtn.onclick=async()=>{
   if(r.reason==='denied'||r.reason==='unsupported'){textEl.textContent=TEXT[r.reason];enableBtn.classList.add('hidden');closeBtn.textContent='Tutup'}
 };
 (async()=>{
+  if(new URLSearchParams(location.search).get('viewAs'))return;
   await refresh();
   // Izin sudah ada tapi langganan hilang: daftarkan ulang diam-diam
   if(state==='granted'){
