@@ -386,6 +386,17 @@ tbody td{color:#465243;border-color:#e1e6df}
  .metric-card,.panel,.report-card{border-color:#d9e1d6}
 }
 
+
+/* Detail pengguna: kartu angka */
+.stat-title{font:700 13px Manrope,sans-serif;margin:16px 0 8px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:11px 12px;min-width:0;background:#fff}
+.stat.wide{grid-column:1/-1;background:#f3f8f1}
+.stat span{display:block;font-size:11px;color:var(--muted)}
+.stat strong{display:block;font:700 17px Manrope,sans-serif;margin-top:3px;overflow-wrap:anywhere}
+.stat.wide strong{font-size:21px}
+.stat small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.drawer-pane{padding-bottom:16px}
 </style>
 </head>
 <body>
@@ -513,16 +524,17 @@ tbody td{color:#465243;border-color:#e1e6df}
     <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-top"><div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div><button class="modal-close" id="modal-close" aria-label="Tutup">×</button></div>
       <div class="drawer-status"><span class="status-badge" id="modal-status">Aktif</span><small id="modal-last"></small></div>
-      <div class="drawer-tabs" role="tablist"><button type="button" class="on" data-tab="summary">Ringkasan</button><button type="button" data-tab="notes" id="tab-notes">Catatan</button><button type="button" data-tab="finance">Keuangan</button></div>
-      <div class="drawer-pane" data-pane="summary">
+      <div class="drawer-tabs" role="tablist"><button type="button" class="on" data-tab="summary">Kandang</button><button type="button" data-tab="finance">Keuangan</button><button type="button" data-tab="profile">Profil</button><button type="button" data-tab="notes" id="tab-notes">Catatan</button></div>
+      <div class="drawer-pane" data-pane="summary"><div id="modal-kandang" aria-live="polite"></div></div>
+      <div class="drawer-pane" data-pane="profile" hidden>
         <div class="modal-details"><div><span>WhatsApp</span><strong id="modal-whatsapp"></strong></div><div><span>Nama peternakan</span><strong id="modal-farm"></strong></div><div><span>ID pengguna</span><strong id="modal-id"></strong></div><div><span>Tanggal bergabung</span><strong id="modal-date"></strong></div></div>
         <a class="button button-primary finance-button" id="modal-wa" target="_blank" rel="noopener noreferrer" hidden>Chat lewat WhatsApp <span>→</span></a>
         <p class="counts-note" id="modal-counts"></p>
       </div>
       <div class="drawer-pane" data-pane="notes" hidden><div class="note-box" style="margin:14px 0 4px;text-align:left"><label style="font-size:11px;font-weight:700;color:#737e70">Catatan admin <span style="font-weight:400">· hanya terlihat admin</span></label><select class="select-chip" id="note-tag" style="width:100%;margin:6px 0"><option value="">Tanpa label</option><option value="followup">Perlu follow-up</option><option value="issue">Ada masalah / komplain</option><option value="lead">Calon pelanggan berbayar</option><option value="big">Peternak besar</option><option value="contacted">Sudah dihubungi</option></select><textarea id="note-text" maxlength="2000" rows="4" placeholder="Tulis catatan tentang pengguna ini…" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:12px;resize:vertical"></textarea><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="button button-secondary" id="note-save" type="button">Simpan catatan</button><small id="note-status" style="color:var(--muted);font-size:11px;line-height:1.4"></small></div></div></div>
       <div class="drawer-pane" data-pane="finance" hidden>
-        <div class="modal-details" id="modal-fin-counts"></div>
-        <a class="button button-primary finance-button" id="finance-link" href="#finance">Buka laporan keuangan lengkap <span>→</span></a>
+        <div id="modal-money" aria-live="polite"></div>
+        <a class="button button-secondary finance-button" id="finance-link" href="#finance">Buka laporan keuangan lengkap <span>→</span></a>
       </div>
     </section>
   </div>
@@ -925,6 +937,19 @@ window.Services = window.Services || {};
     return rows.map((r) => ({ ...(r.data || {}), id: r.id }));
   };
 
+  // Semua catatan + pengaturan satu pengguna, untuk ringkasan di detail pengguna.
+  service.userDetail = async (uid) => {
+    const names = ["production", "sales", "expenses", "damaged", "deaths", "restocks", "incomes"];
+    const [lists, meta] = await Promise.all([
+      Promise.all(names.map((n) => service.listSub(uid, n, 20000))),
+      sb.from("records").select("data").eq("user_id", uid).eq("coll", "meta").eq("id", "settings").maybeSingle(),
+    ]);
+    if (meta.error) throw meta.error;
+    const records = {};
+    names.forEach((n, i) => { records[n] = lists[i]; });
+    return { records, settings: (meta.data && meta.data.data) || {} };
+  };
+
   // Waktu terakhir tiap pengguna menyimpan catatan (selain profil), dari 5000 perubahan terbaru.
   service.lastActivity = async () => {
     const rows = await fetchAll(
@@ -972,6 +997,56 @@ window.Services = window.Services || {};
 })();
 
 </script>
+  <script>
+/* ===== Hitungan kandang: salinan persis dari aplikasi.html. Kalau rumus di aplikasi berubah, salin ulang ke sini. ===== */
+function kandangSummary(records, saved) {
+const settings = { ...{farmName:"Peternakan Puyuh",population:0,populationDate:"",feedOpeningStockKg:0,feedOpeningStockDate:"",feedPricePerSack:0,feedSackKg:50,openingStockKg:0,openingBalance:0,eggWeightG:1000/90,employeeNames:[]}, ...(saved || {}) };
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+function dayNum(s){return Math.floor(Date.UTC(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8,10))/864e5)}
+function isValidDate(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(String(s||"")))return false;const [y,m,d]=s.split("-").map(Number),v=new Date(Date.UTC(y,m-1,d));return v.getUTCFullYear()===y&&v.getUTCMonth()===m-1&&v.getUTCDate()===d}
+function eventOrder(a,b){const ia=String(a.id||""),ib=String(b.id||""),ta=Number.parseInt(ia.split("-")[0],10),tb=Number.parseInt(ib.split("-")[0],10);if(Number.isFinite(ta)&&Number.isFinite(tb)&&ta!==tb)return ta-tb;if(ia&&ib&&ia!==ib)return ia.localeCompare(ib);return (a._kind??0)-(b._kind??0)}
+function eggOpeningDate(){const dates=[...records.production,...records.sales,...(records.damaged||[])].map(x=>x.date).filter(Boolean).sort();return settings.openingStockDate||dates[0]||today()}
+function eggEvents(){return [...records.production.map(x=>({...x,_kind:0,_qty:Math.max(0,Number(x.kg??x.qty)-Number(x.damagedKg||0))})),...(records.damaged||[]).map(x=>({...x,_kind:1,_qty:-Number(x.kg||0)})),...records.sales.map(x=>({...x,_kind:2,_qty:-Number((x.kgEquivalent??x.qty)||0)}))].filter(x=>x.date).sort((a,b)=>a.date.localeCompare(b.date)||eventOrder(a,b))}
+function eggBalanceAt(date){const base=eggOpeningDate();if(date<base)return 0;let n=Number(settings.openingStockKg||0);for(const x of eggEvents()){if(x.date<base||x.date>date)continue;n+=x._qty}return n}
+function stockAt(){return eggBalanceAt(today())}
+function sackKg(){return Number(settings.feedSackKg)>0?Number(settings.feedSackKg):50}
+function populationBaseDate(){return settings.populationDate||[...(records.restocks||[]),...(records.deaths||[])].map(x=>x.date).filter(Boolean).sort()[0]||today()}
+function populationAt(date){const base=populationBaseDate();if(!date||dayNum(date)<dayNum(base))return 0;let balance=Number(settings.population||0);const events=[...(records.restocks||[]).map(x=>({...x,_kind:0})),...(records.deaths||[]).map(x=>({...x,_kind:1}))].filter(x=>x.date&&x.date>=base&&x.date<=date).sort((a,b)=>a.date.localeCompare(b.date)||eventOrder(a,b));for(const x of events)balance+=x._kind===0?Number(x.qty||0):-Number(x.qty||0);return balance}
+const popNow=()=>Math.max(0,populationAt(today()));
+function youngBatches(skipDeathId){const base=populationBaseDate(),list=[],n=Math.min(Number(settings.initialNotLaying)||0,Number(settings.population)||0);const open="9999-12-31";if(n>0&&settings.initialLayDate)list.push({id:"initial",initial:true,start:base,est:settings.initialLayDate,lay:settings.initialLayConfirmed?settings.initialLayDate:open,qty:n,out:[]});(records.restocks||[]).forEach(x=>{if(x.layDate&&x.layDate>x.date&&x.date>=base)list.push({id:x.id,start:x.date,est:x.layDate,lay:x.layConfirmed?x.layDate:open,qty:Number(x.qty)||0,out:[]})});list.sort((a,b)=>a.est.localeCompare(b.est));(records.deaths||[]).filter(x=>x.young&&x.id!==skipDeathId).sort((a,b)=>a.date.localeCompare(b.date)).forEach(x=>{let q=Number(x.qty)||0;for(const b of list){if(q<=0)break;if(x.date<b.start||x.date>=b.lay)continue;const take=Math.min(q,b.qty-b.out.reduce((a,o)=>a+o.qty,0));if(take>0){b.out.push({date:x.date,qty:take});q-=take}}});return list}
+function batchLeft(b,date){return b.qty-b.out.filter(o=>o.date<=date).reduce((a,o)=>a+o.qty,0)}
+function pendingAt(date,skipDeathId){return youngBatches(skipDeathId).filter(b=>b.start<=date&&date<b.lay).map(b=>({...b,left:batchLeft(b,date)})).filter(b=>b.left>0)}
+function youngAt(date,skipDeathId){return pendingAt(date,skipDeathId).reduce((a,b)=>a+b.left,0)}
+function hdpStats(m){const yr=m.length===4,start=dayNum(yr?m+"-01-01":m+"-01"),full=yr?dayNum(m+"-12-31"):dayNum(m+"-"+String(new Date(+m.slice(0,4),+m.slice(5,7),0).getDate()).padStart(2,"0")),end=Math.min(full,dayNum(today()));if(end<start)return null;const baseDate=populationBaseDate(),base=dayNum(baseDate),activeStart=Math.max(start,base);if(activeStart>end)return null;const events=[...(records.restocks||[]).map(x=>({...x,_kind:0})),...(records.deaths||[]).map(x=>({...x,_kind:1}))].filter(x=>x.date&&dayNum(x.date)>=base&&dayNum(x.date)<=end).sort((a,b)=>a.date.localeCompare(b.date)||eventOrder(a,b));let pop=Number(settings.population||0),idx=0,popDays=0,layDays=0;const batches=youngBatches();for(let day=base;day<=end;day++){while(idx<events.length&&dayNum(events[idx].date)<day){const x=events[idx++];pop+=x._kind===0?Number(x.qty||0):-Number(x.qty||0)}if(day>=activeStart){popDays+=pop;const young=batches.reduce((a,b)=>{const from=dayNum(b.start)+(b.initial?0:1);if(day<from||day>=dayNum(b.lay))return a;return a+b.qty-b.out.reduce((t,o)=>t+(dayNum(o.date)<day?o.qty:0),0)},0);layDays+=Math.max(0,pop-young)}while(idx<events.length&&dayNum(events[idx].date)===day){const x=events[idx++];pop+=x._kind===0?Number(x.qty||0):-Number(x.qty||0)}}if(popDays<=0)return null;const gram=records.production.filter(x=>x.date?.startsWith(m)&&x.date>=baseDate&&x.date<=today()).reduce((s,x)=>s+(Number(x.kg)||0),0)*1000/layDays;return{gram:layDays>0?gram:null,pct:layDays>0?gram/(Number(settings.eggWeightG)||1000/90)*100:null,popDays}}
+function popDayTable(){const base=dayNum(populationBaseDate()),T=dayNum(today());if(!(base<=T))return{base:Infinity,cur:0,sum:()=>0};const ev=[...(records.restocks||[]).map(x=>({...x,_kind:0})),...(records.deaths||[]).map(x=>({...x,_kind:1}))].filter(x=>x.date&&dayNum(x.date)>=base).sort((a,b)=>a.date.localeCompare(b.date)||eventOrder(a,b)),apply=x=>x._kind===0?Number(x.qty||0):-Number(x.qty||0);let pop=Number(settings.population||0),i=0;const pre=[0];for(let d=base;d<=T;d++){while(i<ev.length&&dayNum(ev[i].date)<d)pop+=apply(ev[i++]);pre.push(pre[pre.length-1]+Math.max(0,pop))}while(i<ev.length&&dayNum(ev[i].date)<=T)pop+=apply(ev[i++]);const cur=Math.max(0,pop);return{base,cur,sum(a,b){a=Math.max(a,base);if(b<a)return 0;const c=Math.min(b,T);let r=c>=a?pre[c-base+1]-pre[a-base]:0;if(b>T)r+=(b-Math.max(a,T+1)+1)*cur;return r}}}
+function feedBatches(){const feedBase=settings.feedOpeningStockDate||"";const P=records.expenses.filter(x=>x.category==="Pakan"&&x.period==="purchase"&&x.date&&(!feedBase||x.date>=feedBase)&&Number(x.qty)>0).map(x=>({type:"p",date:x.date,id:String(x.id||""),kg:Number(x.qty),cost:Number(x.amount||0),left:Math.max(0,Number(x.leftKg)||0),record:x}));const first=feedBase||(P.length?P[0].date:"9999");const C=(settings.feedChecks||[]).filter(c=>c&&c.date>=first&&Number(c.kg)>=0).map(c=>({type:"c",date:c.date,id:String(c.id||""),kg:0,cost:0,left:Number(c.kg),record:c}));if(settings.feedOpeningStockDate&&Number(settings.feedOpeningStockKg)>=0&&!C.some(c=>c.date===settings.feedOpeningStockDate&&c.opening))C.push({type:"c",date:settings.feedOpeningStockDate,id:"",kg:0,cost:0,left:Number(settings.feedOpeningStockKg),opening:true});const L=[...P,...C].sort((a,b)=>a.date.localeCompare(b.date)||eventOrder({...a,_kind:a.opening?-1:a.type==="c"?0:1},{...b,_kind:b.opening?-1:b.type==="c"?0:1})),t=dayNum(today());let prev=Number(settings.feedSackKg)>0?Number(settings.feedPricePerSack||0)/Number(settings.feedSackKg):0,ck=0,cd=0,lastP=null,pt=popDayTable(),kgPD=0,pdSum=0;L.forEach((b,i)=>{b.s=dayNum(b.date);if(b.type==="p"){if(!lastP&&b.kg>0&&prev===0)prev=b.cost/b.kg;b.avail=b.left+b.kg;b.avg=b.avail>0?(b.left*prev+b.cost)/b.avail:prev;prev=b.avg;lastP=b}else{b.avail=b.left;b.avg=prev}const n=L[i+1];if(n){const d=dayNum(n.date)-b.s;if(d>0){b.days=d;b.used=Math.min(b.avail,Math.max(0,b.avail-n.left));b.rate=b.used/d;b.e=b.s+d-1;ck+=b.used;cd+=d;if(b.s>=pt.base){const pdd=pt.sum(b.s,b.s+d-1);if(pdd>0){kgPD+=b.used;pdSum+=pdd}}}}});const last=L[L.length-1];if(last){const cur=pt.cur;if(kgPD>0&&pdSum>0&&cur>0){last.perBird=kgPD/pdSum;last.rate=last.perBird*cur;last.src="learned"}else if(cd>0&&ck>0){last.rate=ck/cd;last.src="total"}else if(cur>0){last.perBird=FEED_DEFAULT_G/1000;last.rate=last.perBird*cur;last.src="default"}if(last.rate){last.days=Math.max(1,Math.round(last.avail/last.rate));last.e=last.s+last.days-1;last.consumed=last.perBird?last.perBird*pt.sum(last.s,t-1):last.rate*(t-last.s)}}return{L,last,lastP,t,pt}}
+function feedForecast(){const {last,t}=feedBatches();if(!last)return null;if(!last.rate)return{left:last.avail,days:null,rate:0};const left=Math.max(0,last.avail-last.consumed);return{left,days:Math.floor(left/last.rate),rate:last.rate}}
+const FEED_DEFAULT_G=22;
+const FEED_TYPES=["Layer","Pembesaran","Lainnya"];
+function feedSplitTypes(extra){const base=settings.feedOpeningStockDate||"",have=new Set(records.expenses.filter(x=>x.category==="Pakan"&&x.period==="purchase"&&(!base||x.date>=base)).map(x=>x.feedType).filter(Boolean));if(extra)have.add(extra);return have.has("Layer")&&have.has("Pembesaran")?FEED_TYPES.filter(t=>have.has(t)):null}
+function feedTypeStock(){const types=feedSplitTypes();if(!types)return null;const{L,last,t}=feedBatches(),snap=last&&last.record&&last.record.leftByType;if(!snap)return{types,rows:null};const used={};for(let i=0;i+1<L.length;i++){const a=L[i],b=L[i+1],x=a.record&&a.record.leftByType,y=b.record&&b.record.leftByType;if(!x||!y||!(b.s>a.s))continue;types.forEach(k=>{const u=(x[k]||0)+(a.type==="p"&&a.record.feedType===k?a.kg:0)-(y[k]||0);if(u>0)used[k]=(used[k]||0)+u})}const pop=popNow(),young=youngAt(today()),birds={Layer:Math.max(0,pop-young),Pembesaran:young},totalUsed=types.reduce((a,k)=>a+(used[k]||0),0),learned=totalUsed>0;
+return{types,rows:types.map(k=>{const share=learned?(used[k]||0)/totalUsed:pop>0?(birds[k]||0)/pop:0,have=(snap[k]||0)+(last.type==="p"&&last.record.feedType===k?last.kg:0),left=Math.max(0,have-(last.consumed||0)*share),rate=(last.rate||0)*share;return{type:k,left,days:rate>0?Math.floor(left/rate):null}})}}
+const t = today(), m = t.slice(0, 7);
+const sum = (list, f, pre) => (list || []).filter((x) => x.date && x.date <= t && x.date.startsWith(pre)).reduce((a, x) => a + (Number(f(x)) || 0), 0);
+const net = (x) => Math.max(0, Number(x.kg ?? x.qty) - Number(x.damagedKg || 0));
+const pop = popNow(), young = Math.min(pop, youngAt(t)), hdp = hdpStats(m), feed = feedForecast(), types = feedTypeStock();
+const panen = records.production.map((x) => x.date).filter((d) => d && d <= t).sort();
+return {
+  pop, young, laying: pop - young,
+  deadMonth: sum(records.deaths, (x) => x.qty, m),
+  newMonth: sum(records.restocks, (x) => x.qty, m),
+  eggStock: Math.max(0, stockAt()),
+  eggToday: sum(records.production, net, t),
+  eggMonth: sum(records.production, net, m),
+  soldMonth: sum(records.sales, (x) => x.kgEquivalent ?? x.qty, m),
+  damagedMonth: sum(records.damaged, (x) => x.kg, m) + sum(records.production, (x) => x.damagedKg, m),
+  hdp: hdp && hdp.pct !== null ? hdp.pct : null,
+  lastHarvest: panen[panen.length - 1] || '',
+  eggWeightG: Number(settings.eggWeightG) || 1000 / 90,
+  feed, sackKg: sackKg(), feedTypes: types && types.rows ? types.rows : [],
+};
+}
+  </script>
   <script>
 (() => {
   const PREVIEW_MODE = window.SUPERADMIN_PREVIEW === true;
@@ -1532,7 +1607,6 @@ window.Services = window.Services || {};
     $('#modal-last').textContent = lastLabel(u).replace('Terakhir: ', 'Aktivitas: ');
     const wa = u.whatsapp ? waLink(u.whatsapp) : '';
     $('#modal-wa').hidden = !wa; if (wa) $('#modal-wa').href = wa;
-    $('#modal-fin-counts').innerHTML = SUBS.map((n) => `<div><span>${escapeHtml(SUB_LABELS[n] || n)}</span><strong>${u.counts[n]}</strong></div>`).join('');
     $('#tab-notes').textContent = 'Catatan' + (u.note || u.tag ? ' •' : '');
     setTab('summary');
     noteUid = u.id;
@@ -1547,7 +1621,79 @@ window.Services = window.Services || {};
       ? 'Catatan: ' + SUBS.filter((n) => u.counts[n]).map((n) => `${u.counts[n]} ${SUB_LABELS[n] || n}`).join(', ') + '.'
       : 'Pengguna ini belum punya catatan apa pun.';
     modal.hidden = false;
+    $('.user-modal', modal).scrollTop = 0;
     $('#modal-close').focus();
+    loadDetail(u.id);
+  }
+
+  // ---------- Ringkasan kandang & keuangan di detail pengguna ----------
+  let detailUid = null;
+  const angka = (n, d = 0) => Number(n || 0).toLocaleString('id-ID', { maximumFractionDigits: d });
+  const kg = (n) => angka(n, 2) + ' kg';
+  const tile = (label, value, hint, wide) => `<div class="stat${wide ? ' wide' : ''}"><span>${label}</span><strong>${escapeHtml(value)}</strong>${hint ? `<small>${escapeHtml(hint)}</small>` : ''}</div>`;
+  const group = (title, tiles) => `<h3 class="stat-title">${title}</h3><div class="stat-grid">${tiles}</div>`;
+
+  function kandangHtml(k) {
+    const butir = (n) => '± ' + angka(n * 1000 / k.eggWeightG) + ' butir';
+    const f = k.feed, sak = (n) => angka(n / k.sackKg, 2) + ' sak';
+    const feedTiles = !f
+      ? tile('Stok pakan', 'Belum ada data', 'Belum ada pembelian atau cek stok', true)
+      : tile('Stok pakan (perkiraan)', sak(f.left), kg(f.left)) + tile('Cukup untuk', f.days === null ? '-' : '± ' + angka(f.days) + ' hari', f.rate ? kg(f.rate) + ' per hari' : 'Data belum cukup') +
+        k.feedTypes.map((r) => tile('Pakan ' + escapeHtml(r.type), sak(r.left), r.days === null ? '' : '± ' + angka(r.days) + ' hari')).join('');
+    return group('🐦 Puyuh',
+        tile('Total puyuh', angka(k.pop) + ' ekor', '', true) +
+        tile('Bertelur', angka(k.laying) + ' ekor') + tile('Belum bertelur', angka(k.young) + ' ekor') +
+        tile('Mati/afkir bulan ini', angka(k.deadMonth) + ' ekor') + tile('Bibit masuk bulan ini', angka(k.newMonth) + ' ekor')) +
+      group('🥚 Telur',
+        tile('Stok telur sekarang', kg(k.eggStock), butir(k.eggStock), true) +
+        tile('Panen hari ini', kg(k.eggToday), butir(k.eggToday)) + tile('Panen bulan ini', kg(k.eggMonth), k.lastHarvest ? 'Terakhir ' + fmtDate(toDate(k.lastHarvest)) : 'Belum pernah panen') +
+        tile('Terjual bulan ini', kg(k.soldMonth)) + tile('Rusak bulan ini', kg(k.damagedMonth)) +
+        tile('Produktivitas bulan ini', k.hdp === null ? '-' : angka(k.hdp, 1) + '%', 'Dari puyuh yang sudah bertelur', true)) +
+      group('🌾 Pakan', feedTiles);
+  }
+
+  function moneyHtml(d) {
+    const rows = ledgerOf(d), now = monthKey(new Date());
+    const total = (list, type) => list.filter((r) => r.type === type).reduce((a, r) => a + r.amount, 0);
+    const block = (title, list) => group(title,
+      tile('Pemasukan', formatRupiah(total(list, 'income'))) + tile('Pengeluaran', formatRupiah(total(list, 'expense'))) +
+      tile('Selisih', formatRupiah(total(list, 'income') - total(list, 'expense')), '', true));
+    const piutang = d.sales.reduce((a, x) => {
+      const paid = (Array.isArray(x.payments) ? x.payments : [{ amount: num(x.total) }]).reduce((s, p) => s + num(p && p.amount), 0);
+      return a + Math.max(0, num(x.total) - paid);
+    }, 0);
+    return block('Bulan ini', rows.filter((r) => r.date && monthKey(r.date) === now)) + block('Semua periode', rows) +
+      group('Piutang', tile('Penjualan belum dibayar', formatRupiah(piutang), '', true));
+  }
+
+  async function loadDetail(uid) {
+    detailUid = uid;
+    const boxes = [$('#modal-kandang'), $('#modal-money')];
+    boxes.forEach((b) => { b.innerHTML = '<p class="counts-note">Memuat data…</p>'; });
+    try {
+      const { records, settings } = PREVIEW_MODE ? previewDetail(uid) : await Services.puyuhku.userDetail(uid);
+      if (detailUid !== uid) return;
+      boxes[0].innerHTML = kandangHtml(kandangSummary(records, settings));
+      boxes[1].innerHTML = moneyHtml(records);
+    } catch (e) {
+      if (detailUid !== uid) return;
+      boxes.forEach((b) => { b.innerHTML = `<p class="counts-note">${escapeHtml(describeError(e))} <button class="view-button" type="button" data-detail-retry>Coba lagi</button></p>`; });
+    }
+  }
+  modal.addEventListener('click', (e) => { if (e.target.closest('[data-detail-retry]')) loadDetail(detailUid); });
+
+  // Data contoh, hanya dipakai saat mode pratinjau.
+  function previewDetail(uid) {
+    const records = { production: [], sales: [], expenses: [], damaged: [], deaths: [], restocks: [], incomes: [] };
+    if (uid !== 'preview-001') return { records, settings: {} };
+    const d = (n) => { const x = new Date(Date.now() - n * 864e5); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+    for (let i = 20; i >= 0; i--) records.production.push({ id: 'p' + i, date: d(i), kg: 7.5 });
+    records.sales.push({ id: 's1', date: d(3), kg: 100, qty: 100, kgEquivalent: 100, total: 2800000, payments: [{ date: d(3), amount: 2300000 }] });
+    records.damaged.push({ id: 'x1', date: d(5), kg: 1.2 });
+    records.deaths.push({ id: 'm1', date: d(8), qty: 12, reason: 'Mati' });
+    records.restocks.push({ id: 'r1', date: d(10), qty: 300, layDate: d(-25) });
+    records.expenses.push({ id: 'e1', date: d(12), category: 'Pakan', period: 'purchase', qty: 500, leftKg: 20, amount: 4100000 });
+    return { records, settings: { population: 1000, populationDate: d(30) } };
   }
 
   $('#open-price-modal').addEventListener('click', openPriceModal);
