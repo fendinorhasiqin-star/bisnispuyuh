@@ -680,11 +680,11 @@ async function startViewAs(user){if(viewAsBusy)return;viewAsBusy=true;
  let ok=false;try{const r=await db.sb.from("admins").select("user_id").eq("user_id",user.uid).maybeSingle();ok=!!(r&&r.data)}catch(e){}
  if(!ok){$("loading").textContent="Akses ditolak: mode ini hanya untuk admin.";return}
  uid=VIEW_AS;authUser=null;document.body.classList.add("view-as");
- const bar=document.createElement("div");bar.className="viewas-bar";bar.textContent="Mode admin: hanya melihat data pengguna. Perubahan tidak disimpan.";document.body.prepend(bar);
+ const bar=document.createElement("div");bar.className="viewas-bar";bar.textContent="Mode admin: hanya melihat data pengguna. Perubahan tidak disimpan. ";const back=document.createElement("button");back.type="button";back.textContent="‹ Kembali ke admin";back.style.cssText="margin-left:8px;min-height:36px;padding:6px 14px;border:0;border-radius:10px;background:#fff;color:#245b39;font-weight:700";back.onclick=()=>{if(document.referrer.includes("/admin")&&currentPage==="reports")history.back();else location.href="admin/"};bar.append(back);document.body.prepend(bar);
  document.addEventListener("submit",e=>{e.preventDefault();e.stopImmediatePropagation();alert("Mode admin: hanya melihat, tidak bisa mengubah data.")},true);
  document.addEventListener("click",e=>{if(e.target.closest("[data-act]")||e.target.closest("#logoutBtn")){e.preventDefault();e.stopImmediatePropagation()}},true);
  startSync();loadEggMarket();
- const t=setInterval(()=>{if(ready){clearInterval(t);showPage("reports")}},120)}
+ const t=setInterval(()=>{if(ready){clearInterval(t);renderPage("reports");currentPage="reports";try{history.replaceState({page:"reports"},"")}catch(e){}}},120)}
 if(PREVIEW_MODE){startPreview();loadEggMarket();renderPage("home");currentPage="home"}else if(!configured)location.replace("login.html");
 else onAuthStateChanged(auth,user=>{if(!user){location.replace("login.html");return}if(uid)return;if(VIEW_AS){startViewAs(user);return}uid=user.uid;authUser=user;$("accName").textContent=user.displayName||"Akun Google";$("accEmail").textContent=user.email||"";startSync();loadEggMarket()});
 </script>

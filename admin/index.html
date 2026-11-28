@@ -387,6 +387,11 @@ tbody td{color:#465243;border-color:#e1e6df}
 }
 
 
+/* Tombol back */
+.nav-back{width:44px;height:44px;flex-shrink:0;border:0;border-radius:13px;background:#f1f6ef;color:#285d39;font-size:30px;line-height:1;padding:0 0 4px}
+.nav-back[hidden]{display:none}
+.user-modal .modal-close.modal-back{position:sticky;top:0;z-index:3;display:block;margin-bottom:12px;width:auto;height:44px;align-self:flex-start;border:0;border-radius:12px;background:#f1f6ef;color:#285d39;font-size:14px;font-weight:700;padding:0 16px}
+@media(max-width:760px){#user-modal .drawer-tabs{top:44px}}
 /* Detail pengguna: kartu angka */
 .stat-title{font:700 13px Manrope,sans-serif;margin:16px 0 8px}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -439,6 +444,7 @@ tbody td{color:#465243;border-color:#e1e6df}
 
     <main class="main-area">
       <header class="topbar">
+        <button class="nav-back" id="nav-back" type="button" aria-label="Kembali" hidden>‹</button>
         <button class="mobile-menu" id="mobile-menu" aria-label="Buka navigasi">☰</button>
         <div class="breadcrumb"><span>kandangpuyuh.com</span><span class="crumb-slash">/</span><strong id="breadcrumb-page">Ringkasan</strong></div>
         <div class="topbar-right"><span class="preview-pill"><i></i> <span id="pill-text">Terhubung</span></span><div class="top-avatar" id="top-avatar">SA</div></div>
@@ -522,7 +528,8 @@ tbody td{color:#465243;border-color:#e1e6df}
 
   <div class="modal-backdrop" id="user-modal" hidden>
     <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal-top"><div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div><button class="modal-close" id="modal-close" aria-label="Tutup">×</button></div>
+      <button class="modal-close modal-back" id="modal-close" type="button">‹ Kembali</button>
+      <div class="modal-top"><div class="modal-user-head"><div class="user-avatar large" id="modal-avatar">A</div><div><h2 id="modal-title">Nama pengguna</h2><p id="modal-email"></p></div></div></div>
       <div class="drawer-status"><span class="status-badge" id="modal-status">Aktif</span><small id="modal-last"></small></div>
       <div class="drawer-tabs" role="tablist"><button type="button" class="on" data-tab="summary">Kandang</button><button type="button" data-tab="finance">Keuangan</button><button type="button" data-tab="profile">Profil</button><button type="button" data-tab="notes" id="tab-notes">Catatan</button></div>
       <div class="drawer-pane" data-pane="summary"><div id="modal-kandang" aria-live="polite"></div></div>
@@ -1495,7 +1502,7 @@ return {
     if (requested === 'finance') {
       if (!loaded) page = 'user-finance';
       else if (users.some((u) => u.id === uid)) page = 'user-finance';
-      else { location.hash = '#users'; return; }
+      else { goReplace('#users'); return; }
       // Tampilkan laporan sebagai halaman penuh, bukan di balik drawer detail pengguna.
       $('#user-modal').hidden = true;
       if (uid && uid !== financeUid) { financeUid = uid; financeMonth = 'all'; }
@@ -1510,8 +1517,65 @@ return {
     if (page === 'prices') loadSales();
     $('#sidebar').classList.remove('open');
     if (scroll) window.scrollTo(0, 0);
+    restoreUser();
+    showBack();
   }
   window.addEventListener('hashchange', () => route(true));
+
+  // ---------- Tombol back (Android, iPhone, dan tombol di layar) ----------
+  // Tiap menu, detail pengguna, dan jendela yang terbuka punya satu langkah riwayat sendiri,
+  // jadi tombol back mundur satu langkah, tidak loncat.
+  const backBtn = $('#nav-back');
+  // Ganti langkah sekarang tanpa menambah riwayat (popstate akan menambah 1, jadi dikurangi dulu).
+  function goReplace(hash) { if (hash !== location.hash) { depth -= 1; location.replace(hash); } }
+  let depth = (history.state && history.state.d) || 0;
+  if (!history.state) history.replaceState({ d: 0 }, '');
+
+  const overlayOpen = () => !$('#user-modal').hidden ? 'user' : !$('#price-modal').hidden ? 'price' : $('#sidebar').classList.contains('open') ? 'menu' : '';
+  const showBack = () => { backBtn.hidden = depth === 0 && ['', '#', '#dashboard'].includes(location.hash); };
+
+  function syncOverlayHistory() {
+    const open = overlayOpen(), state = history.state || {};
+    if (open && state.ov !== open) {
+      const next = { d: state.ov ? depth : depth + 1, ov: open, uid: open === 'user' ? noteUid : null };
+      history[state.ov ? 'replaceState' : 'pushState'](next, '');
+      depth = next.d;
+    } else if (!open && state.ov && !(state.ov === 'user' && !loaded)) {
+      history.back();
+    }
+    showBack();
+  }
+  const watcher = new MutationObserver(syncOverlayHistory);
+  ['#user-modal', '#price-modal'].forEach((i) => watcher.observe($(i), { attributes: true, attributeFilter: ['hidden'] }));
+  watcher.observe($('#sidebar'), { attributes: true, attributeFilter: ['class'] });
+
+  // Kembalikan detail pengguna sesuai riwayat (misalnya pulang dari laporan keuangan lengkap).
+  function restoreUser() {
+    const state = history.state || {};
+    if (state.ov === 'user' && loaded && $('#user-modal').hidden) showUser(users.find((u) => u.id === state.uid));
+  }
+
+  window.addEventListener('popstate', (e) => {
+    if (!e.state) { depth += 1; history.replaceState({ d: depth }, ''); }
+    else depth = e.state.d || 0;
+    const ov = (e.state && e.state.ov) || '';
+    if (ov !== 'user') $('#user-modal').hidden = true;
+    if (ov !== 'price') $('#price-modal').hidden = true;
+    $('#sidebar').classList.toggle('open', ov === 'menu');
+    restoreUser();
+    showBack();
+  });
+
+  // Pindah menu dari menu samping: langkah "menu terbuka" diganti, bukan ditumpuk.
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (link && history.state && history.state.ov === 'menu') { e.preventDefault(); goReplace(link.getAttribute('href')); }
+  });
+
+  backBtn.addEventListener('click', () => {
+    if (depth > 0) history.back();
+    else goReplace('#dashboard');
+  });
 
   // ---------- Update harga telur bersama ----------
   const priceModal = $('#price-modal');
@@ -1721,7 +1785,7 @@ return {
     if (event.target.closest('a')) return;
     const btn = event.target.closest('[data-user-id]');
     if (btn) showUser(users.find((u) => u.id === btn.dataset.userId));
-    if (event.target === modal || event.target.closest('#modal-close') || event.target.closest('#finance-link')) modal.hidden = true;
+    if (event.target === modal || event.target.closest('#modal-close')) modal.hidden = true;
     if (event.target.closest('#alert-retry') || event.target.closest('#btn-reload')) loadData();
     if (event.target.closest('#finance-retry')) { delete financeCache[financeUid]; loadFinance(financeUid); renderFinance(); }
   });
